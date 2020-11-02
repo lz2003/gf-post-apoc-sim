@@ -1,0 +1,10 @@
+#BlueJ class context
+comment0.target=BuildingSprite
+comment0.text=\n\ Write\ a\ description\ of\ class\ BuildingSprite\ here.\n\ \n\ @author\ (your\ name)\ \n\ @version\ (a\ version\ number\ or\ a\ date)\n
+comment1.params=
+comment1.target=BuildingSprite()
+comment2.params=buildingID
+comment2.target=void\ setImage(int)
+comment3.params=
+comment3.target=void\ act()
+numComments=4

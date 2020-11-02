@@ -1,0 +1,12 @@
+#BlueJ class context
+comment0.target=BackgroundData
+comment0.text=\n\ Write\ a\ description\ of\ class\ BackgroundData\ here.\n\ \n\ @author\ (your\ name)\ \n\ @version\ (a\ version\ number\ or\ a\ date)\n
+comment1.params=x\ y
+comment1.target=BackgroundData(int,\ int)
+comment2.params=
+comment2.target=int\ getX()
+comment3.params=
+comment3.target=int\ getY()
+comment4.params=
+comment4.target=BackgroundSprite\ getSprite()
+numComments=5
