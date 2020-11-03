@@ -130,11 +130,11 @@ public class WorldManagement {
     }
     
     private static void updateLoop() {
-        for(int i = 0, n = humans.size(); i < n; i++) {
+        for(int i = 0; i < humans.size(); i++) {
             ((Human)(humans.get(i)))._update();
         }
         
-        for(int i = 0, n = buildings.size(); i < n; i++) {
+        for(int i = 0; i < buildings.size(); i++) {
             ((BuildingSlot)(buildings.get(i)))._update();
         }
     }
