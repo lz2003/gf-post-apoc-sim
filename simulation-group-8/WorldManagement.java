@@ -8,7 +8,7 @@ public class WorldManagement {
             GRID_SEPARATION = 10,
             BUILDING_SIZE = 50,
             BUILDING_PADDING = 135,
-            TREE_SPAWN_RATE = 50;
+            TREE_SPAWN_RATE = 20;
             
     public static int
     camX = 0, camY = 0;
@@ -21,6 +21,7 @@ public class WorldManagement {
             backgrounds = new ArrayList<BackgroundSprite>();
             
     public static MyWorld world;
+    public static ScoreBar scoreboard;
 
     public static float deltaTime = 0.01f, elapsed = 0;
     public static long lastTime = 0;
@@ -52,30 +53,31 @@ public class WorldManagement {
             totalFarmers,
             totalMiners,
             totalBuilders,
-            totalGuards,
             totalLumberjacks;
             
     public static final float
-            POP = 0f,
-            FOOD = 100f,
-            WOOD = 200f,
-            IRON = 0f,
-            STORAGE = 100f,
-            HOUSING = 0f;
+            START_POP = 0f,
+            START_FOOD = 100f,
+            START_WOOD = 200f,
+            START_IRON = 0f,
+            START_STORAGE = 100f,
+            START_HOUSING = 0f;
             
     public static float
-            pop,
+            pop = 0f,
             food = 100f,
             wood = 200f,
-            iron,
+            iron = 0f,
             storage = 100f,
-            housing;
+            housing = 0f;
 
     private int
             maxBuildings = 0,
             width,
             height;
-
+    
+    private static boolean hasHousingSpace = false;
+            
     public WorldManagement(int worldWidth, int worldHeight, MyWorld world) {
         width = worldWidth;
         height = worldHeight;
@@ -85,10 +87,14 @@ public class WorldManagement {
     public void init() {
         initBackgrounds();
         initBuildings();
+        initScoreBar();
         
         addHuman(Human.BUILDER, 33, 2);
         addHuman(Human.LUMBERJACK, 400, 400);
         addHuman(Human.FARMER, 400, 400);
+        addHuman(Human.FARMER, 200, 400);
+        addHuman(Human.FARMER, 300, 400);
+        addHuman(Human.MINER, 300, 300);
     }
 
     public void _update() {
@@ -96,6 +102,8 @@ public class WorldManagement {
         updateLoop();
         updateSprites();
         generateTrees();
+        updateResources();
+        updateScoreBar();
         cameraActions();
     }
     
@@ -141,6 +149,15 @@ public class WorldManagement {
     
     private static void updateResources() {
         food += ((float) totalFarmers / (float) Math.max(totalFarm, 1f)) * BuildingSlot.Farm.PRODUCTION * deltaTime;
+        iron += totalMine == 0 ? 0 : ((float) totalMiners / (float) Math.max(totalMine, 1f)) * BuildingSlot.Mine.PRODUCTION * deltaTime;    
+    }
+    
+    private static void updateScoreBar()
+    {
+        scoreboard.updateStat("Population", (int) pop);
+        scoreboard.updateStat("Wood", (int) wood);
+        scoreboard.updateStat("Iron", (int) iron);
+        scoreboard.updateStat("Food", (int) food);
     }
     
     private void cameraActions() {
@@ -156,6 +173,11 @@ public class WorldManagement {
         if(Greenfoot.isKeyDown("d")) {
             camX -= CAM_SPEED;
         }
+        int width = world.getWidth();
+        int height = world.getHeight();
+        // Clamp camera to within space with background
+        camX = camX < -width ? -width : camX > width ? width : camX;
+        camY = camY < -width ? -width : camY > width ? width : camY;
     }
     
     private void generateTrees() {
@@ -185,18 +207,22 @@ public class WorldManagement {
     public static void addHuman(int humanID, int xLoc, int yLoc) {
            switch(humanID) {
                case Human.BUILDER: 
-                   humans.add(new Human.Builder(xLoc, yLoc));
+                   humans.add(new Builder(xLoc, yLoc));
                    break;
                case Human.FARMER: 
-                   humans.add(new Human.Farmer(xLoc, yLoc));
+                   humans.add(new Farmer(xLoc, yLoc));
                    break;
                case Human.LUMBERJACK: 
-                   humans.add(new Human.Lumberjack(xLoc, yLoc));
+                   humans.add(new Lumberjack(xLoc, yLoc));
                    break;
                case Human.MINER: 
-                   humans.add(new Human.Miner(xLoc, yLoc));
+                   humans.add(new Miner(xLoc, yLoc));
                    break;
            }
+    }
+    
+        public static boolean hasHousing() {
+        return hasHousingSpace;
     }
     
     private void initBackgrounds() {
@@ -217,6 +243,16 @@ public class WorldManagement {
                 maxBuildings++;
             }
         }
+    }
+    
+    private void initScoreBar()
+    {
+        scoreboard = new ScoreBar(width, height/20);
+        world.addObject(scoreboard, width/2, height/20/2);
+        scoreboard.addStat("Population", (int) pop);
+        scoreboard.addStat("Wood", (int) wood);
+        scoreboard.addStat("Iron", (int) iron);
+        scoreboard.addStat("Food", (int) food);
     }
 
     public static void calculateDemand() {
@@ -241,6 +277,10 @@ public class WorldManagement {
         }
 
         highestDemand = demandNames[index];
+    }
+    
+    private static void checkHousingSpace() {
+        hasHousingSpace = pop < housing ? true : false;
     }
 
     public static void limitResources() {
@@ -283,7 +323,6 @@ public class WorldManagement {
         totalFarmers = 0;
         totalMiners = 0;
         totalBuilders = 0;
-        totalGuards = 0;
         totalLumberjacks = 0; 
         for(int i = 0, n = humans.size(); i < n; i++) {
             switch(getHuman(i).getType()) {
@@ -339,5 +378,9 @@ public class WorldManagement {
                     break;
             }
         }
+        housing = totalHouse * BuildingSlot.House.CAPACITY;
+        storage = totalStorage * BuildingSlot.Storage.CAPACITY + START_STORAGE;
+        
+        checkHousingSpace();
     }
 }

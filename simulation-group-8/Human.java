@@ -2,8 +2,11 @@ public abstract class Human {
     public static final int
             BUILDER = 0,
             FARMER = 1,
-            LUMBERJACK = 3, 
-            MINER = 4;
+            LUMBERJACK = 2, 
+            MINER = 3;
+            
+    public static final int
+            TOTAL_HUMAN_TYPES = 4;
     
     protected static final int
             DEFAULT_HP = 100;
@@ -125,151 +128,5 @@ public abstract class Human {
     
     public HumanSprite getSprite() {
         return sprite;
-    }
-    
-    // BECAUSE this thing called greenfoot does not allow any type of file management,
-
-    public static class Builder extends Human {
-        private BuildingSlot nearest;
-        private boolean atBuilding;
-        
-        public Builder(int xLoc, int yLoc) {
-            this.xLoc = xLoc;
-            this.yLoc = yLoc;
-            this.type = BUILDER;
-            
-            sprite = new HumanSprite(BUILDER);
-            WorldManagement.world.addObject(sprite, xLoc, yLoc);
-        }
-
-        public void _update() {
-            checkIsAtBuilding();
-            build();
-            moveTo(nearest.getX(), nearest.getY());
-            drainFood();
-        }
-
-        private void build() { 
-            if(atBuilding) { 
-                if(WorldManagement.getBuildingSlot(nearestIndex).getType() == BuildingSlot.EMPTY) {
-                    if(WorldManagement.wood >= 15) {
-                        WorldManagement.getBuildingSlot(nearestIndex).setBuilding(WorldManagement.highestDemand);
-                        WorldManagement.wood -= 15;
-                    }
-                }
-            }
-        }
-
-        private void checkIsAtBuilding() {
-            nearest = getNearestBuilding(BuildingSlot.EMPTY, 350 ,350);
-            atBuilding = (calcDist(xLoc, nearest.getX(), yLoc, nearest.getY()) < DEFAULT_SPEED);
-        }
-    }
-    
-    public static abstract class Worker extends Human {
-        protected BuildingSlot targetBuilding;
-        protected boolean atBuilding = false, enRoute = false;
-        protected int targetX = 600, targetY = 0;
-        protected int buildingType;
-        
-        public void goToRandBuilding() {
-            setAtBuilding();
-            if(!atBuilding) {
-                if(!enRoute) {
-                    targetBuilding = getRandBuildingOfType(buildingType);
-                    enRoute = true;
-                }
-            } else  {
-                enRoute = false;
-                if(!enRoute) {
-                    targetBuilding = getRandBuildingOfType(buildingType);
-                    enRoute = true;
-                }
-            }
-            if(targetBuilding != null) {
-                moveTo(targetBuilding.getX(), targetBuilding.getY());
-            }
-            drainFood();
-        }
-        
-        private void setAtBuilding() {
-            if(targetBuilding != null) {
-                atBuilding = calcDist(xLoc, targetBuilding.getX(), yLoc, targetBuilding.getY()) < DEFAULT_SPEED;
-            }
-        }
-    }
-
-    public static class Farmer extends Worker {
-        public Farmer(int xLoc, int yLoc) {
-            this.xLoc = xLoc;
-            this.yLoc = yLoc;
-            
-            this.type = FARMER;
-            this.buildingType = BuildingSlot.FARM;
-            
-            sprite = new HumanSprite(this.type);
-            WorldManagement.world.addObject(sprite, xLoc, yLoc);
-        }
-        public void _update() {
-            goToRandBuilding();
-        }
-    }
-    
-    public static class Lumberjack extends Human {
-        private int tX, tY;
-        private boolean foundTree = false;
-        public Lumberjack(int xLoc, int yLoc) {
-            this.xLoc = xLoc;
-            this.yLoc = yLoc;
-            
-            this.type = LUMBERJACK;
-            
-            sprite = new HumanSprite(this.type);
-            WorldManagement.world.addObject(sprite, xLoc, yLoc);
-        }   
-
-        public void _update() {
-            findTree();
-            moveTo(tX, tY);
-            chopTree();
-            drainFood();
-        }
-    
-        private void findTree() {
-            if(WorldManagement.trees.size() > 0) {
-                tX = ((Tree)WorldManagement.trees.get(0)).getX();
-                tY = ((Tree)WorldManagement.trees.get(0)).getY();
-                foundTree = true;
-            } else {
-                // else go in random direction
-                tX = Math.abs((int) (Math.random() * 2000) % 500);
-                tY = Math.abs((int) (Math.random() * 2000) % 500);
-                foundTree = false;
-            }
-        }
-
-        private void chopTree() {
-            if(foundTree) {
-                if(calcDist(getX(), tX, getY(), tY) < DEFAULT_SPEED) {
-                    ((Tree)WorldManagement.trees.get(0)).chop();
-                }
-            }
-        }
-    }
-
-    public static class Miner extends Human {
-        public Miner(int xLoc, int yLoc) {
-            this.xLoc = xLoc;
-            this.yLoc = yLoc;
-            
-            this.type = MINER;
-            
-            sprite = new HumanSprite(this.type);
-            WorldManagement.world.addObject(sprite, xLoc, yLoc);
-        }
-        public void _update() {
-
-        }
-
     }
 }

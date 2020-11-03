@@ -43,14 +43,6 @@ public class BuildingSlot {
 
     public void setBuilding(int buildingID) {
         switch(buildingID) {
-            case ARMOURY:
-                this.type = ARMOURY;
-                building = new Armoury();
-                break;
-            case BARRACKS:
-                this.type = BARRACKS;
-                building = new Barracks();
-                break;
             case FARM:
                 this.type = FARM; 
                 building = new Farm();
@@ -105,24 +97,6 @@ public class BuildingSlot {
         public abstract void _update();
     }
 
-    public class Armoury extends Building {
-        public void _update() {
-            
-        }
-        public void destroy() {
-            
-        }
-    }
-
-    public class Barracks extends Building {
-        public void _update() {
-            
-        }
-        public void destroy() {
-                    
-        }
-    }
-
     public class Farm extends Building {
         public static final float PRODUCTION = 4;
         
@@ -136,6 +110,8 @@ public class BuildingSlot {
     }
 
     public class Mine extends Building {
+        public static final float PRODUCTION = 2;
+        
         public void _update() {
             
         }
@@ -145,6 +121,12 @@ public class BuildingSlot {
     }
 
     public class Sentry extends Building {
+        private static final int RANGE = 200;
+        
+        private void findNearestEnemy() {
+
+        }
+        
         public void _update() {
             
         }
@@ -157,22 +139,29 @@ public class BuildingSlot {
         public static final int CAPACITY = 100;
         
         public Storage() {
-            WorldManagement.storage += CAPACITY;
+
         }
         public void _update() {
             
         }
         public void destroy() {
-            WorldManagement.storage -= CAPACITY;
+ 
         }
     }
 
-    public class House extends Building {
+    public class House extends Building { 
+        public static final int CAPACITY = 5; 
+        public House() {
+
+        }
         public void _update() {
-            
+            if(WorldManagement.hasHousing()) {
+                int humanType = (int)(Math.random() * 2322) % Human.TOTAL_HUMAN_TYPES;
+                WorldManagement.addHuman(humanType, xLoc, yLoc);
+            }
         }
         public void destroy() {
-                    
+
         }
     }
 

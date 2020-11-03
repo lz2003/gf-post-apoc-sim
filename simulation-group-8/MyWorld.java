@@ -20,12 +20,12 @@ public class MyWorld extends World
     public void act() { 
         if(!runOnce) {
             wm = new WorldManagement(getWidth(), getHeight(), this);
-            wm.pop = wm.POP;
-            wm.food = wm.FOOD;
-            wm.wood = wm.WOOD;
-            wm.iron = wm.IRON;
-            wm.storage = wm.STORAGE;
-            wm.housing = wm.HOUSING;
+            wm.pop = wm.START_POP;
+            wm.food = wm.START_FOOD;
+            wm.wood = wm.START_WOOD;
+            wm.iron = wm.START_IRON;
+            wm.storage = wm.START_STORAGE;
+            wm.housing = wm.START_HOUSING;
             wm.camX = 0; wm.camY = 0;
             wm.humans = new ArrayList<Human>();
             wm.enemies = new ArrayList<EnemyData>();
