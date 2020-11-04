@@ -12,10 +12,11 @@ public class WorldManagement
     public static final int
             WORLD_SIZE = 1200,
             CAM_SPEED = 2,
-            GRID_SEPARATION = 10,
-            BUILDING_SIZE = 50,
-            BUILDING_PADDING = 135,
-            TREE_SPAWN_RATE = 50;
+            GRID_SEPARATION = 30,
+            BUILDING_SIZE = 100,
+            BUILDING_PADDING = 1,
+            TREE_SPAWN_RATE = 50,
+            MAX_TREES = 100;
             
     public static int
     camX = 0, camY = 0;
@@ -104,6 +105,7 @@ public class WorldManagement
         initScoreBar();
         
         addHuman(Human.BUILDER, 33, 2);
+        addHuman(Human.LUMBERJACK, 400, 400);
         addHuman(Human.LUMBERJACK, 400, 400);
         addHuman(Human.FARMER, 400, 400);
         addHuman(Human.FARMER, 200, 400);
@@ -274,7 +276,7 @@ public class WorldManagement
     private void generateTrees() {
         float rand = (float) (Math.random() * 12345);    
         int randInInt = (int) rand % TREE_SPAWN_RATE;
-        if(randInInt == 1) {
+        if(randInInt == 1 && trees.size() < MAX_TREES) {
             rand = (float) Math.random() * 20321;
             int xTree = ((int) (rand * 1352)) % WORLD_SIZE - (int)((float) WORLD_SIZE * 0.2f);
             int yTree = ((int) (rand * 6112)) % WORLD_SIZE - (int)((float) WORLD_SIZE * 0.2f);
@@ -366,9 +368,9 @@ public class WorldManagement
     /**
      * Adds an event to the world.
      * 
-     * @param eventID   the type of human to be added
-     * @param xLoc      the x location of the human
-     * @param yLoc      the y location of the human
+     * @param eventID   the type of event to be added
+     * @param xLoc      the x location of the event
+     * @param yLoc      the y location of the event
      */
     public static void addEvent(int eventID, int xLoc, int yLoc) {
         switch(eventID) {
@@ -395,7 +397,7 @@ public class WorldManagement
     }
 
     /**
-     * Returns a list of all th current human instances
+     * Returns a list of all the current human instances
      * 
      * @return ArrayList<Human> the list containing all human instances
      */

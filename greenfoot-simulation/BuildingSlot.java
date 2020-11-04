@@ -34,6 +34,7 @@ public class BuildingSlot extends Actor
     private Building building;
     private GreenfootImage sprite;
     private int hp = DEFAULT_HP;
+    private boolean targeted = false;
     
     public BuildingSlot(int x, int y, int index) {
         xLoc = x;
@@ -45,6 +46,16 @@ public class BuildingSlot extends Actor
         building = new Empty();
         sprite = sprite = building.getSprite();
         setImage(sprite);
+    }
+    
+    public void setTargetStatus(boolean status)
+    {
+        targeted = status;
+    }
+    
+    public boolean getTargetStatus()
+    {
+        return targeted;
     }
     
     /**

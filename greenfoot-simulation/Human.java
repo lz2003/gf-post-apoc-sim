@@ -1,3 +1,4 @@
+
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 public abstract class Human extends Actor {
@@ -50,17 +51,16 @@ public abstract class Human extends Actor {
     protected void moveTo(int xDest, int yDest) {
         xVel = 0;
         yVel = 0;
-        int toX = xDest, toY = yDest;
         int x = xLoc, y = yLoc;
-        if(x < toX) {
+        if(x < xDest) {
             xVel = (int) speed;
-        } else if(x > toX) {
+        } else if(x > xDest) {
             xVel = (int) -speed;
         }
 
-        if(y < toY) {
+        if(y < yDest) {
             yVel = (int) speed;
-        } else if(y > toY) {
+        } else if(y > yDest) {
             yVel = (int) -speed;
         }
         
@@ -85,8 +85,11 @@ public abstract class Human extends Actor {
             int xLoc = building.getX(), yLoc = building.getY();
             int distance = Utils.calcDist(x, xLoc, y, yLoc);
             if(distance < lowest && building.getType() == buildngID) {
-                lowest = distance;
-                index = i;
+                if (!building.getTargetStatus())
+                {
+                    lowest = distance;
+                    index = i;
+                }
             }
         }
         nearestIndex = index;
@@ -109,8 +112,11 @@ public abstract class Human extends Actor {
             int xLoc = building.getX(), yLoc = building.getY();
             int distance = Utils.calcDist(x, xLoc, y, yLoc);
             if(distance < lowest && building.getType() == buildngID) {
-                lowest = distance;
-                index = i;
+                if (!building.getTargetStatus())
+                {
+                    lowest = distance;
+                    index = i;
+                }
             }
         }
         nearestIndex = index;
@@ -192,6 +198,7 @@ public abstract class Human extends Actor {
     private void setAtBuilding() {
         if(targetBuilding != null) {
             atBuilding = Utils.calcDist(xLoc, targetBuilding.getX(), yLoc, targetBuilding.getY()) < DEFAULT_SPEED;
+            
         }
     }
 

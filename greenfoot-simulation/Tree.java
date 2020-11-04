@@ -8,10 +8,10 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class Tree extends Actor
 {
-    private Tree tree;
     private boolean chopped;
     private int xLoc, yLoc;
     private GreenfootImage sprite;
+    private boolean targeted;
     /**
      * Constructor for objects of class Tree
      */
@@ -24,6 +24,24 @@ public class Tree extends Actor
         //WorldManagement.world.addObject(sprite, xLoc, yLoc);
     }
     
+    /*
+     * Makes sure trees don't spawn on top of other trees/buildings
+     * (Isn't working)
+     *
+    protected void addedToWorld(World world)
+    {
+        if (getOneIntersectingObject(Tree.class) != null || getOneIntersectingObject(BuildingSlot.class) != null)
+        {
+            WorldManagement.trees.remove(this);
+            WorldManagement.world.removeObject(this);
+        }
+        else
+        {
+            sprite = new GreenfootImage("tree.png");
+            setImage(sprite);
+        }
+    }*/
+    
     /**
      * Removed chopped down trees and updates wood resources
      */
@@ -33,6 +51,16 @@ public class Tree extends Actor
         WorldManagement.trees.remove(this);
         WorldManagement.world.removeObject(this);
         chopped = true;
+    }
+    
+    public void setTargetStatus(boolean status)
+    {
+        targeted = status;
+    }
+    
+    public boolean getTargetStatus()
+    {
+        return targeted;
     }
     
     /**
