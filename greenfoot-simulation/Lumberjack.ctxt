@@ -1,0 +1,14 @@
+#BlueJ class context
+comment0.target=Lumberjack
+comment0.text=\n\ Write\ a\ description\ of\ class\ Lumberjack\ here.\n\ \n\ @author\ (your\ name)\ \n\ @version\ (a\ version\ number\ or\ a\ date)\n
+comment1.params=xLoc\ yLoc
+comment1.target=Lumberjack(int,\ int)
+comment2.params=
+comment2.target=void\ _update()
+comment3.params=
+comment3.target=void\ findTree()
+comment3.text=\n\ Find\ the\ nearest\ (not\ yet)\ tree\ to\ chop\ down.\n
+comment4.params=
+comment4.target=void\ chopTree()
+comment4.text=\n\ Chops\ down\ the\ tree\ at\ specified\ location\n
+numComments=5
