@@ -25,7 +25,8 @@ public class WorldManagement
             buildings = new ArrayList<BuildingSlot>(),
             enemies  = new ArrayList<Enemy>(),
             trees = new ArrayList<Tree>(),
-            backgrounds = new ArrayList<Background>();
+            backgrounds = new ArrayList<Background>(),
+            events = new ArrayList<Event>();
             
     public static MyWorld world;
     public static ScoreBar scoreboard;
@@ -36,6 +37,7 @@ public class WorldManagement
     public static float threatLevel;
 
     public static float
+            armouryDemand,
             farmDemand,
             mineDemand,
             houseDemand,
@@ -46,6 +48,8 @@ public class WorldManagement
             highestDemand;
 
     public static int
+            totalArmoury,
+            totalBarracks,
             totalWood,
             totalFarm,
             totalMine,
@@ -105,6 +109,7 @@ public class WorldManagement
         addHuman(Human.FARMER, 200, 400);
         addHuman(Human.FARMER, 300, 400);
         addHuman(Human.MINER, 300, 300);
+        addEvent(Event.TORNADO, 100, 500);
     }
     
     /**
@@ -144,6 +149,11 @@ public class WorldManagement
             Background bg = ((Background)(backgrounds.get(i)));
             bg.setLocation(bg.getX() + camX,bg.getY() + camY);
         }
+        
+        for(int i = 0, n = events.size(); i < n; i++) {
+            Event e = ((Event)(events.get(i)));
+            e.setLocation(e.getX() + camX,e.getY() + camY);
+        }
     }
     
     /**
@@ -156,6 +166,10 @@ public class WorldManagement
         
         for(int i = 0; i < buildings.size(); i++) {
             ((BuildingSlot)(buildings.get(i)))._update();
+        }
+        
+        for(int i = 0; i < events.size(); i++) {
+            ((Event)(events.get(i)))._update();
         }
     }
     
@@ -176,7 +190,7 @@ public class WorldManagement
      */
     private static void updateResources() {
         food += totalFarm == 0 ? 0 : ((float) totalFarmers / (float) Math.max(totalFarm, 1f)) * totalFarm * BuildingSlot.FARM_PRODUCTION * deltaTime;
-        iron += totalMine == 0 ? 0 : ((float) totalMiners / (float) Math.max(totalMine, 1f)) * totalMine * BuildingSlot.MINE_PRODUCTION * deltaTime;  
+        iron += totalMine == 0 ? 0 : ((float) totalMiners / (float) Math.max(totalMine, 1f)) * totalMine * BuildingSlot.MINE_PRODUCTION * deltaTime;    
     }
     
     /**
@@ -261,6 +275,7 @@ public class WorldManagement
         float rand = (float) (Math.random() * 12345);    
         int randInInt = (int) rand % TREE_SPAWN_RATE;
         if(randInInt == 1) {
+            rand = (float) Math.random() * 20321;
             int xTree = ((int) (rand * 1352)) % WORLD_SIZE - (int)((float) WORLD_SIZE * 0.2f);
             int yTree = ((int) (rand * 6112)) % WORLD_SIZE - (int)((float) WORLD_SIZE * 0.2f);
             trees.add(new Tree(xTree, yTree));
@@ -299,15 +314,14 @@ public class WorldManagement
      */
     public static void calculateDemand() {
         limitResources();
-        farmDemand = totalFarm;
+        farmDemand = totalFarm * 0.4f;
         houseDemand = totalHouse;
         mineDemand = totalMine;
-        sentryDemand = totalSentry;
+        //sentryDemand = totalSentry;
         storageDemand = totalStorage - 0.1f;
         // how do you do json objects in java
-        float[] demands = {farmDemand, houseDemand, mineDemand, sentryDemand, storageDemand};
-        int[] demandNames = {BuildingSlot.FARM, BuildingSlot.HOUSE, BuildingSlot.MINE,
-                BuildingSlot.SENTRY, BuildingSlot.STORAGE};
+        float[] demands = {farmDemand, houseDemand, mineDemand, storageDemand};
+        int[] demandNames = {BuildingSlot.FARM, BuildingSlot.HOUSE, BuildingSlot.MINE, BuildingSlot.STORAGE};
 
         float smallest = 99999f;
         int index = 0;
@@ -347,6 +361,26 @@ public class WorldManagement
                    world.addObject((Miner)humans.get(humans.size()-1), xLoc, yLoc);
                    break;
            }
+    }
+    
+    /**
+     * Adds an event to the world.
+     * 
+     * @param eventID   the type of human to be added
+     * @param xLoc      the x location of the human
+     * @param yLoc      the y location of the human
+     */
+    public static void addEvent(int eventID, int xLoc, int yLoc) {
+        switch(eventID) {
+            case Event.TORNADO: 
+                events.add(new Tornado(xLoc, yLoc));
+                world.addObject((Tornado)events.get(events.size() - 1), xLoc, yLoc);
+                break;
+            case Event.METEOR:
+                events.add(new Meteor());
+                world.addObject((Meteor)events.get(events.size() - 1), xLoc, yLoc);
+                break;
+        }
     }
     
     /**
@@ -401,6 +435,8 @@ public class WorldManagement
      */
     private static void setBuildingCounts() {
         ArrayList<BuildingSlot> arr = getBuildings();
+        totalArmoury = 0;
+        totalBarracks = 0;
         totalFarm = 0;
         totalMine = 0;
         totalHouse = 0;
@@ -410,6 +446,12 @@ public class WorldManagement
         for(int i = 0, n = arr.size(); i < n; i++) {
    
             switch(arr.get(i).getType()) {
+                case BuildingSlot.ARMOURY:
+                    totalArmoury++;
+                    break;
+                case BuildingSlot.BARRACKS:
+                    totalBarracks++;
+                    break;
                 case BuildingSlot.FARM:
                     totalFarm++;
                     break;

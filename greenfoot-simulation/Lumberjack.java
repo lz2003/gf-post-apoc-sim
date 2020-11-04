@@ -51,7 +51,7 @@ public class Lumberjack extends Human
      */
     private void chopTree() {
         if(foundTree) {
-            if(calcDist(getX(), treeX, getY(), treeY) < DEFAULT_SPEED) {
+            if(Utils.calcDist(getX(), treeX, getY(), treeY) < DEFAULT_SPEED) {
                 ((Tree)WorldManagement.trees.get(0)).chop();
             }
         }

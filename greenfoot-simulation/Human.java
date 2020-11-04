@@ -35,8 +35,9 @@ public abstract class Human extends Actor {
     protected float hunger = 15f;
     protected boolean isStarving = false;
     protected float starveDeathTime = 10f;
-    protected int type;
+    protected int hp = DEFAULT_HP, type;
     protected GreenfootImage sprite;
+    
 
     public abstract void _update();
 
@@ -82,7 +83,7 @@ public abstract class Human extends Actor {
         for(int i = 0, n = WorldManagement.buildings.size(); i < n; i++) {
             BuildingSlot building = (BuildingSlot)(WorldManagement.buildings.get(i));
             int xLoc = building.getX(), yLoc = building.getY();
-            int distance = calcDist(x, xLoc, y, yLoc);
+            int distance = Utils.calcDist(x, xLoc, y, yLoc);
             if(distance < lowest && building.getType() == buildngID) {
                 lowest = distance;
                 index = i;
@@ -106,7 +107,7 @@ public abstract class Human extends Actor {
         for(int i = 0, n = WorldManagement.buildings.size(); i < n; i++) {
             BuildingSlot building = (BuildingSlot)(WorldManagement.buildings.get(i));
             int xLoc = building.getX(), yLoc = building.getY();
-            int distance = calcDist(x, xLoc, y, yLoc);
+            int distance = Utils.calcDist(x, xLoc, y, yLoc);
             if(distance < lowest && building.getType() == buildngID) {
                 lowest = distance;
                 index = i;
@@ -148,6 +149,13 @@ public abstract class Human extends Actor {
         }
     }
     
+    public void damage(int damage) {
+        hp -= damage;
+        if(hp <= 0) {
+            die();
+        }
+    }
+    
     /**
      * Removes the human instance from the list and the world.
      */
@@ -183,23 +191,10 @@ public abstract class Human extends Actor {
      */ 
     private void setAtBuilding() {
         if(targetBuilding != null) {
-            atBuilding = calcDist(xLoc, targetBuilding.getX(), yLoc, targetBuilding.getY()) < DEFAULT_SPEED;
+            atBuilding = Utils.calcDist(xLoc, targetBuilding.getX(), yLoc, targetBuilding.getY()) < DEFAULT_SPEED;
         }
     }
-    
-    /**
-     * Calculates the distance of two locations.
-     * 
-     * @param ax        the first x location
-     * @param bx        the second x location
-     * @param ay        the first y location
-     * @param by        the second y location
-     * @return int      the distance
-     */
-    protected int calcDist(int ax, int bx, int ay, int by) {
-        return (int) Math.sqrt(Math.pow(ax - bx, 2) + Math.pow(ay - by, 2));
-    }
-    
+
     /**
      * Returns the x location
      * 

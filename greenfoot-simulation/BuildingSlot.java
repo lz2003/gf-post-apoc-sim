@@ -11,11 +11,13 @@ public class BuildingSlot extends Actor
     // Building IDs
     public static final int
             EMPTY = -1,
-            FARM = 0,
-            MINE = 1,
-            SENTRY = 2,
-            STORAGE = 3,
-            HOUSE = 4;
+            ARMOURY = 0,
+            BARRACKS = 1,
+            FARM = 2,
+            MINE = 3,
+            SENTRY = 6,
+            STORAGE = 4,
+            HOUSE = 5;
     
     // Production constants
     public static final float 
@@ -25,11 +27,13 @@ public class BuildingSlot extends Actor
     // Capacity constants   
     public static final int 
             STORAGE_CAPACITY = 100,
-            HOUSE_CAPACITY = 5;
+            HOUSE_CAPACITY = 5,
+            DEFAULT_HP = 100;
 
     private int xLoc, yLoc, index, type;
     private Building building;
     private GreenfootImage sprite;
+    private int hp = DEFAULT_HP;
     
     public BuildingSlot(int x, int y, int index) {
         xLoc = x;
@@ -101,14 +105,9 @@ public class BuildingSlot extends Actor
                 building = new Storage();
                 sprite = building.getSprite();
                 break;
-            case SENTRY:
-                this.type = SENTRY; 
-                building = new Sentry();
-                sprite = building.getSprite();
-                break;
             case HOUSE:
                 this.type = HOUSE; 
-                building = new House();
+                building = new House(this);
                 sprite = building.getSprite();
                 break;
             case EMPTY:
@@ -120,13 +119,19 @@ public class BuildingSlot extends Actor
         setImage(sprite);
     }
     
+    public void damage(int damage) {
+        hp -= damage;
+        if(hp <= 0) {
+            destroy();
+        }
+    }
+    
     /**
      * Destroys the building
      */
     public void destroy() {
         building.destroy();
-        WorldManagement.buildings.remove(this);
-        WorldManagement.world.removeObject(this);
+        setBuilding(EMPTY);
     }
     
     public void _update() {
