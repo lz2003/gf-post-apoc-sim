@@ -26,7 +26,6 @@ public class Builder extends Human
             build();
             moveTo(nearest.getX(), nearest.getY());
             drainFood();
-
     }    
     
     private void build() { 
@@ -42,6 +41,6 @@ public class Builder extends Human
 
     private void checkIsAtBuilding() {
         nearest = getNearestBuilding(BuildingSlot.EMPTY, 350 ,350);
-        atBuilding = (calcDist(xLoc, nearest.getX(), yLoc, nearest.getY()) < DEFAULT_SPEED);
+        atBuilding = (Utils.calcDist(xLoc, nearest.getX(), yLoc, nearest.getY()) < DEFAULT_SPEED);
     }
 }
