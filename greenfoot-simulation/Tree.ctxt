@@ -1,0 +1,16 @@
+#BlueJ class context
+comment0.target=Tree
+comment0.text=\n\ Write\ a\ description\ of\ class\ Tree\ here.\n\ \n\ @author\ (your\ name)\ \n\ @version\ (a\ version\ number\ or\ a\ date)\n
+comment1.params=x\ y
+comment1.target=Tree(int,\ int)
+comment1.text=\n\ Constructor\ for\ objects\ of\ class\ Tree\n
+comment2.params=
+comment2.target=void\ chop()
+comment2.text=\n\ Removed\ chopped\ down\ trees\ and\ updates\ wood\ resources\n
+comment3.params=
+comment3.target=int\ getX()
+comment3.text=\n\ Returns\ the\ x\ location\n\ \n\ @return\ int\ \ the\ x\ location\ of\ the\ building\n
+comment4.params=
+comment4.target=int\ getY()
+comment4.text=\n\ Returns\ the\ y\ location\n\ \n\ @return\ int\ \ the\ y\ location\ of\ the\ building\n
+numComments=5
