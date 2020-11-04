@@ -22,6 +22,7 @@ public class Lumberjack extends Human
     }
     
     public void _update() {
+            // Ensures that lumberjacks spread out
             if (!enroute)
             {
                 findTree();

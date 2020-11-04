@@ -22,7 +22,24 @@ public class Farmer extends Human
     }
     
     public void _update() {
-        goToRandBuilding();
+        checkRoute(BuildingSlot.FARM, getX(), getY());
+        checkIsAtBuilding(targetX, targetY);
+        farm();
+        moveTo(targetX, targetY);
         drainFood();
     }
+    
+    private void farm()
+    {
+        if (atBuilding)
+        {
+            if (targetBuilding.getType() == BuildingSlot.FARM)
+            {
+                // Farm
+            }
+            targetBuilding.setTargetStatus(false);
+            enroute = false;
+        }
+    }
+    
 }

@@ -8,10 +8,6 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class Builder extends Human
 {
-    private BuildingSlot nearest;
-    private boolean atBuilding;
-    private int bX, bY;
-    private boolean enroute = false;
     public Builder(int xLoc, int yLoc) {
         this.xLoc = xLoc;
         this.yLoc = yLoc;
@@ -21,35 +17,18 @@ public class Builder extends Human
         sprite = new GreenfootImage("builder.png");
         setImage(sprite);
     }
+    
     public void _update() {
-            if (!enroute)
-            {
-                nearest = getNearestBuilding(BuildingSlot.EMPTY, 350 ,350);
-                checkBuilding(nearest);
-                enroute = true;
-                nearest.setTargetStatus(true);
-            }
-            checkIsAtBuilding();
+            checkRoute(BuildingSlot.EMPTY, 350, 350);
+            checkIsAtBuilding(targetX, targetY);
             build();
-            moveTo(bX, bY);
-
+            moveTo(targetX, targetY);
             drainFood();
     }    
-    
-    private void checkBuilding(BuildingSlot building)
-    {
-        if (building.getType() == BuildingSlot.EMPTY)
-        {
-             bX = nearest.getX();
-             bY = nearest.getY();
-        }
-        else // Walk around randomly
-        {
-             bX = Math.abs((int) (Math.random() * 2000) % 500);
-             bY = Math.abs((int) (Math.random() * 2000) % 500);
-        }
-    }
-    
+ 
+    /**
+     * Build a new building of the highest demand.
+     */
     private void build() { 
         if(atBuilding) { 
             if(WorldManagement.getBuildingSlot(nearestIndex).getType() == BuildingSlot.EMPTY) {
@@ -58,24 +37,8 @@ public class Builder extends Human
                     WorldManagement.wood -= 15;
                 }
             }
-            nearest.setTargetStatus(false);
+            targetBuilding.setTargetStatus(false);
             enroute = false;
         }
-    }
-
-    private void checkIsAtBuilding() {
-        atBuilding = (Utils.calcDist(xLoc, bX, yLoc, bY) < DEFAULT_SPEED+50);
-    }
-    
-    /**
-     * Removes the human instance from the list and the world.
-     */
-    public void die() {
-        if (nearest != null)
-        {
-            nearest.setTargetStatus(false);
-        }
-        WorldManagement.humans.remove(this);
-        WorldManagement.world.removeObject(this);
     }
 }

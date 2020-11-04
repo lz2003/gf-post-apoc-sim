@@ -48,11 +48,21 @@ public class BuildingSlot extends Actor
         setImage(sprite);
     }
     
+    /**
+     * Sets whether or not a human is targeting this building.
+     * 
+     * @param status    true if a human is targeting it, else false
+     */
     public void setTargetStatus(boolean status)
     {
         targeted = status;
     }
     
+    /**
+     * Returns whether or not a human is targeting this building.
+     * 
+     * @return boolean  true if so, otherwise false
+     */
     public boolean getTargetStatus()
     {
         return targeted;

@@ -32,7 +32,7 @@ public class WorldManagement
     public static MyWorld world;
     public static ScoreBar scoreboard;
 
-    public static float deltaTime = 0.01f, elapsed = 0;
+    public static float deltaTime = 0.01f, elapsed = 0f;
     public static long lastTime = 0;
 
     public static float threatLevel;
@@ -106,12 +106,12 @@ public class WorldManagement
         
         addHuman(Human.BUILDER, 33, 2);
         addHuman(Human.LUMBERJACK, 400, 400);
-        addHuman(Human.LUMBERJACK, 400, 400);
+        addHuman(Human.BUILDER, 400, 400);
         addHuman(Human.FARMER, 400, 400);
         addHuman(Human.FARMER, 200, 400);
         addHuman(Human.FARMER, 300, 400);
         addHuman(Human.MINER, 300, 300);
-        addEvent(Event.TORNADO, 100, 500);
+        //addEvent(Event.TORNADO, 100, 500);
     }
     
     /**
@@ -159,7 +159,9 @@ public class WorldManagement
     }
     
     /**
-     * Methods that updates each human and building instance.
+     * Methods that updates each human and building instance. Using an
+     * _update method instead of the act method allows control over the
+     * order which instances act.
      */
     private static void updateLoop() {
         for(int i = 0; i < humans.size(); i++) {
@@ -519,7 +521,7 @@ public class WorldManagement
         lastTime = curT;
         // initial calculation will return the time from epoch to the current time, so if its more than 10s, return 1
         if(delta > 10000) {
-            deltaTime = 0.001f;
+            deltaTime = 1f;
             return;
         }
         deltaTime = delta / 1000f; // milliseconds to seconds
