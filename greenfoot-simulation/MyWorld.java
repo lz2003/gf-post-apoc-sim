@@ -14,7 +14,7 @@ public class MyWorld extends World
     {    
         super(700, 700, 1, false); 
         
-        setPaintOrder(StatBar.class, ScoreBar.class, Event.class, Human.class);
+        setPaintOrder(ScoreBar.class, StatBar.class, Event.class, Human.class);
         // BECAUSE GREENFOOT DOES NOT RESET VARIABLE VALUES WHEN RESET IS PRESSED,
         // ALL THE INSTIANTIATING HAS BEEN MOVED TO THE ACT METHOD
     }

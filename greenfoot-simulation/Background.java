@@ -13,10 +13,9 @@ public class Background extends Actor
     public Background(int x, int y) {
         xPos = x;
         yPos = y;
-        sprite = new GreenfootImage("yeet.png");
+        sprite = new GreenfootImage("grass-tile.png");
         sprite.scale(700, 700);
         setImage(sprite);
-        //WorldManagement.world.addObject(sprite, x, y);
     }
     
     public int getX() {
