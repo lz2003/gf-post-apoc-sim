@@ -111,7 +111,7 @@ public class WorldManagement
         addHuman(Human.FARMER, 200, 400);
         addHuman(Human.FARMER, 300, 400);
         addHuman(Human.MINER, 300, 300);
-        //addEvent(Event.TORNADO, 100, 500);
+        addEvent(Event.TORNADO, 100, 500);
     }
     
     /**
@@ -370,9 +370,9 @@ public class WorldManagement
     /**
      * Adds an event to the world.
      * 
-     * @param eventID   the type of event to be added
-     * @param xLoc      the x location of the event
-     * @param yLoc      the y location of the event
+     * @param eventID   the type of human to be added
+     * @param xLoc      the x location of the human
+     * @param yLoc      the y location of the human
      */
     public static void addEvent(int eventID, int xLoc, int yLoc) {
         switch(eventID) {
@@ -381,7 +381,7 @@ public class WorldManagement
                 world.addObject((Tornado)events.get(events.size() - 1), xLoc, yLoc);
                 break;
             case Event.METEOR:
-                events.add(new Meteor());
+                events.add(new Meteor(xLoc, yLoc));
                 world.addObject((Meteor)events.get(events.size() - 1), xLoc, yLoc);
                 break;
         }
@@ -521,7 +521,7 @@ public class WorldManagement
         lastTime = curT;
         // initial calculation will return the time from epoch to the current time, so if its more than 10s, return 1
         if(delta > 10000) {
-            deltaTime = 1f;
+            deltaTime = 0.001f;
             return;
         }
         deltaTime = delta / 1000f; // milliseconds to seconds

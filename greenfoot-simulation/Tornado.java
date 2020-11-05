@@ -11,13 +11,11 @@ public class Tornado extends Event
     private static final int 
         SPEED = 3, 
         COOLDOWN = 200, 
-        RANGE = 100, 
-        DAMAGE = 50,
+        RANGE = 50, 
         SPRITE_SIZE = 100;
     private int 
         turnCooldown = 50, 
-        targetRot = 0, 
-        range = RANGE;
+        targetRot = 0;
     private int spriteRot = 0;
     
     /**
@@ -29,6 +27,8 @@ public class Tornado extends Event
     public Tornado(int xLoc, int yLoc) {
         this.xLoc = xLoc;
         this.yLoc = yLoc;
+        damage = DEFAULT_DAMAGE;
+        range = RANGE;
         rot = 0;
         GreenfootImage img = new GreenfootImage("tornado.png");
         img.scale(SPRITE_SIZE, SPRITE_SIZE);
@@ -41,25 +41,13 @@ public class Tornado extends Event
         moveWithRot();
         turnTowards();
         setTargetRot();
-        killNearbyThings();
+        killNearbyThings(xLoc, yLoc, range, damage);
         setSpriteRot();
     }
     
     private void setSpriteRot() {
-        spriteRot += 4;
+        spriteRot += 8;
         setRotation(spriteRot);
-    }
-    
-    private void killNearbyThings() {
-        ArrayList<BuildingSlot> buildings = getBuildingsWithinRange(xLoc, yLoc, range);
-        for(int i = 0; i < buildings.size(); i++) {
-            ((BuildingSlot)buildings.get(i)).damage(DAMAGE);
-        }
-        
-        ArrayList<Human> humans = getHumansWithinRange(xLoc, yLoc, range);
-        for(int i = 0; i < humans.size(); i++) {
-            ((Human)humans.get(i)).damage(DAMAGE);
-        }
     }
     
     private void setTargetRot() {
