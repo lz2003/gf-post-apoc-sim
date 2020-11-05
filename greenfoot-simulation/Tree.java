@@ -48,9 +48,16 @@ public class Tree extends Actor
     public void chop() {
         if(chopped) return;
         WorldManagement.wood += ((float)(Math.random() * 2000) % 15) + 5;
+        chopped = true;
+        destroy();
+    }
+    
+    /**
+     * Removes the tree from the world
+     */
+    public void destroy() {
         WorldManagement.trees.remove(this);
         WorldManagement.world.removeObject(this);
-        chopped = true;
     }
     
     public void setTargetStatus(boolean status)
