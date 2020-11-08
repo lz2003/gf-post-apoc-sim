@@ -33,6 +33,7 @@ public class MyWorld extends World
             wm.enemies = new ArrayList<Enemy>();
             wm.buildings = new ArrayList<BuildingSlot>();
             wm.trees = new ArrayList<Tree>();
+            wm.events = new ArrayList<Event>();
             wm.init();
             runOnce = true;
         }

@@ -10,8 +10,8 @@ import greenfoot.*;
 public class WorldManagement  
 {
     public static final int
-            WORLD_SIZE = 1200,
-            CAM_SPEED = 2,
+            WORLD_SIZE = 700,
+            CAM_SPEED = 4,
             GRID_SEPARATION = 30,
             BUILDING_SIZE = 100,
             BUILDING_PADDING = 1,
@@ -111,7 +111,21 @@ public class WorldManagement
         addHuman(Human.FARMER, 200, 400);
         addHuman(Human.FARMER, 300, 400);
         addHuman(Human.MINER, 300, 300);
-        addEvent(Event.TORNADO, 100, 500);
+        addEvent(Event.TORNADO, -1000, 1000);
+        
+        addEvent(Event.ZOMBIE, -100, -1000);
+        addEvent(Event.ZOMBIE, -100, -1020);
+        addEvent(Event.ZOMBIE, -100, -1040);
+        addEvent(Event.ZOMBIE, -100, -1060);
+        addEvent(Event.ZOMBIE, -100, -1080);
+        addEvent(Event.ZOMBIE, -100, -1090);
+        addEvent(Event.ZOMBIE, -100, -1023);
+        addEvent(Event.ZOMBIE, -100, -1012);
+        addEvent(Event.ZOMBIE, -100, -1052);
+        addEvent(Event.ZOMBIE, -100, -1017);
+        addEvent(Event.ZOMBIE, -100, -1070);
+        addEvent(Event.ZOMBIE, -100, -1050);
+        addEvent(Event.ZOMBIE, -100, -1030);
     }
     
     /**
@@ -278,10 +292,12 @@ public class WorldManagement
     private void generateTrees() {
         float rand = (float) (Math.random() * 12345);    
         int randInInt = (int) rand % TREE_SPAWN_RATE;
-        if(randInInt == 1 && trees.size() < MAX_TREES) {
+        if(randInInt == 1) {
             rand = (float) Math.random() * 20321;
-            int xTree = ((int) (rand * 1352)) % WORLD_SIZE - (int)((float) WORLD_SIZE * 0.2f);
-            int yTree = ((int) (rand * 6112)) % WORLD_SIZE - (int)((float) WORLD_SIZE * 0.2f);
+            int min = -WORLD_SIZE;
+            int max = WORLD_SIZE * 3;
+            int xTree = min + (((int)(rand * 981)) % max);
+            int yTree = min + (((int)(rand * 231)) % max);
             trees.add(new Tree(xTree, yTree));
             world.addObject((Tree)trees.get(trees.size()-1), xTree, yTree);
         }
@@ -321,11 +337,11 @@ public class WorldManagement
         farmDemand = totalFarm * 0.4f;
         houseDemand = totalHouse;
         mineDemand = totalMine;
-        //sentryDemand = totalSentry;
+        sentryDemand = totalSentry;
         storageDemand = totalStorage - 0.1f;
-        // how do you do json objects in java
-        float[] demands = {farmDemand, houseDemand, mineDemand, storageDemand};
-        int[] demandNames = {BuildingSlot.FARM, BuildingSlot.HOUSE, BuildingSlot.MINE, BuildingSlot.STORAGE};
+
+        float[] demands = {farmDemand, houseDemand, mineDemand, sentryDemand, storageDemand};
+        int[] demandNames = {BuildingSlot.FARM, BuildingSlot.HOUSE, BuildingSlot.MINE, BuildingSlot.SENTRY, BuildingSlot.STORAGE};
 
         float smallest = 99999f;
         int index = 0;
@@ -384,9 +400,12 @@ public class WorldManagement
                 events.add(new Meteor(xLoc, yLoc));
                 world.addObject((Meteor)events.get(events.size() - 1), xLoc, yLoc);
                 break;
+            case Event.ZOMBIE:
+                events.add(new Zombie(xLoc, yLoc));
+                world.addObject((Zombie)events.get(events.size() - 1), xLoc, yLoc);
+                break;
         }
     }
-    
     /**
      * Returns a human instance at a specified index from the humans
      * Arraylist
@@ -405,6 +424,17 @@ public class WorldManagement
      */
     public static ArrayList<Human> getHumans() {
         return humans;
+    }
+    
+    /**
+     * Gets the event at specified index
+     * 
+     * @param index Index of event
+     * 
+     * @return Event at index
+     */
+    public static Event getEvent(int index) {
+        return (Event)(events.get(index));
     }
     
     /**

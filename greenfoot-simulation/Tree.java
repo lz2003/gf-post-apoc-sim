@@ -24,23 +24,22 @@ public class Tree extends Actor
         //WorldManagement.world.addObject(sprite, xLoc, yLoc);
     }
     
-    /*
+    /**
      * Makes sure trees don't spawn on top of other trees/buildings
-     * (Isn't working)
-     *
+     */
     protected void addedToWorld(World world)
     {
-        if (getOneIntersectingObject(Tree.class) != null || getOneIntersectingObject(BuildingSlot.class) != null)
+        if (Event.getBuildingsWithinRange(xLoc, yLoc, 50).size() > 0)
         {
             WorldManagement.trees.remove(this);
             WorldManagement.world.removeObject(this);
-        }
+        } 
         else
         {
             sprite = new GreenfootImage("tree.png");
             setImage(sprite);
         }
-    }*/
+    }
     
     /**
      * Removed chopped down trees and updates wood resources
