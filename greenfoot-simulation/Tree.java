@@ -26,7 +26,6 @@ public class Tree extends Actor
     
     /**
      * Makes sure trees don't spawn on top of other trees/buildings
-     * (Isn't working)
      */
     protected void addedToWorld(World world)
     {
