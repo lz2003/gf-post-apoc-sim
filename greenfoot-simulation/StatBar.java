@@ -57,6 +57,10 @@ public class StatBar extends Actor
     private Color[] filledColor;
     private Color[] missingColor;
     private Color borderColor;
+    
+    // Added by Lucy Zhao
+    private int xLoc;
+    private int yLoc;
 
     /**
      * Main constructor - A basic constructor that sets default values. Easy to use, not very flexible.
@@ -64,6 +68,19 @@ public class StatBar extends Actor
     public StatBar()
     {
         this(100, 100, null, 48, 6, 36);
+    }
+    
+    /**
+     *  A simple constructor for a somewhat customized stat bar. If owner is null, just position this object where you want it and it wont move.
+     *  If owner is not null, this object will follow the owner.
+     *  
+     *  @param  maxVal  the maximum value for this stat
+     *  @param currVal  the starting value for this stat
+     *  @param filledColor  the color to be used to represent the current value
+     *  @param missingColor the color to be used to represent the missing value
+     */
+    public StatBar (int maxVal, Color filledColor, Color missingColor){
+        this (maxVal, maxVal, null, 48, 4, 36, filledColor, missingColor);
     }
 
     /**
@@ -76,6 +93,20 @@ public class StatBar extends Actor
      */
     public StatBar (int maxVal, Actor owner){
         this(maxVal, maxVal, owner, 48, 4, 36);
+    }
+    
+    /**
+     *  A simple constructor for a somewhat customized stat bar. If owner is null, just position this object where you want it and it wont move.
+     *  If owner is not null, this object will follow the owner.
+     *  
+     *  @param  maxVal  the maximum value for this stat
+     *  @param currVal  the starting value for this stat
+     *  @param  owner   the Actor that this stat bar will follow (null for DONT FOLLOW). Can be changed to just an Actor if needed
+     *  @param filledColor  the color to be used to represent the current value
+     *  @param missingColor the color to be used to represent the missing value
+     */
+    public StatBar (int maxVal, Actor owner, Color filledColor, Color missingColor){
+        this (maxVal, maxVal, owner, 48, 4, 36, filledColor, missingColor);
     }
 
     /**
@@ -178,6 +209,9 @@ public class StatBar extends Actor
         this.currVal = currVal;
         this.filledColor = filledColor;
         this.missingColor = missingColor;
+        
+        this.xLoc = target.getX();
+        this.yLoc = target.getY() - offset;
 
         bar = new GreenfootImage (width, height);
         blank = new GreenfootImage (1, 1);
@@ -199,7 +233,7 @@ public class StatBar extends Actor
      * delete this act() method and call moveMe() directly whenever your Actor moves. 
      */
     public void act () {
-        moveMe();
+        //moveMe();
     }
     
     /**
@@ -213,7 +247,8 @@ public class StatBar extends Actor
         if (target != null && getWorld() != null){
             if (target.getWorld() != null)
             {
-                setLocation (target.getX(), target.getY() - offset);
+                xLoc = target.getX();
+                yLoc = target.getY();
             }
             else
             {
@@ -256,6 +291,17 @@ public class StatBar extends Actor
         }
 
     }
+    
+    /**
+     * Returns the current value of health of the first bar.
+     * Method added by Lucy Zhao.
+     * 
+     * @return int  the current value
+     */
+    public int getCurrVal()
+    {
+        return currVal[0];
+    }
 
     public void setMaxVal (int maxVal[]){
         for (int i = 0; i < barCount; i++){
@@ -288,5 +334,25 @@ public class StatBar extends Actor
             bar.setColor(missingColor[i]);
             bar.fillRect(filledBarWidth + borderThickness, borderThickness + (i * barHeight), missingBarWidth, barHeight +extraHeight);
         }
+    }
+    
+    /**
+     * Return the x location
+     * 
+     * @return int  the x location
+     */
+    public int getX()
+    {
+        return xLoc;
+    }
+    
+    /**
+     * Return the x location
+     * 
+     * @return int  the x location
+     */
+    public int getY()
+    {
+        return yLoc;
     }
 }

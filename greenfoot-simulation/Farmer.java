@@ -1,10 +1,11 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 /**
- * Write a description of class Farmer here.
+ * Farmers work at farm structures and collect food resources to prevent
+ * the population from starving.
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @author Lucy Zhao
+ * @version 2020-11-08
  */
 public class Farmer extends Human
 {
@@ -18,27 +19,51 @@ public class Farmer extends Human
         
         sprite = new GreenfootImage("farmer.png");
         setImage(sprite);
-        //WorldManagement.world.addObject(sprite, xLoc, yLoc);
     }
     
+    /**
+     * Controls the behavior of the farmer.
+     */
     public void _update() {
-        checkRoute(BuildingSlot.FARM, getX(), getY());
-        checkIsAtBuilding(targetX, targetY);
-        farm();
+        checkRoute(buildingType, xLoc, yLoc);
+        checkIsAtLocation(targetX, targetY);
+        if (isWorking) work();
+        else checkFarm();
         moveTo(targetX, targetY);
         drainFood();
     }
     
-    private void farm()
+    /**
+     * Checks if the farmer has arrived at a farm, if so, start working,
+     * otherwise keep moving.
+     */
+    private void checkFarm()
     {
-        if (atBuilding)
+        if (atLocation)
         {
-            if (targetBuilding.getType() == BuildingSlot.FARM)
+            if (targetBuilding != null && targetBuilding.getType() == buildingType)
             {
-                // Farm
+                workBar = new StatBar(FARMER_WORK_TIME, this, Color.YELLOW, Color.RED);
+                WorldManagement.world.addObject(workBar, xLoc, yLoc);
+                isWorking = true;
+                return;
             }
-            targetBuilding.setTargetStatus(false);
             enroute = false;
+        }
+    }
+    
+    /**
+     * The work method where the farmer gains resources for the human
+     * population.
+     */
+    protected void work()
+    {
+        workBar.update(workBar.getCurrVal()-1);
+        if (workBar.getCurrVal() < 0)
+        {
+            WorldManagement.food += (int) (Math.random() * 5);
+            isWorking = false;
+            WorldManagement.world.removeObject(workBar);
         }
     }
     

@@ -1,5 +1,13 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
+/**
+ * Superclass for the humans, who are beings who try and survive in the 
+ * world by building structures and collecting resources.
+ * 
+ * @author Lucy Zhao
+ * @author Young Chen
+ * @version 2020-11-08
+ */
 public abstract class Human extends Actor {
     // Human IDs
     public static final int
@@ -13,6 +21,12 @@ public abstract class Human extends Actor {
     
     protected static final int
             DEFAULT_HP = 100;
+            
+    public static final int
+        BUILDER_WORK_TIME = 100,
+        FARMER_WORK_TIME = 200,
+        LUMBERJACK_WORK_TIME = 75, 
+        MINER_WORK_TIME = 200;
            
     // Attributes of humans
     protected static final float
@@ -28,23 +42,33 @@ public abstract class Human extends Actor {
     protected int speed = (int) DEFAULT_SPEED;
     protected GreenfootImage sprite;
     
-    // "Worker" Class variables
+    // Related to human behaviour and working
     protected BuildingSlot targetBuilding;
-    protected boolean atBuilding = false, enroute = false;
-    protected int targetX = 600, targetY = 0;
+    protected boolean atLocation = false, enroute = false;
+    protected int targetX = 0, targetY = 0;
     protected int buildingType;
+    protected boolean isWorking = false;
+    protected StatBar workBar;
     
     // Variables related to survival
     protected float hunger = 15f;
     protected boolean isStarving = false;
     protected float starveDeathTime = 10f;
     protected int hp = DEFAULT_HP, type;
+    protected StatBar hpBar;
     
     /**
      * Essentially the act method for all human instances. Allows for
      * better control of which actors act first.
      */
     public abstract void _update();
+    
+    /**
+     * Each human has their own work method as they gain different
+     * resources and take different amounts of time to complete their
+     * tasks.
+     */
+    protected abstract void work();
 
     /**
      * Moves the human to the chosen location
@@ -53,12 +77,8 @@ public abstract class Human extends Actor {
      * @param yDest     the y destination
      */
     protected void moveTo(int xDest, int yDest) {
-        // Turns the human
-        if (!atBuilding)
-        {
-            turnTowards(xDest + WorldManagement.camX, yDest + WorldManagement.camY);
-        }
-        
+        turnTo(xDest, yDest);
+ 
         xVel = 0;
         yVel = 0;
         int x = xLoc, y = yLoc;
@@ -80,6 +100,21 @@ public abstract class Human extends Actor {
     }
     
     /**
+     * Turns the human to the direction it is moving towards
+     * 
+     * @param x     the x destination
+     * @param y     the y destination
+     */
+    protected void turnTo(int x, int y)
+    {
+        if (!isWorking || !atLocation)
+        {
+            float angleTo = Utils.getAngleTo(xLoc, x, yLoc, y);
+            this.setRotation((int) (angleTo * (180 / Math.PI)));
+        }
+    }
+    
+    /**
      * Returns the nearest building when given a specific starting
      * location and type.
      * 
@@ -89,34 +124,6 @@ public abstract class Human extends Actor {
      * @return BuildingSlot the closest building
      */
     protected BuildingSlot getNearestBuilding(int buildngID, int x, int y) {
-        int lowest = 9999;
-        int index = (int) (Math.random() * WorldManagement.buildings.size());
-        for(int i = 0, n = WorldManagement.buildings.size(); i < n; i++) {
-            BuildingSlot building = (BuildingSlot)(WorldManagement.buildings.get(i));
-            int xLoc = building.getX(), yLoc = building.getY();
-            int distance = Utils.calcDist(x, xLoc, y, yLoc);
-            if(distance < lowest && building.getType() == buildngID) {
-                if (!building.getTargetStatus())
-                {
-                    lowest = distance;
-                    index = i;
-                }
-            }
-        }
-        nearestIndex = index;
-        return WorldManagement.getBuildingSlot(index);
-    }
-    
-    /**
-     * Returns the nearest building when given a specific building type.
-     * 
-     * @param buildngID     the type of building to be found
-     * @return BuildingSlot the closest building
-     */
-    protected BuildingSlot getNearestBuilding(int buildngID) {
-        int x = xLoc;
-        int y = yLoc;
-
         int lowest = 9999, index = -1;
         for(int i = 0, n = WorldManagement.buildings.size(); i < n; i++) {
             BuildingSlot building = (BuildingSlot)(WorldManagement.buildings.get(i));
@@ -154,8 +161,8 @@ public abstract class Human extends Actor {
     }
     
     /**
-     * Checks if the human's route, if there is none, select a building
-     * for the human to move to.
+     * Checks the human's route, if there is none, select a building
+     * or random location for the human to move to.
      * 
      * @param buildngID     the type of building
      * @param xLoc          the x location to check
@@ -165,22 +172,30 @@ public abstract class Human extends Actor {
     {
         if (!enroute)
         {
-            targetBuilding = getNearestBuilding(buildngID, xLoc ,yLoc);
-            targetX = targetBuilding.getX();
-            targetY = targetBuilding.getY();
+            targetBuilding = getNearestBuilding(buildngID, xLoc, yLoc);
+            if (targetBuilding != null)
+            {
+                targetBuilding.setTargetStatus(true);
+                targetX = targetBuilding.getX();
+                targetY = targetBuilding.getY();
+            }
+            else // Move randomly
+            {
+                targetX = Math.abs((int) (Math.random() * 2000) % 500);
+                targetY = Math.abs((int) (Math.random() * 2000) % 500);
+            }
             enroute = true;
-            targetBuilding.setTargetStatus(true);
         }
     }
-    
+
     /**
      * Causes the human instance to lose a specified number of health 
      * points.
      * 
      * @param damage    the value of hp lost
      */
-    public void damage(int damage) {
-        hp -= damage;
+    public void damage(int val) {
+        hp -= val;
         if(hp <= 0) {
             die();
         }
@@ -198,14 +213,24 @@ public abstract class Human extends Actor {
         WorldManagement.world.removeObject(this);
     }
     
+    protected StatBar getWorkBar()
+    {
+        return workBar;
+    }
+    
+    protected StatBar getHealthBar()
+    {
+        return hpBar;
+    }
+    
     /**
-     * Checks if the human has reached targeted building slot
+     * Checks if the human has reached targeted location.
      * 
      * @param xDest     the x destination 
      * @param yDest     the y destination
      */
-    protected void checkIsAtBuilding(int xDest, int yDest) {
-        atBuilding = (Utils.calcDist(xLoc, xDest, yLoc, yDest) < DEFAULT_SPEED);
+    protected void checkIsAtLocation(int xDest, int yDest) {
+        atLocation = (Utils.calcDist(xLoc, xDest, yLoc, yDest) < DEFAULT_SPEED);
     }
 
     /**

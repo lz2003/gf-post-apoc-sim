@@ -1,4 +1,3 @@
-
 import java.util.ArrayList;
 import greenfoot.*;
 /**
@@ -113,6 +112,7 @@ public class WorldManagement
         addHuman(Human.MINER, 300, 300);
         addEvent(Event.TORNADO, -1000, 1000);
         
+        
         addEvent(Event.ZOMBIE, -100, -1000);
         addEvent(Event.ZOMBIE, -100, -1020);
         addEvent(Event.ZOMBIE, -100, -1040);
@@ -149,6 +149,11 @@ public class WorldManagement
         for(int i = 0, n = humans.size(); i < n; i++) {
             Human human = ((Human)(humans.get(i)));
             human.setLocation(human.getX() + camX, human.getY() + camY);
+            StatBar wb = human.getWorkBar();
+            if (wb != null)
+            {
+                wb.setLocation(wb.getX() + camX, wb.getY() + camY);
+            }
         }
         
         for(int i = 0, n = buildings.size(); i < n; i++) {

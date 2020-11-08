@@ -1,10 +1,11 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 /**
- * Write a description of class Builder here.
+ * Builders build new structures when enough resources are present. Each
+ * building created is determine by its current demand.
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @author Lucy Zhao
+ * @version 2020-11-08
  */
 public class Builder extends Human
 {
@@ -18,27 +19,51 @@ public class Builder extends Human
         setImage(sprite);
     }
     
+    /**
+     * Controls the behavior of the builder.
+     */
     public void _update() {
-            checkRoute(BuildingSlot.EMPTY, 350, 350);
-            checkIsAtBuilding(targetX, targetY);
-            build();
-            moveTo(targetX, targetY);
-            drainFood();
+        checkRoute(BuildingSlot.EMPTY, 350, 350);
+        checkIsAtLocation(targetX, targetY);
+        if (!isWorking) checkBuild();
+        else work();
+        moveTo(targetX, targetY);
+        drainFood();
     }    
  
     /**
      * Build a new building of the highest demand.
      */
-    private void build() { 
-        if(atBuilding) { 
-            if(WorldManagement.getBuildingSlot(nearestIndex).getType() == BuildingSlot.EMPTY) {
+    private void checkBuild() { 
+        if(atLocation) { 
+            if(targetBuilding != null && targetBuilding.getType() == BuildingSlot.EMPTY) {
                 if(WorldManagement.wood >= 15) {
-                    WorldManagement.getBuildingSlot(nearestIndex).setBuilding(WorldManagement.highestDemand);
+                    workBar = new StatBar(BUILDER_WORK_TIME, this, Color.YELLOW, Color.RED);
+                    WorldManagement.world.addObject(workBar, xLoc, yLoc);
                     WorldManagement.wood -= 15;
+                    isWorking = true;
+                    return;
                 }
+                targetBuilding.setTargetStatus(false);
             }
+            enroute = false;
+        }
+    }
+    
+    /**
+     * The work method where the builder creates buildings for the human
+     * population.
+     */
+    protected void work()
+    {
+        workBar.update(workBar.getCurrVal()-1);
+        if (workBar.getCurrVal() <= 0)
+        {
+            WorldManagement.getBuildingSlot(nearestIndex).setBuilding(WorldManagement.highestDemand);
+            isWorking = false;
             targetBuilding.setTargetStatus(false);
             enroute = false;
+            WorldManagement.world.removeObject(workBar);
         }
     }
 }

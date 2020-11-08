@@ -1,10 +1,11 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 /**
- * Write a description of class Lumberjack here.
+ * Lumberjacks scatter across the world and chop down trees to collect
+ * wood for creating buildings.
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @author Lucy Zhao
+ * @version 2020-11-08
  */
 public class Lumberjack extends Human
 {
@@ -21,6 +22,9 @@ public class Lumberjack extends Human
         setImage(sprite);
     }
     
+    /**
+     * Controls the behavior of the lumberjack.
+     */
     public void _update() {
             // Ensures that lumberjacks spread out
             if (!enroute)
@@ -29,11 +33,13 @@ public class Lumberjack extends Human
                 if (targetTree != null)
                 {
                     targetTree.setTargetStatus(true);
-                    enroute = true;
                 }
+                enroute = true;
             }
+            checkIsAtLocation(treeX, treeY);
+            if (isWorking) work();
+            else checkTree();
             moveTo(treeX, treeY);
-            chopTree();
             drainFood();
     }
     
@@ -67,12 +73,15 @@ public class Lumberjack extends Human
     /**
      * Chops down the tree at specified location
      */
-    private void chopTree() {
-        if(targetTree != null) {
-            if(Utils.calcDist(getX(), treeX, getY(), treeY) < DEFAULT_SPEED+40) {
-                targetTree.chop();
-                enroute = false;
+    private void checkTree() {
+        if(atLocation) {
+            if(targetTree != null) {
+                isWorking = true;
+                workBar = new StatBar(LUMBERJACK_WORK_TIME, this, Color.YELLOW, Color.RED);
+                WorldManagement.world.addObject(workBar, xLoc, yLoc);
+                return;
             }
+            enroute = false;
         }
     }
     
@@ -88,5 +97,20 @@ public class Lumberjack extends Human
         WorldManagement.world.removeObject(this);
     }
     
+    /**
+     * The work method where the lumberjack gains resources for the 
+     * human population.
+     */
+    protected void work()
+    {
+        workBar.update(workBar.getCurrVal()-1);
+        if (workBar.getCurrVal() == 0)
+        {
+            targetTree.chop();
+            isWorking = false;
+            enroute = false;
+            WorldManagement.world.removeObject(workBar);
+        }
+    }
     
 }
