@@ -7,7 +7,6 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  * @version (a version number or a date)
  */
 public class Miner extends Human {
-    
     public Miner(int xLoc, int yLoc) {
         this.xLoc = xLoc;
         this.yLoc = yLoc;
@@ -20,23 +19,7 @@ public class Miner extends Human {
         //WorldManagement.world.addObject(sprite, xLoc, yLoc);
     }
     public void _update() {
-        checkRoute(BuildingSlot.MINE, getX(), getY());
-        checkIsAtBuilding(targetX, targetY);
-        mine();
-        moveTo(targetX, targetY);
+        goToRandBuilding();
         drainFood();
-    }
-    
-    private void mine()
-    {
-        if (atBuilding)
-        {
-            if (targetBuilding.getType() == BuildingSlot.MINE)
-            {
-                // Mine
-            }
-            targetBuilding.setTargetStatus(false);
-            enroute = false;
-        }
     }
 }

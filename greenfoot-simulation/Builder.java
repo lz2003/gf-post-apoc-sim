@@ -8,27 +8,26 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class Builder extends Human
 {
+    private BuildingSlot nearest;
+    private boolean atBuilding;
     public Builder(int xLoc, int yLoc) {
         this.xLoc = xLoc;
         this.yLoc = yLoc;
         
-        this.type = BUILDER;
+        this.type = MINER;
+        //this.buildingType = BuildingSlot.MINE;
         
         sprite = new GreenfootImage("builder.png");
         setImage(sprite);
+        //WorldManagement.world.addObject(sprite, xLoc, yLoc);
     }
-    
     public void _update() {
-            checkRoute(BuildingSlot.EMPTY, 350, 350);
-            checkIsAtBuilding(targetX, targetY);
+            checkIsAtBuilding();
             build();
-            moveTo(targetX, targetY);
+            moveTo(nearest.getX(), nearest.getY());
             drainFood();
     }    
- 
-    /**
-     * Build a new building of the highest demand.
-     */
+    
     private void build() { 
         if(atBuilding) { 
             if(WorldManagement.getBuildingSlot(nearestIndex).getType() == BuildingSlot.EMPTY) {
@@ -37,8 +36,11 @@ public class Builder extends Human
                     WorldManagement.wood -= 15;
                 }
             }
-            targetBuilding.setTargetStatus(false);
-            enroute = false;
         }
+    }
+
+    private void checkIsAtBuilding() {
+        nearest = getNearestBuilding(BuildingSlot.EMPTY, 350 ,350);
+        atBuilding = (Utils.calcDist(xLoc, nearest.getX(), yLoc, nearest.getY()) < DEFAULT_SPEED);
     }
 }

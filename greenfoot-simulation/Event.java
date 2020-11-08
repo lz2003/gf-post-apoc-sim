@@ -1,3 +1,5 @@
+
+
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 import java.util.*;
 /**
@@ -10,20 +12,53 @@ public abstract class Event extends Actor
 {
     public static final int
     METEOR = 0,
-    TORNADO = 1;
+    TORNADO = 1,
+    ZOMBIE = 3;
     
-    protected static final int DEFAULT_DAMAGE = 25;
+    protected static final int DEFAULT_DAMAGE = 5, DEFAULT_HP = 100;
     
     protected int damage, range;
     
-    protected int xLoc, yLoc, rot;
+    protected int rot, type, hp = 100;
     
+    protected float xLoc, yLoc;
+    /**
+     * Get the x location 
+     * 
+     * @return X location
+     */
     public int getX() {
-        return xLoc;
+        return (int) xLoc;
     }
     
+    /**
+     * Get the y location 
+     * 
+     * @return Y location
+     */
     public int getY() {
-        return yLoc;
+        return (int) yLoc;
+    }
+    
+    /**
+     * Get the type of the event 
+     * 
+     * @return EventID of event
+     */
+    public int getType() {
+        return type;
+    }
+    
+    public void die() {
+        WorldManagement.events.remove(this);
+        WorldManagement.world.removeObject(this);
+    }
+    
+    public void damage(int damage) {
+        hp -= damage;
+        if(hp <= 0) {
+            die();
+        }
     }
     
     /**
@@ -32,6 +67,8 @@ public abstract class Event extends Actor
      * @param x Location in x axis to search from
      * @param y Location in y axis to search from
      * @param range Range to search for buildings
+     * 
+     * @return Arraylist of buildings found within the range
      */
     
     protected ArrayList<BuildingSlot> getBuildingsWithinRange(int x, int y, int range) {
@@ -53,6 +90,8 @@ public abstract class Event extends Actor
      * @param x Location in x axis to search from
      * @param y Location in y axis to search from
      * @param range Range to search for humans
+     * 
+     * @return Arraylist of humans found within the range
      */
     protected ArrayList<Human> getHumansWithinRange(int x, int y, int range) {
         ArrayList<Human> list = new ArrayList<Human>();
@@ -74,6 +113,8 @@ public abstract class Event extends Actor
      * @param x Location in x axis to search from
      * @param y Location in y axis to search from
      * @param range Range to search for trees
+     * 
+     * @return Arraylist of trees found within the range
      */
     protected ArrayList<Tree> getTreesWithinRange(int x, int y, int range) {
         ArrayList<Tree> list = new ArrayList<Tree>();
@@ -95,23 +136,31 @@ public abstract class Event extends Actor
      * @param yLoc Location in y axis to search for objects that are to be damaged from 
      * @param range The range of the object search
      * @param damage How much to damage the objects found
+     * 
+     * @return number of things that were damaged
      */
     
-    protected void killNearbyThings(int xLoc, int yLoc, int range, int damage) {
+    protected int killNearbyThings(int xLoc, int yLoc, int range, int damage) {
+        int count = 0;
         ArrayList<BuildingSlot> buildings = getBuildingsWithinRange(xLoc, yLoc, range);
         for(int i = 0; i < buildings.size(); i++) {
             ((BuildingSlot)buildings.get(i)).damage(damage);
+            count++;
         }
         
         ArrayList<Human> humans = getHumansWithinRange(xLoc, yLoc, range);
         for(int i = 0; i < humans.size(); i++) {
             ((Human)humans.get(i)).damage(damage);
+            count++;
         }
         
         ArrayList<Tree> trees = getTreesWithinRange(xLoc, yLoc, range);
         for(int i = 0; i < trees.size(); i++) {
             ((Tree)trees.get(i)).destroy();
+            count++;
         }
+        
+        return count;
     }
     
     public abstract void _update();

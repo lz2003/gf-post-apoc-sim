@@ -34,7 +34,6 @@ public class BuildingSlot extends Actor
     private Building building;
     private GreenfootImage sprite;
     private int hp = DEFAULT_HP;
-    private boolean targeted = false;
     
     public BuildingSlot(int x, int y, int index) {
         xLoc = x;
@@ -46,26 +45,6 @@ public class BuildingSlot extends Actor
         building = new Empty();
         sprite = sprite = building.getSprite();
         setImage(sprite);
-    }
-    
-    /**
-     * Sets whether or not a human is targeting this building.
-     * 
-     * @param status    true if a human is targeting it, else false
-     */
-    public void setTargetStatus(boolean status)
-    {
-        targeted = status;
-    }
-    
-    /**
-     * Returns whether or not a human is targeting this building.
-     * 
-     * @return boolean  true if so, otherwise false
-     */
-    public boolean getTargetStatus()
-    {
-        return targeted;
     }
     
     /**
@@ -131,12 +110,21 @@ public class BuildingSlot extends Actor
                 building = new House(this);
                 sprite = building.getSprite();
                 break;
+            case SENTRY:
+                this.type = SENTRY; 
+                building = new Sentry(xLoc, yLoc, this);
+                sprite = building.getSprite();
+                break;
             case EMPTY:
                 this.type = EMPTY; 
                 building = new Empty();
                 sprite = building.getSprite();
                 break;
         }
+        setImage(sprite);
+    }
+    
+    public void setSprite(GreenfootImage sprite) {
         setImage(sprite);
     }
     

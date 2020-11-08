@@ -12,12 +12,12 @@ public class House extends Building
     public House(BuildingSlot slot) {
         sprite = new GreenfootImage("house.png");
         this.slot = slot;
-        setImage(sprite);
     }
     public void _update() {
-        if(WorldManagement.hasHousing()) {
+        if(WorldManagement.hasHousing() && WorldManagement.food >= 25f) {
             int humanType = (int)(Math.random() * 2322) % Human.TOTAL_HUMAN_TYPES;
             WorldManagement.addHuman(humanType, slot.getX(), slot.getY());
+            WorldManagement.food -= 15f;
         }
     }
     public void destroy() {

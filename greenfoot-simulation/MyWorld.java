@@ -14,7 +14,15 @@ public class MyWorld extends World
     {    
         super(700, 700, 1, false); 
         
-        setPaintOrder(ScoreBar.class, StatBar.class, Event.class, Human.class);
+        setPaintOrder(
+        StatBar.class, 
+        ScoreBar.class, 
+        Event.class, 
+        Tree.class,
+        House.class, 
+        Storage.class,
+        Human.class,
+        BuildingSlot.class);
         // BECAUSE GREENFOOT DOES NOT RESET VARIABLE VALUES WHEN RESET IS PRESSED,
         // ALL THE INSTIANTIATING HAS BEEN MOVED TO THE ACT METHOD
     }
@@ -33,10 +41,11 @@ public class MyWorld extends World
             wm.enemies = new ArrayList<Enemy>();
             wm.buildings = new ArrayList<BuildingSlot>();
             wm.trees = new ArrayList<Tree>();
+            wm.events = new ArrayList<Event>();
             wm.init();
             runOnce = true;
         }
-         
+
         wm._update();
     }
 }

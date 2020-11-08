@@ -11,12 +11,14 @@ public class Tornado extends Event
     private static final int 
         SPEED = 3, 
         COOLDOWN = 200, 
-        RANGE = 50, 
-        SPRITE_SIZE = 100;
+        SPRITE_SIZE = 50,
+        MAX_SIZE = 200;
     private int 
         turnCooldown = 50, 
-        targetRot = 0;
+        targetRot = 0,
+        size = SPRITE_SIZE;
     private int spriteRot = 0;
+    private GreenfootImage fullres;
     
     /**
      * Creates a tornado at specified location
@@ -27,12 +29,13 @@ public class Tornado extends Event
     public Tornado(int xLoc, int yLoc) {
         this.xLoc = xLoc;
         this.yLoc = yLoc;
-        damage = DEFAULT_DAMAGE;
-        range = RANGE;
+        damage = 100;
         rot = 0;
-        GreenfootImage img = new GreenfootImage("tornado.png");
+        fullres = new GreenfootImage("tornado.png");
+        GreenfootImage img = new GreenfootImage(fullres);
         img.scale(SPRITE_SIZE, SPRITE_SIZE);
         setImage(img);
+        this.type = TORNADO;
     }
     /**
      * Tornado update method
@@ -41,7 +44,14 @@ public class Tornado extends Event
         moveWithRot();
         turnTowards();
         setTargetRot();
-        killNearbyThings(xLoc, yLoc, range, damage);
+        int sizeIncrease = killNearbyThings((int) xLoc,(int) yLoc, (int) (size / 1.4), damage);
+        if(sizeIncrease > 0) {
+            GreenfootImage img = new GreenfootImage(fullres);
+            size += Math.min(sizeIncrease, 2);
+            size = Math.min(size, MAX_SIZE);
+            img.scale(size, size);
+            setImage(img);
+        }
         setSpriteRot();
     }
     
@@ -57,6 +67,24 @@ public class Tornado extends Event
         } else {
             turnCooldown -= 1;
         }
+        keepWithinWorld();
+    }
+    
+    private void keepWithinWorld() {
+        int limitMax = WorldManagement.WORLD_SIZE * 3;
+        int limitMin = -WorldManagement.WORLD_SIZE;
+        int max = (int) ((float) limitMax / 1.4f);
+        int min = (int) ((float) limitMin / 1.4f);
+        
+        if(xLoc < min) targetRot = 0;
+        if(xLoc > max) targetRot = 180;
+        if(yLoc < min) targetRot = 90;
+        if(yLoc > max) targetRot = 270;
+        
+        if(xLoc < limitMin) rot = 0;
+        if(xLoc > limitMax) rot = 180;
+        if(yLoc < limitMin) rot = 90;
+        if(yLoc > limitMax) rot = 270;
     }
     
     private void turnTowards() {

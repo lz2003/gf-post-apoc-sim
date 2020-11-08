@@ -10,13 +10,12 @@ import greenfoot.*;
 public class WorldManagement  
 {
     public static final int
-            WORLD_SIZE = 1200,
-            CAM_SPEED = 2,
-            GRID_SEPARATION = 30,
-            BUILDING_SIZE = 100,
-            BUILDING_PADDING = 1,
-            TREE_SPAWN_RATE = 50,
-            MAX_TREES = 100;
+            WORLD_SIZE = 650,
+            CAM_SPEED = 4,
+            GRID_SEPARATION = 10,
+            BUILDING_SIZE = 50,
+            BUILDING_PADDING = 135,
+            TREE_SPAWN_RATE = 50;
             
     public static int
     camX = 0, camY = 0;
@@ -32,7 +31,7 @@ public class WorldManagement
     public static MyWorld world;
     public static ScoreBar scoreboard;
 
-    public static float deltaTime = 0.01f, elapsed = 0f;
+    public static float deltaTime = 0.01f, elapsed = 0;
     public static long lastTime = 0;
 
     public static float threatLevel;
@@ -106,12 +105,24 @@ public class WorldManagement
         
         addHuman(Human.BUILDER, 33, 2);
         addHuman(Human.LUMBERJACK, 400, 400);
-        addHuman(Human.BUILDER, 400, 400);
         addHuman(Human.FARMER, 400, 400);
         addHuman(Human.FARMER, 200, 400);
         addHuman(Human.FARMER, 300, 400);
         addHuman(Human.MINER, 300, 300);
-        addEvent(Event.TORNADO, 100, 500);
+        addEvent(Event.ZOMBIE, -10000, -1000);
+        addEvent(Event.ZOMBIE, -10000, -1020);
+        addEvent(Event.ZOMBIE, -10000, -1040);
+        addEvent(Event.ZOMBIE, -10000, -1060);
+        addEvent(Event.ZOMBIE, -10000, -1080);
+        addEvent(Event.ZOMBIE, -10000, -1020);
+        addEvent(Event.ZOMBIE, -10000, -1040);
+        addEvent(Event.ZOMBIE, -10000, -1060);
+        addEvent(Event.ZOMBIE, -10000, -1080);
+        addEvent(Event.ZOMBIE, -10000, -1020);
+        addEvent(Event.ZOMBIE, -10000, -1040);
+        addEvent(Event.ZOMBIE, -10000, -1060);
+        addEvent(Event.ZOMBIE, -10000, -1080);
+        //addEvent(Event.TORNADO, -500, 500);
     }
     
     /**
@@ -131,7 +142,6 @@ public class WorldManagement
      * Methods that updates the sprites based on camera movement.
      */
     private static void updateSprites() {
-            
         for(int i = 0, n = humans.size(); i < n; i++) {
             Human human = ((Human)(humans.get(i)));
             human.setLocation(human.getX() + camX, human.getY() + camY);
@@ -159,9 +169,7 @@ public class WorldManagement
     }
     
     /**
-     * Methods that updates each human and building instance. Using an
-     * _update method instead of the act method allows control over the
-     * order which instances act.
+     * Methods that updates each human and building instance.
      */
     private static void updateLoop() {
         for(int i = 0; i < humans.size(); i++) {
@@ -278,10 +286,12 @@ public class WorldManagement
     private void generateTrees() {
         float rand = (float) (Math.random() * 12345);    
         int randInInt = (int) rand % TREE_SPAWN_RATE;
-        if(randInInt == 1 && trees.size() < MAX_TREES) {
+        if(randInInt == 1) {
             rand = (float) Math.random() * 20321;
-            int xTree = ((int) (rand * 1352)) % WORLD_SIZE - (int)((float) WORLD_SIZE * 0.2f);
-            int yTree = ((int) (rand * 6112)) % WORLD_SIZE - (int)((float) WORLD_SIZE * 0.2f);
+            int min = -WORLD_SIZE;
+            int max = WORLD_SIZE * 3;
+            int xTree = min + (((int)(rand * 981)) % max);
+            int yTree = min + (((int)(rand * 231)) % max);
             trees.add(new Tree(xTree, yTree));
             world.addObject((Tree)trees.get(trees.size()-1), xTree, yTree);
         }
@@ -321,11 +331,11 @@ public class WorldManagement
         farmDemand = totalFarm * 0.4f;
         houseDemand = totalHouse;
         mineDemand = totalMine;
-        //sentryDemand = totalSentry;
+        sentryDemand = totalSentry;
         storageDemand = totalStorage - 0.1f;
         // how do you do json objects in java
-        float[] demands = {farmDemand, houseDemand, mineDemand, storageDemand};
-        int[] demandNames = {BuildingSlot.FARM, BuildingSlot.HOUSE, BuildingSlot.MINE, BuildingSlot.STORAGE};
+        float[] demands = {farmDemand, houseDemand, mineDemand, sentryDemand, storageDemand};
+        int[] demandNames = {BuildingSlot.FARM, BuildingSlot.HOUSE, BuildingSlot.MINE, BuildingSlot.SENTRY, BuildingSlot.STORAGE};
 
         float smallest = 99999f;
         int index = 0;
@@ -384,6 +394,10 @@ public class WorldManagement
                 events.add(new Meteor(xLoc, yLoc));
                 world.addObject((Meteor)events.get(events.size() - 1), xLoc, yLoc);
                 break;
+            case Event.ZOMBIE:
+                events.add(new Zombie(xLoc, yLoc));
+                world.addObject((Zombie)events.get(events.size() - 1), xLoc, yLoc);
+                break;
         }
     }
     
@@ -399,12 +413,16 @@ public class WorldManagement
     }
 
     /**
-     * Returns a list of all the current human instances
+     * Returns a list of all th current human instances
      * 
      * @return ArrayList<Human> the list containing all human instances
      */
     public static ArrayList<Human> getHumans() {
         return humans;
+    }
+    
+    public static Event getEvent(int index) {
+        return (Event)(events.get(index));
     }
     
     /**
@@ -448,7 +466,6 @@ public class WorldManagement
         totalStorage = 0;
         
         for(int i = 0, n = arr.size(); i < n; i++) {
-   
             switch(arr.get(i).getType()) {
                 case BuildingSlot.ARMOURY:
                     totalArmoury++;

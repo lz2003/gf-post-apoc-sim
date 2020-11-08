@@ -10,57 +10,39 @@ public class Lumberjack extends Human
 {
     private int treeX, treeY;
     private Tree targetTree;
-    private boolean enroute = false;
+    private boolean foundTree = false;
     public Lumberjack(int xLoc, int yLoc) {
         this.xLoc = xLoc;
         this.yLoc = yLoc;
         
-        this.type = LUMBERJACK;
+        this.type = MINER;
+        //this.buildingType = BuildingSlot.MINE;
         
         sprite = new GreenfootImage("lumberjack.png");
         setImage(sprite);
+        //WorldManagement.world.addObject(sprite, xLoc, yLoc);
     }
     
     public void _update() {
-            // Ensures that lumberjacks spread out
-            if (!enroute)
-            {
-                findTree();
-                if (targetTree != null)
-                {
-                    targetTree.setTargetStatus(true);
-                    enroute = true;
-                }
-            }
+            findTree();
             moveTo(treeX, treeY);
             chopTree();
             drainFood();
     }
     
     /**
-     * Find the nearest tree to chop down.
+     * Find the nearest (not yet) tree to chop down.
      */
     private void findTree() {
         if(WorldManagement.trees.size() > 0) {
-            targetTree = ((Tree)WorldManagement.trees.get(0)); 
-            treeX = targetTree.getX();
-            treeY = targetTree.getY();
-            for (int i = 0; i < WorldManagement.trees.size(); i++)
-            {
-                Tree tree = ((Tree)WorldManagement.trees.get(i));
-                if(Utils.calcDist(getX(), treeX, getY(), treeY) > Utils.calcDist(getX(), tree.getX(), getY(), tree.getY())) {
-                    if (!tree.getTargetStatus())
-                    {
-                        targetTree = tree;
-                        treeX = tree.getX();
-                        treeY = tree.getY();
-                    }
-                }
-            }
+            treeX = ((Tree)WorldManagement.trees.get(0)).getX();
+            treeY = ((Tree)WorldManagement.trees.get(0)).getY();
+            foundTree = true;
         } else {
             // else go in random direction
             treeX = Math.abs((int) (Math.random() * 2000) % 500);
             treeY = Math.abs((int) (Math.random() * 2000) % 500);
+            foundTree = false;
         }
     }
 
@@ -68,25 +50,10 @@ public class Lumberjack extends Human
      * Chops down the tree at specified location
      */
     private void chopTree() {
-        if(targetTree != null) {
-            if(Utils.calcDist(getX(), treeX, getY(), treeY) < DEFAULT_SPEED+40) {
-                targetTree.chop();
-                enroute = false;
+        if(foundTree) {
+            if(Utils.calcDist(getX(), treeX, getY(), treeY) < DEFAULT_SPEED) {
+                ((Tree)WorldManagement.trees.get(0)).chop();
             }
         }
     }
-    
-    /**
-     * Removes the human instance from the list and the world.
-     */
-    public void die() {
-        if (targetTree != null)
-        {
-            targetTree.setTargetStatus(false);
-        }
-        WorldManagement.humans.remove(this);
-        WorldManagement.world.removeObject(this);
-    }
-    
-    
 }

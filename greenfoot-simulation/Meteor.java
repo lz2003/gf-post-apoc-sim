@@ -33,7 +33,11 @@ public class Meteor extends Event
         
         this.rot = (int) (angleToTarget % (Math.PI * 2));
         
+        
+        this.type = METEOR;
         throw new Error("We no have meteor");
+        
+        
     }
     public void _update() 
     {
