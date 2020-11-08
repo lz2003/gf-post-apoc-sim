@@ -9,7 +9,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 public class Mine extends Building
 {
     public Mine() {
-        sprite = new GreenfootImage("mine.png");
+            sprite = new GreenfootImage("mine.png");
     }
     public void _update() {
         

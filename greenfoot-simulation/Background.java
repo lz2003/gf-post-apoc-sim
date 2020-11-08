@@ -16,7 +16,6 @@ public class Background extends Actor
         sprite = new GreenfootImage("grass-tile.png");
         sprite.scale(700, 700);
         setImage(sprite);
-        //WorldManagement.world.addObject(sprite, x, y);
     }
     
     public int getX() {

@@ -18,8 +18,4 @@ public abstract class Building extends Actor
         return sprite;
     }
     
-    public void setRot(int rot) {
-        setRotation(rot);
-    }
-    
 }

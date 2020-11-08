@@ -71,7 +71,7 @@ public abstract class Event extends Actor
      * @return Arraylist of buildings found within the range
      */
     
-    protected ArrayList<BuildingSlot> getBuildingsWithinRange(int x, int y, int range) {
+    public static ArrayList<BuildingSlot> getBuildingsWithinRange(int x, int y, int range) {
         ArrayList<BuildingSlot> list = new ArrayList<BuildingSlot>();
         for(int i = 0, n = WorldManagement.buildings.size(); i < n; i++) {
             BuildingSlot building = (BuildingSlot)(WorldManagement.buildings.get(i));
@@ -93,7 +93,7 @@ public abstract class Event extends Actor
      * 
      * @return Arraylist of humans found within the range
      */
-    protected ArrayList<Human> getHumansWithinRange(int x, int y, int range) {
+    protected static ArrayList<Human> getHumansWithinRange(int x, int y, int range) {
         ArrayList<Human> list = new ArrayList<Human>();
         for(int i = 0, n = WorldManagement.humans.size(); i < n; i++) {
             Human human = (Human)(WorldManagement.humans.get(i));
@@ -116,7 +116,7 @@ public abstract class Event extends Actor
      * 
      * @return Arraylist of trees found within the range
      */
-    protected ArrayList<Tree> getTreesWithinRange(int x, int y, int range) {
+    protected static ArrayList<Tree> getTreesWithinRange(int x, int y, int range) {
         ArrayList<Tree> list = new ArrayList<Tree>();
         for(int i = 0, n = WorldManagement.trees.size(); i < n; i++) {
             Tree tree = (Tree)(WorldManagement.trees.get(i));
@@ -140,7 +140,7 @@ public abstract class Event extends Actor
      * @return number of things that were damaged
      */
     
-    protected int killNearbyThings(int xLoc, int yLoc, int range, int damage) {
+    protected static int killNearbyThings(int xLoc, int yLoc, int range, int damage) {
         int count = 0;
         ArrayList<BuildingSlot> buildings = getBuildingsWithinRange(xLoc, yLoc, range);
         for(int i = 0; i < buildings.size(); i++) {

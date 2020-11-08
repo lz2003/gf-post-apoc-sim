@@ -9,7 +9,7 @@ import java.util.*;
 public class Tornado extends Event
 {
     private static final int 
-        SPEED = 3, 
+        SPEED = 1, 
         COOLDOWN = 200, 
         SPRITE_SIZE = 50,
         MAX_SIZE = 200;
@@ -31,6 +31,7 @@ public class Tornado extends Event
         this.yLoc = yLoc;
         damage = 100;
         rot = 0;
+        hp = 10000;
         fullres = new GreenfootImage("tornado.png");
         GreenfootImage img = new GreenfootImage(fullres);
         img.scale(SPRITE_SIZE, SPRITE_SIZE);
@@ -44,7 +45,7 @@ public class Tornado extends Event
         moveWithRot();
         turnTowards();
         setTargetRot();
-        int sizeIncrease = killNearbyThings((int) xLoc,(int) yLoc, (int) (size / 1.4), damage);
+        int sizeIncrease = killNearbyThings((int) xLoc,(int) yLoc, (int) (size / 2), damage);
         if(sizeIncrease > 0) {
             GreenfootImage img = new GreenfootImage(fullres);
             size += Math.min(sizeIncrease, 2);

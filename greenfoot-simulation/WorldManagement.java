@@ -10,12 +10,13 @@ import greenfoot.*;
 public class WorldManagement  
 {
     public static final int
-            WORLD_SIZE = 650,
+            WORLD_SIZE = 700,
             CAM_SPEED = 4,
-            GRID_SEPARATION = 10,
-            BUILDING_SIZE = 50,
-            BUILDING_PADDING = 135,
-            TREE_SPAWN_RATE = 50;
+            GRID_SEPARATION = 30,
+            BUILDING_SIZE = 100,
+            BUILDING_PADDING = 1,
+            TREE_SPAWN_RATE = 50,
+            MAX_TREES = 100;
             
     public static int
     camX = 0, camY = 0;
@@ -31,7 +32,7 @@ public class WorldManagement
     public static MyWorld world;
     public static ScoreBar scoreboard;
 
-    public static float deltaTime = 0.01f, elapsed = 0;
+    public static float deltaTime = 0.01f, elapsed = 0f;
     public static long lastTime = 0;
 
     public static float threatLevel;
@@ -105,24 +106,26 @@ public class WorldManagement
         
         addHuman(Human.BUILDER, 33, 2);
         addHuman(Human.LUMBERJACK, 400, 400);
+        addHuman(Human.BUILDER, 400, 400);
         addHuman(Human.FARMER, 400, 400);
         addHuman(Human.FARMER, 200, 400);
         addHuman(Human.FARMER, 300, 400);
         addHuman(Human.MINER, 300, 300);
-        addEvent(Event.ZOMBIE, -10000, -1000);
-        addEvent(Event.ZOMBIE, -10000, -1020);
-        addEvent(Event.ZOMBIE, -10000, -1040);
-        addEvent(Event.ZOMBIE, -10000, -1060);
-        addEvent(Event.ZOMBIE, -10000, -1080);
-        addEvent(Event.ZOMBIE, -10000, -1020);
-        addEvent(Event.ZOMBIE, -10000, -1040);
-        addEvent(Event.ZOMBIE, -10000, -1060);
-        addEvent(Event.ZOMBIE, -10000, -1080);
-        addEvent(Event.ZOMBIE, -10000, -1020);
-        addEvent(Event.ZOMBIE, -10000, -1040);
-        addEvent(Event.ZOMBIE, -10000, -1060);
-        addEvent(Event.ZOMBIE, -10000, -1080);
-        //addEvent(Event.TORNADO, -500, 500);
+        addEvent(Event.TORNADO, -1000, 1000);
+        
+        addEvent(Event.ZOMBIE, -100, -1000);
+        addEvent(Event.ZOMBIE, -100, -1020);
+        addEvent(Event.ZOMBIE, -100, -1040);
+        addEvent(Event.ZOMBIE, -100, -1060);
+        addEvent(Event.ZOMBIE, -100, -1080);
+        addEvent(Event.ZOMBIE, -100, -1090);
+        addEvent(Event.ZOMBIE, -100, -1023);
+        addEvent(Event.ZOMBIE, -100, -1012);
+        addEvent(Event.ZOMBIE, -100, -1052);
+        addEvent(Event.ZOMBIE, -100, -1017);
+        addEvent(Event.ZOMBIE, -100, -1070);
+        addEvent(Event.ZOMBIE, -100, -1050);
+        addEvent(Event.ZOMBIE, -100, -1030);
     }
     
     /**
@@ -142,6 +145,7 @@ public class WorldManagement
      * Methods that updates the sprites based on camera movement.
      */
     private static void updateSprites() {
+            
         for(int i = 0, n = humans.size(); i < n; i++) {
             Human human = ((Human)(humans.get(i)));
             human.setLocation(human.getX() + camX, human.getY() + camY);
@@ -169,7 +173,9 @@ public class WorldManagement
     }
     
     /**
-     * Methods that updates each human and building instance.
+     * Methods that updates each human and building instance. Using an
+     * _update method instead of the act method allows control over the
+     * order which instances act.
      */
     private static void updateLoop() {
         for(int i = 0; i < humans.size(); i++) {
@@ -333,7 +339,7 @@ public class WorldManagement
         mineDemand = totalMine;
         sentryDemand = totalSentry;
         storageDemand = totalStorage - 0.1f;
-        // how do you do json objects in java
+
         float[] demands = {farmDemand, houseDemand, mineDemand, sentryDemand, storageDemand};
         int[] demandNames = {BuildingSlot.FARM, BuildingSlot.HOUSE, BuildingSlot.MINE, BuildingSlot.SENTRY, BuildingSlot.STORAGE};
 
@@ -400,7 +406,6 @@ public class WorldManagement
                 break;
         }
     }
-    
     /**
      * Returns a human instance at a specified index from the humans
      * Arraylist
@@ -413,7 +418,7 @@ public class WorldManagement
     }
 
     /**
-     * Returns a list of all th current human instances
+     * Returns a list of all the current human instances
      * 
      * @return ArrayList<Human> the list containing all human instances
      */
@@ -421,6 +426,13 @@ public class WorldManagement
         return humans;
     }
     
+    /**
+     * Gets the event at specified index
+     * 
+     * @param index Index of event
+     * 
+     * @return Event at index
+     */
     public static Event getEvent(int index) {
         return (Event)(events.get(index));
     }
@@ -466,6 +478,7 @@ public class WorldManagement
         totalStorage = 0;
         
         for(int i = 0, n = arr.size(); i < n; i++) {
+   
             switch(arr.get(i).getType()) {
                 case BuildingSlot.ARMOURY:
                     totalArmoury++;

@@ -9,7 +9,12 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 public abstract class Enemy extends Event
 {
     /**
+     * Gets the nearest human from specified location
      * 
+     * @param x Location in x-axis to search from
+     * @param y Location in y-axis to search from
+     * 
+     * @return The closest human that was found
      */
     protected Human getNearestHuman(int x, int y) {
         int lowest = 9999, index = 0;

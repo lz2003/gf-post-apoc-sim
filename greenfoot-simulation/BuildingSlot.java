@@ -22,7 +22,7 @@ public class BuildingSlot extends Actor
     // Production constants
     public static final float 
             FARM_PRODUCTION = 4,
-            MINE_PRODUCTION = 2;
+            MINE_PRODUCTION = 3;
             
     // Capacity constants   
     public static final int 
@@ -34,6 +34,7 @@ public class BuildingSlot extends Actor
     private Building building;
     private GreenfootImage sprite;
     private int hp = DEFAULT_HP;
+    private boolean targeted = false;
     
     public BuildingSlot(int x, int y, int index) {
         xLoc = x;
@@ -45,6 +46,26 @@ public class BuildingSlot extends Actor
         building = new Empty();
         sprite = sprite = building.getSprite();
         setImage(sprite);
+    }
+    
+    /**
+     * Sets whether or not a human is targeting this building.
+     * 
+     * @param status    true if a human is targeting it, else false
+     */
+    public void setTargetStatus(boolean status)
+    {
+        targeted = status;
+    }
+    
+    /**
+     * Returns whether or not a human is targeting this building.
+     * 
+     * @return boolean  true if so, otherwise false
+     */
+    public boolean getTargetStatus()
+    {
+        return targeted;
     }
     
     /**
@@ -111,12 +132,13 @@ public class BuildingSlot extends Actor
                 sprite = building.getSprite();
                 break;
             case SENTRY:
-                this.type = SENTRY; 
+                this.type = SENTRY;
                 building = new Sentry(xLoc, yLoc, this);
                 sprite = building.getSprite();
                 break;
             case EMPTY:
                 this.type = EMPTY; 
+                setRotation(0);
                 building = new Empty();
                 sprite = building.getSprite();
                 break;
@@ -124,6 +146,11 @@ public class BuildingSlot extends Actor
         setImage(sprite);
     }
     
+    /**
+     * Sets the current sprite
+     * 
+     * @param sprite GreenfootImage object of sprite to be set
+     */
     public void setSprite(GreenfootImage sprite) {
         setImage(sprite);
     }

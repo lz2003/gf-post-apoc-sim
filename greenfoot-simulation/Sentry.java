@@ -8,12 +8,13 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class Sentry extends Building
 {
-    private static final int RANGE = 450, DAMAGE = 20, COOLDOWN = 100;
+    private static final int RANGE = 450, DAMAGE = 25, COOLDOWN = 100, IRONUSAGE = 2;
     private GreenfootImage fireImage;
     private Event nearestEvent;
     private float angleToNearest;
     private int xLoc, yLoc, coolDown = 0;
     private BuildingSlot slot;
+    
     protected Event getNearestEvent(int eventID, int x, int y) {
         int lowest = 9999, index = 0;
         boolean found = false;
@@ -36,7 +37,6 @@ public class Sentry extends Building
     public Sentry(int xLoc, int yLoc, BuildingSlot slot) {
         sprite = new GreenfootImage("sentry.png");
         fireImage = new GreenfootImage("sentryFire.png");
-        fireImage.scale(WorldManagement.BUILDING_SIZE, WorldManagement.BUILDING_SIZE);
         this.slot = slot;
         this.xLoc = xLoc;
         this.yLoc = yLoc;
@@ -53,9 +53,9 @@ public class Sentry extends Building
 
         angleToNearest = Utils.getAngleTo(xLoc, nearestEvent.getX(), yLoc, nearestEvent.getY());
         if(Utils.calcDist(xLoc, nearestEvent.getX(), yLoc, nearestEvent.getY()) <= RANGE) {
-            if(coolDown < 0 && WorldManagement.iron >= 2) {
+            if(coolDown < 0 && WorldManagement.iron >= IRONUSAGE) {
                 nearestEvent.damage(DAMAGE);
-                WorldManagement.iron -= 2;
+                WorldManagement.iron -= IRONUSAGE;
                 coolDown = COOLDOWN;
             } 
         }
@@ -63,9 +63,9 @@ public class Sentry extends Building
     }    
     
     private void setAnimationImage() {
-        if(coolDown > 0) {
+        if(coolDown > COOLDOWN - 15) {
             slot.setSprite(fireImage);
-        } else if ((float) coolDown < (float) COOLDOWN / 1.2){
+        } else {
             slot.setSprite(sprite);
         }
     }
