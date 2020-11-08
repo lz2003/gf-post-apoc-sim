@@ -144,6 +144,7 @@ public class BuildingSlot extends Actor
                 break;
         }
         setImage(sprite);
+        this.setRotation((int)Math.round(Math.random()*4.0)*90);
     }
     
     /**

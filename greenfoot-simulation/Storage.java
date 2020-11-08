@@ -9,7 +9,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 public class Storage extends Building
 {
         public Storage() {
-            sprite = new GreenfootImage("storage.png");
+            sprite = STORAGE_SPRITE;
             setImage(sprite);
         }
         public void _update() {

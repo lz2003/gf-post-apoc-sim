@@ -27,6 +27,13 @@ public abstract class Human extends Actor {
         FARMER_WORK_TIME = 200,
         LUMBERJACK_WORK_TIME = 75, 
         MINER_WORK_TIME = 200;
+        
+        
+    public static final GreenfootImage
+        BUILDER_SPRITE = new GreenfootImage("builder.png"),
+        FARMER_SPRITE = new GreenfootImage("farmer.png"),
+        LUMBERJACK_SPRITE = new GreenfootImage("lumberjack.png"), 
+        MINER_SPRITE = new GreenfootImage("miner.png");
            
     // Attributes of humans
     protected static final float

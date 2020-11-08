@@ -17,7 +17,7 @@ public class Farmer extends Human
         this.type = FARMER;
         this.buildingType = BuildingSlot.FARM;
         
-        sprite = new GreenfootImage("farmer.png");
+        sprite = FARMER_SPRITE;
         setImage(sprite);
     }
     

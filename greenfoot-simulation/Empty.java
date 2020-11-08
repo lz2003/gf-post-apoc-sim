@@ -11,7 +11,7 @@ public class Empty extends Building
     
     public Empty()
     {
-        sprite = new GreenfootImage("empty.png");
+        sprite = EMPTY_SPRITE;
     }
     public void _update() {
         

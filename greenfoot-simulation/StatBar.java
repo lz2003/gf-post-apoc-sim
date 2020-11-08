@@ -233,7 +233,7 @@ public class StatBar extends Actor
      * delete this act() method and call moveMe() directly whenever your Actor moves. 
      */
     public void act () {
-        //moveMe();
+        moveMe();
     }
     
     /**
@@ -247,8 +247,8 @@ public class StatBar extends Actor
         if (target != null && getWorld() != null){
             if (target.getWorld() != null)
             {
-                xLoc = target.getX();
-                yLoc = target.getY();
+                //xLoc = target.getX();
+                //yLoc = target.getY();
             }
             else
             {

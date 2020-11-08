@@ -16,7 +16,7 @@ public class Miner extends Human {
         this.type = MINER;
         this.buildingType = BuildingSlot.MINE;
         
-        sprite = new GreenfootImage("miner.png");
+        sprite = MINER_SPRITE;
         setImage(sprite);
     }
     

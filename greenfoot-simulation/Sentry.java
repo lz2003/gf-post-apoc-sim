@@ -35,7 +35,7 @@ public class Sentry extends Building
     }
     
     public Sentry(int xLoc, int yLoc, BuildingSlot slot) {
-        sprite = new GreenfootImage("sentry.png");
+        sprite = SENTRY_SPRITE;
         fireImage = new GreenfootImage("sentryFire.png");
         this.slot = slot;
         this.xLoc = xLoc;
