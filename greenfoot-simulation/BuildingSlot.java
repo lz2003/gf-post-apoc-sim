@@ -17,7 +17,8 @@ public class BuildingSlot extends Actor
             MINE = 3,
             SENTRY = 6,
             STORAGE = 4,
-            HOUSE = 5;
+            HOUSE = 5,
+            TREE = 6;
     
     // Production constants
     public static final float 
@@ -44,7 +45,7 @@ public class BuildingSlot extends Actor
         // Initialize all buildings as empty slots
         type = EMPTY;
         building = new Empty();
-        sprite = sprite = building.getSprite();
+        sprite = building.getSprite();
         setImage(sprite);
     }
     

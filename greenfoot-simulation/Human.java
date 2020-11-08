@@ -28,7 +28,7 @@ public abstract class Human extends Actor {
     protected int speed = (int) DEFAULT_SPEED;
     protected GreenfootImage sprite;
     
-    // "Worker" Class variables
+    // Human Class variables
     protected BuildingSlot targetBuilding;
     protected boolean atBuilding = false, enroute = false;
     protected int targetX = 600, targetY = 0;
@@ -39,6 +39,13 @@ public abstract class Human extends Actor {
     protected boolean isStarving = false;
     protected float starveDeathTime = 10f;
     protected int hp = DEFAULT_HP, type;
+    
+    // possible optimzation?
+    
+    GreenfootImage farmer  = new GreenfootImage("farmer.png");
+    GreenfootImage builder = new GreenfootImage("builder.png");
+    GreenfootImage lumberjack = new GreenfootImage("lumberjack.png");
+    GreenfootImage miner = new GreenfootImage("miner.png");
     
     /**
      * Essentially the act method for all human instances. Allows for

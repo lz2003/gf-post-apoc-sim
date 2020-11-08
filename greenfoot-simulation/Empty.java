@@ -8,16 +8,18 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class Empty extends Building
 {
-    
+
     public Empty()
     {
-        sprite = new GreenfootImage("empty.png");
+        sprite = empty;
     }
+
     public void _update() {
-        
+
     }
+
     public void destroy() {
-                
+
     }
- 
+
 }

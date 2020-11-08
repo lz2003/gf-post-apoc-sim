@@ -14,7 +14,7 @@ public class Builder extends Human
         
         this.type = BUILDER;
         
-        sprite = new GreenfootImage("builder.png");
+        sprite = builder;
         setImage(sprite);
     }
     

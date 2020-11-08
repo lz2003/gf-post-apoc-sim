@@ -9,12 +9,14 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 public class Sentry extends Building
 {
     public Sentry() {
-        sprite = new GreenfootImage("sentry.png");
+        sprite = sentry;
         setImage(sprite);
     }
+
     public void _update() {
-        
+
     }
+
     public void destroy() {
 
     }  

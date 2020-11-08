@@ -9,7 +9,8 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 public class Farm extends Building
 {
     public Farm() {
-       sprite = new GreenfootImage("farm.png");
+       sprite = farm;
+       setImage(farm);
     }
     public void _update() {
          

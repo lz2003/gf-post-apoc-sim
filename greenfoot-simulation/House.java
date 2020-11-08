@@ -10,9 +10,9 @@ public class House extends Building
 {
     private BuildingSlot slot;
     public House(BuildingSlot slot) {
-        sprite = new GreenfootImage("house.png");
-        this.slot = slot;
+        sprite = house;
         setImage(sprite);
+        this.slot = slot;
     }
     public void _update() {
         if(WorldManagement.hasHousing()) {

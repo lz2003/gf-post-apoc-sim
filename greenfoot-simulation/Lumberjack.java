@@ -17,7 +17,7 @@ public class Lumberjack extends Human
         
         this.type = LUMBERJACK;
         
-        sprite = new GreenfootImage("lumberjack.png");
+        sprite = lumberjack;
         setImage(sprite);
     }
     
