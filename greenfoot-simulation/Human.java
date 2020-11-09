@@ -17,10 +17,11 @@ public abstract class Human extends Actor {
             MINER = 3;
     
     public static final int
-            TOTAL_HUMAN_TYPES = 4;
+        TOTAL_HUMAN_TYPES = 4;
     
     protected static final int
-            DEFAULT_HP = 100;
+        DEFAULT_HP = 100,
+        ZOMBIE_CHANCE = 30000;
             
     public static final int
         BUILDER_WORK_TIME = 100,
@@ -59,7 +60,7 @@ public abstract class Human extends Actor {
     
     // Variables related to survival
     protected float hunger = 15f;
-    protected boolean isStarving = false;
+    protected boolean isStarving = false, dead = false;
     protected float starveDeathTime = 10f;
     protected int hp = DEFAULT_HP, type;
     protected StatBar hpBar;
@@ -77,6 +78,17 @@ public abstract class Human extends Actor {
      */
     protected abstract void work();
 
+    /**
+     * Humans can randomly turn into zombies
+     */
+    protected void randomZombieChance() {
+        if(WorldManagement.elapsed < 10f) return;
+        
+        int rand = (int)((Math.random() * 923218198) % ZOMBIE_CHANCE);
+        if(rand == 7) {
+            becomeZombie();
+        }
+    }
     /**
      * Moves the human to the chosen location
      * 
@@ -211,13 +223,30 @@ public abstract class Human extends Actor {
     /**
      * Removes the human instance from the list and the world.
      */
-    public void die() {
+    private void die() {
         if (targetBuilding != null)
         {
             targetBuilding.setTargetStatus(false);
         }
+        
+        if(dead) return;
+
+        Zombie nearestZombie = (Zombie) Building.getNearestEvent(Event.ZOMBIE, xLoc, yLoc);
+        if(nearestZombie != null) {
+            if(Utils.calcDist(xLoc, nearestZombie.getX(), yLoc, nearestZombie.getY()) < 30) {
+                WorldManagement.addEvent(Event.ZOMBIE, xLoc, yLoc);
+            } 
+        }
+        
         WorldManagement.humans.remove(this);
         WorldManagement.world.removeObject(this);
+
+        dead = true;
+    }
+    
+    private void becomeZombie() {
+        die();
+        WorldManagement.addEvent(Event.ZOMBIE, xLoc, yLoc);
     }
     
     protected StatBar getWorkBar()

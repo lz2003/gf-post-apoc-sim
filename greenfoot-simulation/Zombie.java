@@ -8,12 +8,14 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class Zombie extends Enemy
 {
-    private static float SPEED = 0.5f;
-    private static int DAMAGE = 1, RANGE = 5;
+    private static float SPEED = 1.1f;
+    private static int DAMAGE = 20, RANGE = 5, SPAWN_DELAY = 100, ATTACK_DELAY = 25;
     
     private float moveAngle;
     private int targetX, targetY;
     private Human nearestHuman;
+    
+    private int spawnDelay, attackDelay;
     
     /**
      * Create a zombie at specified location
@@ -25,22 +27,37 @@ public class Zombie extends Enemy
         this.xLoc = xLoc;
         this.yLoc = yLoc;
         this.type = ZOMBIE;
+        spawnDelay = SPAWN_DELAY;
+        hp = 120;
         setImage(new GreenfootImage("zombie.png"));
     }
-    int e = 0;
+
     /**
      * Zombie update method
      */
     public void _update() {
+        if(spawnDelay > 0) {
+            spawnDelay--;
+            return;
+        }
         moveToHuman();
         damageHuman();
     }
     
     private void damageHuman() {
+        if(nearestHuman == null) return;
+        
+        if(attackDelay > 0) {
+            attackDelay--;
+            return;
+        }
+        
         int x = nearestHuman.getX();
         int y = nearestHuman.getY();
+        
         if(x >= xLoc - RANGE && x <= xLoc + RANGE && y >= yLoc - RANGE && y <= yLoc + RANGE) {
             nearestHuman.damage(DAMAGE);
+            attackDelay = ATTACK_DELAY;
         }
     }
     

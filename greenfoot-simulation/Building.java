@@ -26,4 +26,22 @@ public abstract class Building extends Actor
         return sprite;
     }
     
+    public static Event getNearestEvent(int eventID, int x, int y) {
+        int lowest = 9999, index = 0;
+        boolean found = false;
+        for(int i = 0, n = WorldManagement.events.size(); i < n; i++) {
+            Event event = (Event)(WorldManagement.events.get(i));
+            int xLoc = event.getX(), yLoc = event.getY();
+            int distance = Utils.calcDist(x, xLoc, y, yLoc);
+            if(distance < lowest && event.getType() == eventID) {
+                lowest = distance;
+                index = i;
+                found = true;
+            }
+        }
+        // If no event of indicated type if found and the event arraylist contains other events, return null
+        if(!found) return null;
+        
+        return WorldManagement.events.size() == 0 ? null : WorldManagement.getEvent(index);
+    }
 }

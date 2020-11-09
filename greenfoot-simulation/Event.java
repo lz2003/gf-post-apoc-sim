@@ -19,7 +19,7 @@ public abstract class Event extends Actor
     
     protected int damage, range;
     
-    protected int rot, type, hp = 100;
+    protected int rot, type, hp = DEFAULT_HP;
     
     protected float xLoc, yLoc;
     /**
