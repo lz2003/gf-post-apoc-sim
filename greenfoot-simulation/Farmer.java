@@ -31,6 +31,7 @@ public class Farmer extends Human
         else checkFarm();
         moveTo(targetX, targetY);
         drainFood();
+        randomZombieChance();
     }
     
     /**
@@ -43,7 +44,7 @@ public class Farmer extends Human
         {
             if (targetBuilding != null && targetBuilding.getType() == buildingType)
             {
-                workBar = new StatBar(FARMER_WORK_TIME, this, Color.YELLOW, Color.RED);
+                workBar = new StatBar(BUILDER_WORK_TIME, this, Color.GREEN, Color.GRAY);
                 WorldManagement.world.addObject(workBar, xLoc, yLoc);
                 isWorking = true;
                 return;

@@ -11,7 +11,7 @@ public class Tornado extends Event
     private static final int 
         SPEED = 1, 
         COOLDOWN = 200, 
-        SPRITE_SIZE = 50,
+        SPRITE_SIZE = 100,
         MAX_SIZE = 200;
     private int 
         turnCooldown = 50, 

@@ -3,7 +3,7 @@ import greenfoot.*;
 /**
  * Write a description of class WorldManagement here.
  * 
- * @author (your name) 
+ * @author Leo Foo, Lucy Zhao, Young Chen
  * @version (a version number or a date)
  */
 public class WorldManagement  
@@ -15,10 +15,23 @@ public class WorldManagement
             BUILDING_SIZE = 100,
             BUILDING_PADDING = 1,
             TREE_SPAWN_RATE = 50,
+            ZOMBIE_SPAWN_RATE = 2000,
             MAX_TREES = 100;
+    
             
+    public static final int 
+        EASY = 2,
+        NORMAL = 5,
+        HARD = 20;
+        
+    public static int difficulty = EASY;
+    
+    public static int 
+            zombieSpawnRate = ZOMBIE_SPAWN_RATE;
+    
     public static int
-    camX = 0, camY = 0;
+            camX = 0, 
+            camY = 0;
 
     public static ArrayList
             humans  = new ArrayList<Human>(),
@@ -111,34 +124,29 @@ public class WorldManagement
         addHuman(Human.FARMER, 300, 400);
         addHuman(Human.MINER, 300, 300);
         addEvent(Event.TORNADO, -1000, 1000);
-        
-        
-        addEvent(Event.ZOMBIE, -100, -1000);
-        addEvent(Event.ZOMBIE, -100, -1020);
-        addEvent(Event.ZOMBIE, -100, -1040);
-        addEvent(Event.ZOMBIE, -100, -1060);
-        addEvent(Event.ZOMBIE, -100, -1080);
-        addEvent(Event.ZOMBIE, -100, -1090);
-        addEvent(Event.ZOMBIE, -100, -1023);
-        addEvent(Event.ZOMBIE, -100, -1012);
-        addEvent(Event.ZOMBIE, -100, -1052);
-        addEvent(Event.ZOMBIE, -100, -1017);
-        addEvent(Event.ZOMBIE, -100, -1070);
-        addEvent(Event.ZOMBIE, -100, -1050);
-        addEvent(Event.ZOMBIE, -100, -1030);
     }
     
     /**
      * Methods that updates the world.
      */
     public void _update() {
+        setDeltaTime();
         updateCounts();
         updateLoop();
         updateSprites();
         generateTrees();
+        increaseDifficulty();
+        generateZombies();
         updateResources();
         updateScoreBar();
         cameraActions();
+    }
+    
+    /**
+     * Increases difficulty as time goes on
+     */
+    private static void increaseDifficulty() {
+        zombieSpawnRate = Math.max(ZOMBIE_SPAWN_RATE - (int) (elapsed + 0.5) * difficulty, 20);
     }
     
     /**
@@ -189,6 +197,10 @@ public class WorldManagement
         
         for(int i = 0; i < buildings.size(); i++) {
             ((BuildingSlot)(buildings.get(i)))._update();
+        }
+        
+        for(int i = 0; i < trees.size(); i++) {
+            ((Tree)(trees.get(i)))._update();
         }
         
         for(int i = 0; i < events.size(); i++) {
@@ -305,6 +317,38 @@ public class WorldManagement
             int yTree = min + (((int)(rand * 231)) % max);
             trees.add(new Tree(xTree, yTree));
             world.addObject((Tree)trees.get(trees.size()-1), xTree, yTree);
+        }
+    }
+    
+    /**
+     * Generates zombies at the world border
+     */
+    private void generateZombies() {
+        float rand = (float) (Math.random() * 67891);    
+        float randInInt = (int) rand % zombieSpawnRate;
+        if(randInInt == 1) {
+            int corner = (int) (Math.random() * 981927) % 4;
+            int randLoc = ((int) (rand * 129) % (WORLD_SIZE * 3)) - WORLD_SIZE;
+            int max = WORLD_SIZE * 2;
+            int min = -WORLD_SIZE;
+            switch(corner) {
+                // top right
+                case 0:
+                    addEvent(Event.ZOMBIE, randLoc, min);
+                    break;
+                // bot 
+                case 1:
+                    addEvent(Event.ZOMBIE, randLoc, max);
+                    break;
+                // right
+                case 2:
+                    addEvent(Event.ZOMBIE, max, randLoc);
+                    break;
+                // left
+                case 3:
+                    addEvent(Event.ZOMBIE, min, randLoc);
+                    break;
+            }
         }
     }
     

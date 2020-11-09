@@ -11,7 +11,8 @@ public class Tree extends Actor
     private boolean chopped;
     private int xLoc, yLoc;
     private GreenfootImage sprite;
-    private boolean targeted;
+    private boolean targeted, spriteSet = false;
+    private int showDelay = 5;
     /**
      * Constructor for objects of class Tree
      */
@@ -19,9 +20,15 @@ public class Tree extends Actor
     {
         xLoc = x;
         yLoc = y;
-        sprite = new GreenfootImage("tree.png");
-        setImage(sprite);
-        //WorldManagement.world.addObject(sprite, xLoc, yLoc);
+    }
+    
+    public void _update() {
+        if(showDelay > 0) {
+            showDelay--;
+        } else if (!spriteSet) {
+            setImage(sprite);
+            spriteSet = true;
+        }
     }
     
     /**
@@ -37,7 +44,6 @@ public class Tree extends Actor
         else
         {
             sprite = new GreenfootImage("tree.png");
-            setImage(sprite);
         }
     }
     

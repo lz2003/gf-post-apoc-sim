@@ -26,21 +26,22 @@ public class Lumberjack extends Human
      * Controls the behavior of the lumberjack.
      */
     public void _update() {
-            // Ensures that lumberjacks spread out
-            if (!enroute)
+        // Ensures that lumberjacks spread out
+        if (!enroute)
+        {
+            findTree();
+            if (targetTree != null)
             {
-                findTree();
-                if (targetTree != null)
-                {
-                    targetTree.setTargetStatus(true);
-                }
-                enroute = true;
+                targetTree.setTargetStatus(true);
             }
-            checkIsAtLocation(treeX, treeY);
-            if (isWorking) work();
-            else checkTree();
-            moveTo(treeX, treeY);
-            drainFood();
+            enroute = true;
+        }
+        checkIsAtLocation(treeX, treeY);
+        if (isWorking) work();
+        else checkTree();
+        moveTo(treeX, treeY);
+        drainFood();
+        randomZombieChance();
     }
     
     /**
@@ -77,7 +78,7 @@ public class Lumberjack extends Human
         if(atLocation) {
             if(targetTree != null) {
                 isWorking = true;
-                workBar = new StatBar(LUMBERJACK_WORK_TIME, this, Color.YELLOW, Color.RED);
+                workBar = new StatBar(BUILDER_WORK_TIME, this, Color.GREEN, Color.GRAY);
                 WorldManagement.world.addObject(workBar, xLoc, yLoc);
                 return;
             }

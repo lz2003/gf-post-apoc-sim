@@ -29,6 +29,7 @@ public class Builder extends Human
         else work();
         moveTo(targetX, targetY);
         drainFood();
+        randomZombieChance();
     }    
  
     /**
@@ -38,7 +39,7 @@ public class Builder extends Human
         if(atLocation) { 
             if(targetBuilding != null && targetBuilding.getType() == BuildingSlot.EMPTY) {
                 if(WorldManagement.wood >= 15) {
-                    workBar = new StatBar(BUILDER_WORK_TIME, this, Color.YELLOW, Color.RED);
+                    workBar = new StatBar(BUILDER_WORK_TIME, this, Color.GREEN, Color.GRAY);
                     WorldManagement.world.addObject(workBar, xLoc, yLoc);
                     WorldManagement.wood -= 15;
                     isWorking = true;

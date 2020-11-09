@@ -30,6 +30,7 @@ public class Miner extends Human {
         else checkMine();
         moveTo(targetX, targetY);
         drainFood();
+        randomZombieChance();
     }
     
     /**
@@ -42,7 +43,7 @@ public class Miner extends Human {
         {
             if (targetBuilding != null && targetBuilding.getType() == buildingType)
             {
-                workBar = new StatBar(MINER_WORK_TIME, this, Color.YELLOW, Color.RED);
+                workBar = new StatBar(BUILDER_WORK_TIME, this, Color.GREEN, Color.GRAY);
                 WorldManagement.world.addObject(workBar, xLoc, yLoc);
                 isWorking = true;
                 return;
