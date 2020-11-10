@@ -1,10 +1,10 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 /**
- * Write a description of class Empty here.
+ * Empty building class for when no building has been built in the buildingslot
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @author Leo Foo
+ * @version 2020-10-10
  */
 public class Empty extends Building
 {

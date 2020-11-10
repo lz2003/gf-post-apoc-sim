@@ -1,9 +1,11 @@
 import java.util.ArrayList;
 import greenfoot.*;
 /**
- * Write a description of class WorldManagement here.
+ * Class to manage all the world events
  * 
- * @author Leo Foo, Lucy Zhao, Young Chen
+ * @author Leo Foo
+ * @author Lucy Zhao
+ * @author Young Chen
  * @version (a version number or a date)
  */
 public class WorldManagement  
@@ -22,7 +24,7 @@ public class WorldManagement
     public static final int 
         EASY = 2,
         NORMAL = 5,
-        HARD = 20;
+        HARD = 10;
         
     public static int difficulty = EASY;
     
@@ -118,8 +120,9 @@ public class WorldManagement
         
         addHuman(Human.BUILDER, 33, 2);
         addHuman(Human.LUMBERJACK, 400, 400);
-        addHuman(Human.BUILDER, 400, 400);
-        addHuman(Human.FARMER, 400, 400);
+        addHuman(Human.LUMBERJACK, 400, 420);
+        addHuman(Human.BUILDER, 400, 460);
+        addHuman(Human.FARMER, 400, 440);
         addHuman(Human.FARMER, 200, 400);
         addHuman(Human.FARMER, 300, 400);
         addHuman(Human.MINER, 300, 300);
@@ -140,6 +143,15 @@ public class WorldManagement
         updateResources();
         updateScoreBar();
         cameraActions();
+    }
+    
+    /**
+     * Sets the difficulty
+     * 
+     * @param difficulty The new difficulty to set to
+     */
+    public void setDifficulty(int difficulty) {
+        this.difficulty = difficulty;
     }
     
     /**

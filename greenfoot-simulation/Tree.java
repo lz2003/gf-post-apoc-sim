@@ -1,10 +1,11 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 /**
- * Write a description of class Tree here.
+ * Tree that lumberjacks can murder
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @author Lucy Zhao
+ * @author Young Chen
+ * @version 2020-10-09
  */
 public class Tree extends Actor
 {

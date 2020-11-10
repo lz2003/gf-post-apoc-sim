@@ -1,14 +1,14 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 /**
- * Write a description of class Sentry here.
+ * Sentry that attacks nearby zombies
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @author Young Chen
+ * @version 2020-10-09
  */
 public class Sentry extends Building
 {
-    private static final int RANGE = 450, DAMAGE = 10, COOLDOWN = 15, IRONUSAGE = 2;
+    private static final int RANGE = 450, DAMAGE = 20, COOLDOWN = 15, IRONUSAGE = 3;
     private GreenfootImage fireImage;
     private Event nearestEvent;
     private float angleToNearest;

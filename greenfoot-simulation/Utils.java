@@ -1,8 +1,9 @@
 /**
- * Write a description of class Utils here.
+ * Common math helper methods.
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @author Lucy Zhao
+ * @author Young Chen
+ * @version 2020-10-07
  */
 public class Utils  
 {

@@ -1,9 +1,7 @@
-
-
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 import java.util.*;
 /**
- * Events superclass
+ * Events that attack the humans
  * 
  * @author Young Chen
  * @version 2020-11-04

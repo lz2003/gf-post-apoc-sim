@@ -1,10 +1,10 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 /**
- * Write a description of class Enemy here.
+ * Class of events that is able to actively attack humans
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @author Young Chen
+ * @version 2020-10-10
  */
 public abstract class Enemy extends Event
 {

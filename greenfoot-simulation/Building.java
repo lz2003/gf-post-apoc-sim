@@ -1,10 +1,11 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 /**
- * Write a description of class Building here.
+ * Building abstract class that contains the sprite and helper methods
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @author Young Chen
+ * @author Leo Foo
+ * @version 2020-10-10
  */
 public abstract class Building extends Actor
 {
