@@ -1,15 +1,15 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 /**
- * Write a description of class Mine here.
+ * Mine sprite for the mine buildingslot
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @author Leo Foo 
+ * @version 2020-10-10
  */
 public class Mine extends Building
 {
     public Mine() {
-            sprite = MINE_SPRITE;
+        sprite = MINE_SPRITE;
     }
     public void _update() {
         

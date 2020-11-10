@@ -1,10 +1,10 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 /**
- * Write a description of class House here.
+ * House sprite for the house buildingslot
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @author Young Chen
+ * @version 2020-10-10
  */
 public class House extends Building
 {
@@ -12,7 +12,7 @@ public class House extends Building
     private static int SPAWN_DELAY = 300;
     private int spawnDelay = 0;
     public House(BuildingSlot slot) {
-        sprite = new GreenfootImage("house.png");
+        sprite = HOUSE_SPRITE;
         this.slot = slot;
     }
     public void _update() {

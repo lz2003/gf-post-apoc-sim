@@ -49,14 +49,14 @@ public class Start extends World
         
         if(Greenfoot.mousePressed(right)) {
             rightClicked = true;
+            right.click();
             handleWidget();
         }
         else if(Greenfoot.mousePressed(left)) {
             rightClicked = false;
+            left.click();
             handleWidget();
         }
-        
-        //throw new Error("change the horrible colour theme");
     }
     
     /**

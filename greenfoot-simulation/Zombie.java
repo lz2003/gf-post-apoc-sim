@@ -1,10 +1,11 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 /**
- * Write a description of class Zombie here.
+ * Class of enemy that chases down and attacks humans, and if they manage to kill a human, that human turns into
+ * a zombie too.
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @author Young Chen
+ * @version 2020-10-09
  */
 public class Zombie extends Enemy
 {
