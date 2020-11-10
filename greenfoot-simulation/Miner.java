@@ -16,6 +16,8 @@ public class Miner extends Human {
         this.type = MINER;
         this.buildingType = BuildingSlot.MINE;
         
+        this.hpBar = new StatBar(hp, this);
+        
         sprite = MINER_SPRITE;
         setImage(sprite);
     }

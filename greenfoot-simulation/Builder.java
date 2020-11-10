@@ -15,6 +15,8 @@ public class Builder extends Human
         
         this.type = BUILDER;
         
+        this.hpBar = new StatBar(hp, this);
+        
         sprite = BUILDER_SPRITE;
         setImage(sprite);
     }
