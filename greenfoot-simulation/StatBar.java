@@ -247,8 +247,8 @@ public class StatBar extends Actor
         if (target != null && getWorld() != null){
             if (target.getWorld() != null)
             {
-                //xLoc = target.getX();
-                //yLoc = target.getY();
+                xLoc = target.getX();
+                yLoc = target.getY()-offset;
             }
             else
             {

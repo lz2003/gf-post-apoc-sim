@@ -18,6 +18,8 @@ public class Lumberjack extends Human
         
         this.type = LUMBERJACK;
         
+        this.hpBar = new StatBar(hp, this);
+        
         sprite = LUMBERJACK_SPRITE;
         setImage(sprite);
     }

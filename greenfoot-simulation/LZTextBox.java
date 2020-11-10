@@ -247,6 +247,7 @@ public class LZTextBox extends Actor
         this.textColor = textColor;
         this.alignment = alignment;
         this.fontSize = fontSize;
+        
     }
     
     /**
