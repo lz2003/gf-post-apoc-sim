@@ -36,7 +36,7 @@ public class BuildingSlot extends Actor
     private int xLoc, yLoc, index, type;
     private Building building;
     private int hp = DEFAULT_HP;
-    private boolean targeted = false, destroyed = false;
+    private boolean targeted = false, destroyed = true;
     
     public BuildingSlot(int x, int y, int index) {
         xLoc = x;
@@ -141,6 +141,7 @@ public class BuildingSlot extends Actor
                 this.type = EMPTY; 
                 setRotation(0);
                 building = new Empty();
+                destroyed = true;
                 break;
         }
         getWorld().addObject(building, xLoc, yLoc);
@@ -163,6 +164,18 @@ public class BuildingSlot extends Actor
         destroyed = true;
     }
     
+    /**
+     * Gets whether or not the buildingslot is destroyed
+     * 
+     * @return Whether its destroyed or not
+     */
+    public boolean isDestroyed() {
+        return destroyed;
+    }
+    
+    /**
+     * Object update method
+     */
     public void _update() {
         building._update();
     }

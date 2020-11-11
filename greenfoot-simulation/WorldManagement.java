@@ -18,7 +18,8 @@ public class WorldManagement
             BUILDING_PADDING = -100,
             TREE_SPAWN_RATE = 50,
             ZOMBIE_SPAWN_RATE = 2000,
-            MAX_TREES = 100;
+            MAX_TREES = 100,
+            START_FREEZE_FRAMES = 50;
             
     public static final int 
         EASY = 2,
@@ -92,13 +93,18 @@ public class WorldManagement
             iron = 0f,
             storage = 100f,
             housing = 0f;
+            
+    private static boolean 
+            hasHousingSpace = false;
 
     private int
             maxBuildings = 0,
             width,
             height;
-    
-    private static boolean hasHousingSpace = false;
+            
+    private int 
+            freezeFrames = START_FREEZE_FRAMES;
+
     
     /**
      * Constructor of the WorldManagement Class. Use to set up the world
@@ -117,21 +123,26 @@ public class WorldManagement
         initBuildings();
         initScoreBar();
         
-        addHuman(Human.BUILDER, 33, 2);
-        addHuman(Human.LUMBERJACK, 400, 400);
-        addHuman(Human.LUMBERJACK, 400, 420);
-        addHuman(Human.BUILDER, 400, 460);
-        addHuman(Human.FARMER, 400, 440);
-        addHuman(Human.FARMER, 200, 400);
-        addHuman(Human.FARMER, 300, 400);
-        addHuman(Human.MINER, 300, 300);
-        addEvent(Event.TORNADO, -1000, 1000);
+        addHuman(Human.BUILDER, 350, 350);
+        addHuman(Human.LUMBERJACK, 350, 400);
+        addHuman(Human.LUMBERJACK, 350, 300);
+        addHuman(Human.BUILDER, 300, 350);
+        addHuman(Human.FARMER, 400, 350);
+        addHuman(Human.FARMER, 400, 400);
+        addHuman(Human.FARMER, 300, 300);
+        addHuman(Human.MINER, 300, 400);
+        addEvent(Event.TORNADO, -1000, -1000);
     }
     
     /**
      * Methods that updates the world.
      */
     public void _update() {
+        if(freezeFrames > 0) {
+            freezeFrames--;
+            return;
+        }
+        
         setDeltaTime();
         updateCounts();
         updateLoop();
@@ -157,7 +168,7 @@ public class WorldManagement
      * Increases difficulty as time goes on
      */
     private static void increaseDifficulty() {
-        zombieSpawnRate = Math.max(ZOMBIE_SPAWN_RATE - (int) (elapsed + 0.5) * difficulty, 20);
+        zombieSpawnRate = Math.max(ZOMBIE_SPAWN_RATE - (int) (elapsed + 0.5) * difficulty, 5);
     }
     
     /**
@@ -276,9 +287,10 @@ public class WorldManagement
     private void initBuildings() {
         int width = this.width + this.width / 4;
         for(int x = BUILDING_PADDING - this.width / 4; x < width - BUILDING_PADDING; x += GRID_SEPARATION + BUILDING_SIZE) {
+            int columnOffset = (int) (Math.random() * 230141) % 100;
             for(int y = BUILDING_PADDING - this.width / 4; y < width - BUILDING_PADDING; y += GRID_SEPARATION + BUILDING_SIZE){
                 int xOffset = generateOffset();
-                int yOffset = generateOffset();
+                int yOffset = generateOffset() + columnOffset;
                 BuildingSlot building = new BuildingSlot(x+xOffset, y+yOffset, maxBuildings);
                 buildings.add(building);
                 world.addObject((BuildingSlot)buildings.get(buildings.size()-1), x+xOffset, y+yOffset);
