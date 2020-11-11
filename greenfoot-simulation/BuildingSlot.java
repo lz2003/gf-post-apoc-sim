@@ -1,7 +1,7 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 /**
- * Locations where buildings can be built. 
+ * Locations where buildings can be built.
  * 
  * @author Lucy Zhao
  * @author Young Chen
@@ -30,10 +30,11 @@ public class BuildingSlot extends Actor
             STORAGE_CAPACITY = 100,
             HOUSE_CAPACITY = 5,
             DEFAULT_HP = 100;
-
+    
+    private static final GreenfootImage sprite = new GreenfootImage("empty.png");         
+            
     private int xLoc, yLoc, index, type;
     private Building building;
-    private GreenfootImage sprite;
     private int hp = DEFAULT_HP;
     private boolean targeted = false;
     
@@ -45,7 +46,6 @@ public class BuildingSlot extends Actor
         // Initialize all buildings as empty slots
         type = EMPTY;
         building = new Empty();
-        sprite = sprite = building.getSprite();
         setImage(sprite);
     }
     
@@ -115,46 +115,30 @@ public class BuildingSlot extends Actor
             case FARM:
                 this.type = FARM; 
                 building = new Farm();
-                sprite = building.getSprite();
                 break;
             case MINE:
                 this.type = MINE; 
                 building = new Mine();
-                sprite = building.getSprite();
                 break;
             case STORAGE:
                 this.type = STORAGE; 
                 building = new Storage();
-                sprite = building.getSprite();
                 break;
             case HOUSE:
                 this.type = HOUSE; 
                 building = new House(this);
-                sprite = building.getSprite();
                 break;
             case SENTRY:
                 this.type = SENTRY;
-                building = new Sentry(xLoc, yLoc, this);
-                sprite = building.getSprite();
+                building = new Sentry(xLoc, yLoc);
                 break;
             case EMPTY:
                 this.type = EMPTY; 
                 setRotation(0);
                 building = new Empty();
-                sprite = building.getSprite();
                 break;
         }
-        setImage(sprite);
-        this.setRotation((int)Math.round(Math.random()*4.0)*90);
-    }
-    
-    /**
-     * Sets the current sprite
-     * 
-     * @param sprite GreenfootImage object of sprite to be set
-     */
-    public void setSprite(GreenfootImage sprite) {
-        setImage(sprite);
+        getWorld().addObject(building, xLoc, yLoc);
     }
     
     public void damage(int damage) {

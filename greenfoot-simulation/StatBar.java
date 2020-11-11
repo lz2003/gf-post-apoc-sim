@@ -67,7 +67,7 @@ public class StatBar extends Actor
      */
     public StatBar()
     {
-        this(100, 100, null, 48, 6, 36);
+        this(100, 100, null, 48, 6, 40);
     }
     
     /**
@@ -80,7 +80,7 @@ public class StatBar extends Actor
      *  @param missingColor the color to be used to represent the missing value
      */
     public StatBar (int maxVal, Color filledColor, Color missingColor){
-        this (maxVal, maxVal, null, 48, 4, 36, filledColor, missingColor);
+        this (maxVal, maxVal, null, 48, 4, 40, filledColor, missingColor);
     }
 
     /**
@@ -92,7 +92,7 @@ public class StatBar extends Actor
      *                  null instead.
      */
     public StatBar (int maxVal, Actor owner){
-        this(maxVal, maxVal, owner, 48, 4, 36);
+        this(maxVal, maxVal, owner, 48, 4, 40);
     }
     
     /**
@@ -106,7 +106,7 @@ public class StatBar extends Actor
      *  @param missingColor the color to be used to represent the missing value
      */
     public StatBar (int maxVal, Actor owner, Color filledColor, Color missingColor){
-        this (maxVal, maxVal, owner, 48, 4, 36, filledColor, missingColor);
+        this (maxVal, maxVal, owner, 48, 4, 40, filledColor, missingColor);
     }
 
     /**
@@ -137,7 +137,7 @@ public class StatBar extends Actor
      *  @param missingColor the color to be used to represent the missing value
      */
     public StatBar (int maxVal,  int currVal, Actor owner, int width, int height, int offset, Color filledColor, Color missingColor){
-        this (maxVal, currVal, owner, width, height, offset, filledColor, missingColor, true);
+        this (maxVal, currVal, owner, width, height, offset, filledColor, missingColor, false);
     }
 
     /**
@@ -154,7 +154,7 @@ public class StatBar extends Actor
      *  @param  hideAtMax   set to true to have this statBar hide itself when currVal == maxVal
      */
     public StatBar (int maxVal,  int currVal, Actor owner, int width, int height, int offset, Color filledColor, Color missingColor, boolean hideAtMax){
-        this (maxVal, currVal, owner, width, height, offset, filledColor, missingColor, true, null, 0);
+        this (maxVal, currVal, owner, width, height, offset, filledColor, missingColor, false, null, 0);
     }
 
     /**
@@ -226,14 +226,6 @@ public class StatBar extends Actor
 
         redraw();
 
-    }
-
-    /**
-     * The only purpose of the act method is to follow the target Actor. If you'd rather control this yourself,
-     * delete this act() method and call moveMe() directly whenever your Actor moves. 
-     */
-    public void act () {
-        moveMe();
     }
     
     /**

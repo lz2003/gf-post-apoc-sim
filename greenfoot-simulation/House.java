@@ -13,7 +13,9 @@ public class House extends Building
     private int spawnDelay = 0;
     public House(BuildingSlot slot) {
         sprite = HOUSE_SPRITE;
+        setImage(sprite);
         this.slot = slot;
+        this.setRotation((int)Math.round(Math.random()*4.0)*90);
     }
     public void _update() {
         if(WorldManagement.hasHousing() && WorldManagement.food >= 25f && spawnDelay < 0) {
@@ -23,8 +25,5 @@ public class House extends Building
             spawnDelay = SPAWN_DELAY;
         }
         spawnDelay--;
-    }
-    public void destroy() {
- 
     }
 }

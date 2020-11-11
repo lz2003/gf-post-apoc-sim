@@ -6,20 +6,19 @@ import greenfoot.*;
  * @author Leo Foo
  * @author Lucy Zhao
  * @author Young Chen
- * @version (a version number or a date)
+ * @version 2020-11-10
  */
 public class WorldManagement  
 {
     public static final int
             WORLD_SIZE = 700,
             CAM_SPEED = 4,
-            GRID_SEPARATION = 30,
+            GRID_SEPARATION = 100,
             BUILDING_SIZE = 100,
-            BUILDING_PADDING = 1,
+            BUILDING_PADDING = -100,
             TREE_SPAWN_RATE = 50,
             ZOMBIE_SPAWN_RATE = 2000,
             MAX_TREES = 100;
-    
             
     public static final int 
         EASY = 2,
@@ -170,15 +169,21 @@ public class WorldManagement
             Human human = ((Human)(humans.get(i)));
             human.setLocation(human.getX() + camX, human.getY() + camY);
             StatBar wb = human.getWorkBar();
+            StatBar hp = human.getHealthBar();
             if (wb != null)
             {
                 wb.setLocation(wb.getX() + camX, wb.getY() + camY);
+            }
+            if (hp != null)
+            {
+                hp.setLocation(hp.getX() + camX, hp.getY() + camY);
             }
         }
         
         for(int i = 0, n = buildings.size(); i < n; i++) {
             BuildingSlot building = ((BuildingSlot)(buildings.get(i)));
             building.setLocation(building.getX() + camX, building.getY() + camY);
+            building.getBuilding().setLocation(building.getX() + camX, building.getY() + camY);
         }
         
         for(int i = 0, n = trees.size(); i < n; i++) {
@@ -237,7 +242,7 @@ public class WorldManagement
      */
     private static void updateResources() {
         food += totalFarm == 0 ? 0 : ((float) totalFarmers / (float) Math.max(totalFarm, 1f)) * totalFarm * BuildingSlot.FARM_PRODUCTION * deltaTime;
-        iron += totalMine == 0 ? 0 : ((float) totalMiners / (float) Math.max(totalMine, 1f)) * totalMine * BuildingSlot.MINE_PRODUCTION * deltaTime;    
+        iron += totalMine == 0 ? 0 : ((float) totalMiners / (float) Math.max(totalMine, 1f)) * totalMine * BuildingSlot.MINE_PRODUCTION * deltaTime / 2.5;    
     }
     
     /**
@@ -271,9 +276,11 @@ public class WorldManagement
     private void initBuildings() {
         for(int x = BUILDING_PADDING; x < width - BUILDING_PADDING; x += GRID_SEPARATION + BUILDING_SIZE) {
             for(int y = BUILDING_PADDING; y < width - BUILDING_PADDING; y += GRID_SEPARATION + BUILDING_SIZE){
-                BuildingSlot building = new BuildingSlot(x, y, maxBuildings);
+                int xOffset = generateOffset();
+                int yOffset = generateOffset();
+                BuildingSlot building = new BuildingSlot(x+xOffset, y+yOffset, maxBuildings);
                 buildings.add(building);
-                world.addObject((BuildingSlot)buildings.get(buildings.size()-1), x, y);
+                world.addObject((BuildingSlot)buildings.get(buildings.size()-1), x+xOffset, y+yOffset);
                 maxBuildings++;
             }
         }
@@ -313,6 +320,21 @@ public class WorldManagement
         // Clamp camera to within space with background
         camX = camX < -width ? -width : camX > width ? width : camX;
         camY = camY < -width ? -width : camY > width ? width : camY;
+    }
+    
+    /**
+     * Generates a random offset for buildings
+     * 
+     * @return int  the value of the offset
+     */
+    public int generateOffset()
+    {
+        int offset = (int) (Math.random() * (GRID_SEPARATION/2));
+        if ((int)(Math.random() * 2) == 0) // negative offset
+        {
+            offset = -offset;
+        }
+        return offset;
     }
     
     /**

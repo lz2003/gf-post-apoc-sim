@@ -5,7 +5,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  * building created is determine by its current demand.
  * 
  * @author Lucy Zhao
- * @version 2020-11-08
+ * @version 2020-11-10
  */
 public class Builder extends Human
 {
@@ -14,9 +14,7 @@ public class Builder extends Human
         this.yLoc = yLoc;
         
         this.type = BUILDER;
-        
-        this.hpBar = new StatBar(hp, this);
-        
+        addHealthBar();        
         sprite = BUILDER_SPRITE;
         setImage(sprite);
     }

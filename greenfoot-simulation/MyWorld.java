@@ -23,7 +23,7 @@ public class MyWorld extends World
         super(700, 700, 1, false); 
         
         this.difficulty = difficulty;
-        setPaintOrder(EndScreen.class, LZTextBox.class, ScoreBar.class, StatBar.class, Event.class, Human.class, Tree.class, BuildingSlot.class);
+        setPaintOrder(EndScreen.class, LZTextBox.class, ScoreBar.class, House.class, Storage.class, StatBar.class, Event.class, Human.class, Tree.class, Sentry.class, Farm.class, Mine.class, BuildingSlot.class);
   
         end.update("End the World");
         end.updateText();

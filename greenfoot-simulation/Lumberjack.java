@@ -5,7 +5,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  * wood for creating buildings.
  * 
  * @author Lucy Zhao
- * @version 2020-11-08
+ * @version 2020-11-10
  */
 public class Lumberjack extends Human
 {
@@ -15,11 +15,9 @@ public class Lumberjack extends Human
     public Lumberjack(int xLoc, int yLoc) {
         this.xLoc = xLoc;
         this.yLoc = yLoc;
-        
+               
         this.type = LUMBERJACK;
-        
-        this.hpBar = new StatBar(hp, this);
-        
+        addHealthBar();  
         sprite = LUMBERJACK_SPRITE;
         setImage(sprite);
     }

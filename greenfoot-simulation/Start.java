@@ -63,8 +63,8 @@ public class Start extends World
      * Handles the difficulty selection widget
      */
     private void handleWidget() {
-        if (rightClicked) options = shiftOneRight(options);
-        else options = shiftOneLeft(options);
+        if (rightClicked) options = shiftOneLeft(options);
+        else options = shiftOneRight(options);
         widget.update(options);
         widget.resetDelay();
         widget.shiftSelect();

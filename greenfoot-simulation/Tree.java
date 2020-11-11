@@ -9,6 +9,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class Tree extends Actor
 {
+    private static GreenfootImage TREE_SPRITE = new GreenfootImage("tree.png");
     private boolean chopped;
     private int xLoc, yLoc;
     private GreenfootImage sprite;
@@ -44,7 +45,7 @@ public class Tree extends Actor
         } 
         else
         {
-            sprite = new GreenfootImage("tree.png");
+            sprite = TREE_SPRITE;
         }
     }
     
