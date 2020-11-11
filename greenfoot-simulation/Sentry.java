@@ -13,14 +13,14 @@ public class Sentry extends Building
     private Event nearestEvent;
     private float angleToNearest;
     private int xLoc, yLoc, coolDown = 0;
-    private BuildingSlot slot;
     
-    public Sentry(int xLoc, int yLoc, BuildingSlot slot) {
+    public Sentry(int xLoc, int yLoc) {
         sprite = SENTRY_SPRITE;
         fireImage = new GreenfootImage("sentryFire.png");
-        this.slot = slot;
+        setImage(sprite);
         this.xLoc = xLoc;
         this.yLoc = yLoc;
+        this.setRotation((int)Math.round(Math.random()*4.0)*90);
     }
     
     public void _update() 
@@ -40,16 +40,14 @@ public class Sentry extends Building
                 coolDown = COOLDOWN;
             } 
         }
-        slot.setRotation((int) (angleToNearest * (180 / Math.PI)));
+        this.setRotation((int) (angleToNearest * (180 / Math.PI)));
     }    
     
     private void setAnimationImage() {
         if(coolDown > COOLDOWN - 15) {
-            slot.setSprite(fireImage);
+            setImage(fireImage);
         } else {
-            slot.setSprite(sprite);
+            setImage(sprite);
         }
-    }
-    public void destroy() {
     }
 }

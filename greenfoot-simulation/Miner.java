@@ -5,19 +5,17 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  * sentry bullets for protection.
  * 
  * @author Lucy Zhao
- * @version 2020-11-08
+ * @version 2020-11-10
  */
 public class Miner extends Human {
     
     public Miner(int xLoc, int yLoc) {
         this.xLoc = xLoc;
         this.yLoc = yLoc;
-        
+                
         this.type = MINER;
         this.buildingType = BuildingSlot.MINE;
-        
-        this.hpBar = new StatBar(hp, this);
-        
+        addHealthBar();   
         sprite = MINER_SPRITE;
         setImage(sprite);
     }

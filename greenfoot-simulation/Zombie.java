@@ -10,7 +10,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 public class Zombie extends Enemy
 {
     private static float SPEED = 1.1f;
-    private static int DAMAGE = 20, RANGE = 5, SPAWN_DELAY = 100, ATTACK_DELAY = 25;
+    private static int DAMAGE = 5, RANGE = 5, SPAWN_DELAY = 100, ATTACK_DELAY = 10;
     
     private float moveAngle;
     private int targetX, targetY;

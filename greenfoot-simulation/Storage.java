@@ -8,14 +8,12 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class Storage extends Building
 {
-        public Storage() {
-            sprite = STORAGE_SPRITE;
-            setImage(sprite);
-        }
-        public void _update() {
-            
-        }
-        public void destroy() {
- 
-        }  
+    public Storage() {
+        sprite = STORAGE_SPRITE;
+        setImage(sprite);
+        this.setRotation((int)Math.round(Math.random()*4.0)*90);
+    }
+    public void _update() {
+        
+    }
 }

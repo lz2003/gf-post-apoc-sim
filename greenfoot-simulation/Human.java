@@ -6,7 +6,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  * 
  * @author Lucy Zhao
  * @author Young Chen
- * @version 2020-11-08
+ * @version 2020-11-10
  */
 public abstract class Human extends Actor {
     // Human IDs
@@ -25,7 +25,7 @@ public abstract class Human extends Actor {
             
     public static final int
         BUILDER_WORK_TIME = 100,
-        FARMER_WORK_TIME = 200,
+        FARMER_WORK_TIME = 500,
         LUMBERJACK_WORK_TIME = 75, 
         MINER_WORK_TIME = 200;
         
@@ -89,6 +89,7 @@ public abstract class Human extends Actor {
             becomeZombie();
         }
     }
+    
     /**
      * Moves the human to the chosen location
      * 
@@ -115,6 +116,11 @@ public abstract class Human extends Actor {
         
         xLoc += xVel;
         yLoc += yVel;
+        
+        if (hpBar != null)
+        {
+            hpBar.moveMe();
+        }
         
     }
     
@@ -215,6 +221,10 @@ public abstract class Human extends Actor {
      */
     public void damage(int val) {
         hp -= val;
+        if (hpBar != null)
+        {
+            hpBar.update(hp);
+        }
         if(hp <= 0) {
             die();
         }
@@ -228,6 +238,8 @@ public abstract class Human extends Actor {
         {
             targetBuilding.setTargetStatus(false);
         }
+        if (hpBar != null) WorldManagement.world.removeObject(hpBar);
+        if (workBar != null) WorldManagement.world.removeObject(workBar);
         
         if(dead) return;
 
@@ -244,19 +256,43 @@ public abstract class Human extends Actor {
         dead = true;
     }
     
+    /**
+     * Turns the human into a zombie
+     */
     private void becomeZombie() {
         die();
         WorldManagement.addEvent(Event.ZOMBIE, xLoc, yLoc);
     }
     
-    protected StatBar getWorkBar()
+    /**
+     * Returns the human's work bar
+     * 
+     * @return StatBar  the work bar
+     */
+    public StatBar getWorkBar()
     {
         return workBar;
     }
     
-    protected StatBar getHealthBar()
+    /**
+     * Returns the human's health bar
+     * 
+     * @return StatBar  the health bar
+     */
+    public StatBar getHealthBar()
     {
         return hpBar;
+    }
+    
+    /**
+     * Add the human's health bar to the world
+     */
+    protected void addHealthBar()
+    {
+        hpBar = new StatBar(hp, hp, this, 48, 4, 32, Color.GREEN, 
+                            Color.RED, true);
+        WorldManagement.world.addObject(hpBar, xLoc, yLoc);
+        hpBar.update(hp);
     }
     
     /**

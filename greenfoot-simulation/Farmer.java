@@ -5,20 +5,19 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  * the population from starving.
  * 
  * @author Lucy Zhao
- * @version 2020-11-08
+ * @version 2020-11-10
  */
 public class Farmer extends Human
 {
     
     public Farmer(int xLoc, int yLoc) {
         this.xLoc = xLoc;
-        this.yLoc = yLoc;
+        this.yLoc = yLoc; 
         
         this.type = FARMER;
         this.buildingType = BuildingSlot.FARM;
-        
-        this.hpBar = new StatBar(hp, this);        
-        sprite = FARMER_SPRITE;
+        this.sprite = FARMER_SPRITE;
+        addHealthBar(); 
         setImage(sprite);
     }
     
