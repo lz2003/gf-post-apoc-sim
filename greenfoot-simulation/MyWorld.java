@@ -11,9 +11,10 @@ public class MyWorld extends World
     public static final int EASY = 0, NORMAL = 1, HARD = 2, END_DELAY = 300;
     
     private LZTextBox end = new LZTextBox(350, 350, Color.WHITE, 19, 
-    "center", 1, 150, 25, Color.BLACK, new Color(240, 40, 40));
+    "center", 1, 140, 25, Color.BLACK, new Color(240, 40, 40));
     
-    
+    private EndScreen endScreen = new EndScreen();
+    private Fade fadeOut = new Fade(false), fadeIn = new Fade(true);
     private WorldManagement wm;
     private int endDelay = END_DELAY;
     private int difficulty;
@@ -23,8 +24,10 @@ public class MyWorld extends World
         super(700, 700, 1, false); 
         
         this.difficulty = difficulty;
-        setPaintOrder(EndScreen.class, LZTextBox.class, ScoreBar.class, House.class, Storage.class, StatBar.class, Event.class, Human.class, Tree.class, Sentry.class, Farm.class, Mine.class, BuildingSlot.class);
-  
+        setPaintOrder(Fade.class, EndScreen.class, LZTextBox.class, ScoreBar.class, House.class, Storage.class, StatBar.class, Event.class, Human.class, Tree.class, Sentry.class, Farm.class, Mine.class, BuildingSlot.class);
+        
+        addObject(fadeOut, getWidth() / 2, getHeight() / 2);
+        
         end.update(" End the World");
         end.updateText();
         addObject(end, 627, 17);
@@ -65,8 +68,16 @@ public class MyWorld extends World
             }
             wm.init();
             runOnce = true;
+            fadeOut.start();
         }
         
+        if(fadeOut != null) {
+            if(fadeOut.isFinished()) {
+                removeObject(fadeOut);
+                fadeOut = null;
+            }
+        }
+            
         wm._update();
         checkEndWorld();
         checkEnd();
@@ -80,8 +91,17 @@ public class MyWorld extends World
         }
         
         if(endDelay < 0) {
-            addObject(new EndScreen(), getWidth() / 2, getHeight() / 2);
+            addObject(endScreen, getWidth() / 2, getHeight() / 2);
             endDelay = 200000;
+        }
+        
+        if(endScreen.isFinished()) {
+            fadeIn.start();
+            addObject(fadeIn, getWidth() / 2, getHeight() / 2);
+        }
+        
+        if(fadeIn.isFinished()) {
+            Greenfoot.setWorld(new Start());
         }
     }
     

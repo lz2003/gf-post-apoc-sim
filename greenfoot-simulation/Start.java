@@ -14,15 +14,18 @@ public class Start extends World
     private ArrowUI right = new ArrowUI(true);
     private ArrowUI left = new ArrowUI(false);
     
+    private Fade fadeIn = new Fade(true), fadeOut = new Fade(false);
+    
     private boolean rightClicked;
     
     private String[] options = {"Normal", "Easy", "Hard"};
     YCWidget widget = new YCWidget(options,
-    new Color(130,130,190), new Color(150, 210, 210), Color.WHITE, Color.WHITE, new Color(20,20,20), 
+    new Color(130,130,190), new Color(150, 210, 210), new Color(130,130,190), Color.WHITE, new Color(20,20,20), 
     360, 75, 1, 0, -120, 
     "right", true, false, null);
     
     private int difficulty = 10;
+    private boolean runOnce = false, started = false;
     
     public Start()
     {    
@@ -33,6 +36,8 @@ public class Start extends World
         addObject(start, 350, 500);
         addObject(right, 600, 350);
         addObject(left, 100, 350);
+        
+        addObject(fadeOut, 350, 350);
 
         widget.shiftSelect();
         widget.shiftSelect();
@@ -43,7 +48,23 @@ public class Start extends World
     }
     
     public void act() {
-        if(Greenfoot.mousePressed(start)) {
+        if(!runOnce) {
+            fadeOut.start();
+            runOnce = true;
+        }
+        
+        if(fadeOut.isFinished()) {
+            removeObject(fadeOut);
+        }
+        
+        if(Greenfoot.mousePressed(start) && !started) {
+            addObject(fadeIn, 350, 350);
+            fadeIn.start();
+            start.update(new Color(130,130,190), Color.BLACK, Color.WHITE);
+            started = true;
+        }
+        
+        if(fadeIn.isFinished()) {
             Greenfoot.setWorld(new MyWorld(difficulty));
         }
         

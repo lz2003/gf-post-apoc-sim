@@ -9,7 +9,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 public class EndScreen extends Actor
 { 
     private int transparency;
-    private static int END_TIME = 1000;
+    private static int END_TIME = 500;
     public EndScreen() {
         transparency = 0;
         setImage(new GreenfootImage("end.png"));
@@ -20,9 +20,9 @@ public class EndScreen extends Actor
     {
         int t = transparency++;
         getImage().setTransparency(Math.min(t, 255));
-        
-        if(transparency > END_TIME) {
-            Greenfoot.setWorld(new Start());
-        }
     }    
+    
+    public boolean isFinished() {
+        return transparency > END_TIME;
+    }
 }
