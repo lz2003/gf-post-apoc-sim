@@ -13,7 +13,7 @@ public class WorldManagement
     public static final int
             WORLD_SIZE = 700,
             CAM_SPEED = 4,
-            GRID_SEPARATION = 100,
+            GRID_SEPARATION = 30,
             BUILDING_SIZE = 100,
             BUILDING_PADDING = -100,
             TREE_SPAWN_RATE = 50,
@@ -274,8 +274,9 @@ public class WorldManagement
      * Initializes the building slots on the world.
      */
     private void initBuildings() {
-        for(int x = BUILDING_PADDING; x < width - BUILDING_PADDING; x += GRID_SEPARATION + BUILDING_SIZE) {
-            for(int y = BUILDING_PADDING; y < width - BUILDING_PADDING; y += GRID_SEPARATION + BUILDING_SIZE){
+        int width = this.width + this.width / 4;
+        for(int x = BUILDING_PADDING - this.width / 4; x < width - BUILDING_PADDING; x += GRID_SEPARATION + BUILDING_SIZE) {
+            for(int y = BUILDING_PADDING - this.width / 4; y < width - BUILDING_PADDING; y += GRID_SEPARATION + BUILDING_SIZE){
                 int xOffset = generateOffset();
                 int yOffset = generateOffset();
                 BuildingSlot building = new BuildingSlot(x+xOffset, y+yOffset, maxBuildings);
@@ -291,8 +292,8 @@ public class WorldManagement
      */
     private void initScoreBar()
     {
-        scoreboard = new ScoreBar(width, height/20);
-        world.addObject(scoreboard, width/2, height/20/2);
+        scoreboard = new ScoreBar(width + 80, height/20);
+        world.addObject(scoreboard, width/2 - 30, height/20/2);
         scoreboard.addStat("Population", (int) pop);
         scoreboard.addStat("Wood", (int) wood);
         scoreboard.addStat("Iron", (int) iron);

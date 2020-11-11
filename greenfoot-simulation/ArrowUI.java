@@ -36,22 +36,20 @@ public class ArrowUI extends Actor
      * Actor act method
      */
     public void act() {
-        if(clickDelay > 0) {
-            clickDelay--;
-        } else {
-            if(!imageSet) {
-                setImage(UNCLICKED);
-                imageSet = true;
-            }
-        }
+
     }
     
     /**
-     * Changes the UI to visually show a click for a set amount of time
+     * Changes arrow to clicked sprite
      */
     public void click() {
         setImage(CLICKED);
-        clickDelay = CLICK_DELAY;
-        imageSet = false;
+    }
+    
+    /**
+     * Changes arrow to unclicked sprite
+     */
+    public void unClick() {
+        setImage(UNCLICKED);
     }
 }

@@ -25,9 +25,9 @@ public class MyWorld extends World
         this.difficulty = difficulty;
         setPaintOrder(EndScreen.class, LZTextBox.class, ScoreBar.class, House.class, Storage.class, StatBar.class, Event.class, Human.class, Tree.class, Sentry.class, Farm.class, Mine.class, BuildingSlot.class);
   
-        end.update("End the World");
+        end.update(" End the World");
         end.updateText();
-        addObject(end, 620, 16);
+        addObject(end, 627, 17);
     }
     boolean runOnce = false;
     public void act() { 
@@ -48,6 +48,7 @@ public class MyWorld extends World
             wm.buildings = new ArrayList<BuildingSlot>();
             wm.trees = new ArrayList<Tree>();
             wm.events = new ArrayList<Event>();
+            wm.elapsed = 0;
             endDelay = END_DELAY;
             switch(difficulty) {
                 case EASY: 

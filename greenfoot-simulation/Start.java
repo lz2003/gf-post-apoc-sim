@@ -56,6 +56,11 @@ public class Start extends World
             rightClicked = false;
             left.click();
             handleWidget();
+        }  
+        
+        if(Greenfoot.mouseClicked(right) || Greenfoot.mouseClicked(left)){
+            right.unClick();
+            left.unClick();
         }
     }
     
@@ -63,8 +68,8 @@ public class Start extends World
      * Handles the difficulty selection widget
      */
     private void handleWidget() {
-        if (rightClicked) options = shiftOneLeft(options);
-        else options = shiftOneRight(options);
+        if (rightClicked) options = shiftOneRight(options);
+        else options = shiftOneLeft(options);
         widget.update(options);
         widget.resetDelay();
         widget.shiftSelect();
