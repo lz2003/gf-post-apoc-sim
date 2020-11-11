@@ -480,10 +480,6 @@ public class WorldManagement
                 events.add(new Tornado(xLoc, yLoc));
                 world.addObject((Tornado)events.get(events.size() - 1), xLoc, yLoc);
                 break;
-            case Event.METEOR:
-                events.add(new Meteor(xLoc, yLoc));
-                world.addObject((Meteor)events.get(events.size() - 1), xLoc, yLoc);
-                break;
             case Event.ZOMBIE:
                 events.add(new Zombie(xLoc, yLoc));
                 world.addObject((Zombie)events.get(events.size() - 1), xLoc, yLoc);
