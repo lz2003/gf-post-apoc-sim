@@ -6,7 +6,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  * 
  * @author Lucy Zhao
  * @author Young Chen
- * @version 2020-11-10
+ * @version 2020-11-08
  */
 public abstract class Human extends Actor {
     // Human IDs
@@ -21,11 +21,12 @@ public abstract class Human extends Actor {
     
     protected static final int
         DEFAULT_HP = 100,
-        ZOMBIE_CHANCE = 30000;
+        SAFETY_TIME = 25,
+        ZOMBIE_CHANCE = 10000;
             
     public static final int
         BUILDER_WORK_TIME = 100,
-        FARMER_WORK_TIME = 500,
+        FARMER_WORK_TIME = 200,
         LUMBERJACK_WORK_TIME = 75, 
         MINER_WORK_TIME = 200;
         
@@ -82,7 +83,7 @@ public abstract class Human extends Actor {
      * Humans can randomly turn into zombies
      */
     protected void randomZombieChance() {
-        if(WorldManagement.elapsed < 10f) return;
+        if(WorldManagement.elapsed < SAFETY_TIME) return;
         
         int rand = (int)((Math.random() * 923218198) % ZOMBIE_CHANCE);
         if(rand == 7) {

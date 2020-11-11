@@ -36,7 +36,7 @@ public class BuildingSlot extends Actor
     private int xLoc, yLoc, index, type;
     private Building building;
     private int hp = DEFAULT_HP;
-    private boolean targeted = false;
+    private boolean targeted = false, destroyed = false;
     
     public BuildingSlot(int x, int y, int index) {
         xLoc = x;
@@ -115,22 +115,27 @@ public class BuildingSlot extends Actor
             case FARM:
                 this.type = FARM; 
                 building = new Farm();
+                destroyed = false;
                 break;
             case MINE:
                 this.type = MINE; 
                 building = new Mine();
+                destroyed = false;
                 break;
             case STORAGE:
                 this.type = STORAGE; 
                 building = new Storage();
+                destroyed = false;
                 break;
             case HOUSE:
                 this.type = HOUSE; 
                 building = new House(this);
+                destroyed = false;
                 break;
             case SENTRY:
                 this.type = SENTRY;
                 building = new Sentry(xLoc, yLoc);
+                destroyed = false;
                 break;
             case EMPTY:
                 this.type = EMPTY; 
@@ -142,6 +147,7 @@ public class BuildingSlot extends Actor
     }
     
     public void damage(int damage) {
+        if(destroyed) return;
         hp -= damage;
         if(hp <= 0) {
             destroy();
@@ -154,6 +160,7 @@ public class BuildingSlot extends Actor
     public void destroy() {
         building.destroy();
         setBuilding(EMPTY);
+        destroyed = true;
     }
     
     public void _update() {
