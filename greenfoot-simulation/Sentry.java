@@ -14,6 +14,12 @@ public class Sentry extends Building
     private float angleToNearest;
     private int xLoc, yLoc, coolDown = 0;
     
+    /**
+     * Constructor for the Sentry class.
+     * 
+     * @param xLoc  the x location
+     * @param yLoc  the y location
+     */
     public Sentry(int xLoc, int yLoc) {
         sprite = SENTRY_SPRITE;
         fireImage = new GreenfootImage("sentryFire.png");
@@ -23,6 +29,9 @@ public class Sentry extends Building
         this.setRotation((int)Math.round(Math.random()*4.0)*90);
     }
     
+    /**
+     * The update method of the Sentry class. Targets and kills zombies.
+     */
     public void _update() 
     {
         nearestEvent = getNearestEvent(Event.ZOMBIE, xLoc, yLoc);
@@ -34,9 +43,9 @@ public class Sentry extends Building
 
         angleToNearest = Utils.getAngleTo(xLoc, nearestEvent.getX(), yLoc, nearestEvent.getY());
         if(Utils.calcDist(xLoc, nearestEvent.getX(), yLoc, nearestEvent.getY()) <= RANGE) {
-            if(coolDown < 0 && WorldManagement.iron >= IRONUSAGE) {
+            if(coolDown < 0 && WorldManagement.getIron() >= IRONUSAGE) {
                 nearestEvent.damage(DAMAGE);
-                WorldManagement.iron -= IRONUSAGE;
+                WorldManagement.updateIron(-IRONUSAGE);
                 coolDown = COOLDOWN;
             } 
         }

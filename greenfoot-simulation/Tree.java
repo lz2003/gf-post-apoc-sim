@@ -40,8 +40,8 @@ public class Tree extends Actor
     {
         if (Event.getBuildingsWithinRange(xLoc, yLoc, 50).size() > 0)
         {
-            WorldManagement.trees.remove(this);
-            WorldManagement.world.removeObject(this);
+            WorldManagement.getTrees().remove(this);
+            WorldManagement.getWorld().removeObject(this);
         } 
         else
         {
@@ -54,7 +54,7 @@ public class Tree extends Actor
      */
     public void chop() {
         if(chopped) return;
-        WorldManagement.wood += ((float)(Math.random() * 2000) % 15) + 5;
+        WorldManagement.updateWood(((float)(Math.random() * 2000) % 15) + 5);
         chopped = true;
         destroy();
     }

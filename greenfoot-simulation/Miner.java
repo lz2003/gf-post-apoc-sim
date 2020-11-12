@@ -9,6 +9,12 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class Miner extends Human {
     
+    /**
+     * The constructor for the Miner class.
+     * 
+     * @param xLoc  the x location
+     * @param yLoc  the y location
+     */
     public Miner(int xLoc, int yLoc) {
         this.xLoc = xLoc;
         this.yLoc = yLoc;
@@ -44,7 +50,7 @@ public class Miner extends Human {
             if (targetBuilding != null && targetBuilding.getType() == buildingType)
             {
                 workBar = new StatBar(BUILDER_WORK_TIME, this, Color.GREEN, Color.GRAY);
-                WorldManagement.world.addObject(workBar, xLoc, yLoc);
+                WorldManagement.getWorld().addObject(workBar, xLoc, yLoc);
                 isWorking = true;
                 return;
             } 
@@ -61,9 +67,9 @@ public class Miner extends Human {
         workBar.update(workBar.getCurrVal()-1);
         if (workBar.getCurrVal() < 0)
         {
-            WorldManagement.iron += (int) (Math.random() * 5);
+            WorldManagement.updateIron((int) (Math.random() * 5));
             isWorking = false;
-            WorldManagement.world.removeObject(workBar);
+            WorldManagement.getWorld().removeObject(workBar);
         }
     }
 }

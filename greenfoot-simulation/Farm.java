@@ -8,11 +8,17 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class Farm extends Building
 {
+    /**
+     * Constructor for the Farm class.
+     */
     public Farm() {
        sprite = FARM_SPRITE;
        setImage(sprite);
        this.setRotation((int)Math.round(Math.random()*4.0)*90);
     }
+    /**
+     * Update method for the Farm class.
+     */
     public void _update() {
          
     }

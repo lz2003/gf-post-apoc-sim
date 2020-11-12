@@ -22,6 +22,12 @@ public class ScoreBar extends Actor
     private ArrayList<String> stats;
     private ArrayList<String> textDisplay;
     
+    /**
+     * Construtor of ScoreBar class. Takes a width and a height.
+     * 
+     * @param width     the width of the scorebar
+     * @param height    the height of the scorebar
+     */
     public ScoreBar(int width, int height)
     {
         stats = new ArrayList<String>();
@@ -37,15 +43,6 @@ public class ScoreBar extends Actor
         this.setImage(display);
         display.setFont(wordFont);
     }
-    
-    /**
-     * Act - do whatever the ScoreBar wants to do. This method is called whenever
-     * the 'Act' or 'Run' button gets pressed in the environment.
-     */
-    public void act() 
-    {
-        // Add your action code here.
-    }  
     
     /**
      * Adds a stat to be displayed on the scorebar.

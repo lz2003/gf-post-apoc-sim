@@ -3,7 +3,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 /**
  * Write a description of class Settings here.
  * 
- * @author (your name) 
+ * @author Young Chen 
  * @version (a version number or a date)
  */
 public class Settings extends World
@@ -24,7 +24,6 @@ public class Settings extends World
     private int[] defaultHumans = Simulation.startHumans; // Corresponding starting values to the selectionbar values
     /**
      * Constructor for objects of class Settings.
-     * 
      */
     public Settings()
     {    
@@ -45,6 +44,9 @@ public class Settings extends World
         setPaintOrder(LZTextBox.class, YCWidget.class);
     }
     
+    /**
+     * Act method for Settings.
+     */
     public void act() {
         for(int i = 0, n = selections.length; i < n; i++) {
             selections[i]._update();
@@ -88,6 +90,9 @@ public class Settings extends World
             heading.updateText();
         }
         
+        /**
+         * Checks if the arrow is pressed
+         */
         public void _update() {
             if(Greenfoot.mousePressed(arrow)) {
                 selection.shiftSelect();
@@ -99,14 +104,27 @@ public class Settings extends World
             }
         }
         
+        /**
+         * Shift the selection
+         */
         public void shiftSelect() {
             selection.shiftSelect();
         }
         
+        /**
+         * Get the name of setting/selection bar
+         * 
+         * @return String   the name
+         */
         public String getName() {
             return name;
         }
         
+        /**
+         * Returns which selection is chosen (number of humans)
+         * 
+         * @return int  the value of the selection 
+         */
         public int getSelected() {
             return selection.getActive();
         }

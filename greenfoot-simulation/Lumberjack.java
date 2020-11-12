@@ -12,6 +12,13 @@ public class Lumberjack extends Human
     private int treeX, treeY;
     private Tree targetTree;
     private boolean enroute = false;
+    
+    /**
+     * The constructor for the Lumberjack class.
+     * 
+     * @param xLoc  the x location
+     * @param yLoc  the y location
+     */
     public Lumberjack(int xLoc, int yLoc) {
         this.xLoc = xLoc;
         this.yLoc = yLoc;
@@ -49,12 +56,12 @@ public class Lumberjack extends Human
      */
     private void findTree() {
         if(WorldManagement.trees.size() > 0) {
-            targetTree = ((Tree)WorldManagement.trees.get(0)); 
+            targetTree = ((Tree)WorldManagement.getTrees().get(0)); 
             treeX = targetTree.getX();
             treeY = targetTree.getY();
-            for (int i = 0; i < WorldManagement.trees.size(); i++)
+            for (int i = 0; i < WorldManagement.getTrees().size(); i++)
             {
-                Tree tree = ((Tree)WorldManagement.trees.get(i));
+                Tree tree = ((Tree)WorldManagement.getTrees().get(i));
                 if(Utils.calcDist(getX(), treeX, getY(), treeY) > Utils.calcDist(getX(), tree.getX(), getY(), tree.getY())) {
                     if (!tree.getTargetStatus())
                     {
@@ -79,7 +86,7 @@ public class Lumberjack extends Human
             if(targetTree != null) {
                 isWorking = true;
                 workBar = new StatBar(BUILDER_WORK_TIME, this, Color.GREEN, Color.GRAY);
-                WorldManagement.world.addObject(workBar, xLoc, yLoc);
+                WorldManagement.getWorld().addObject(workBar, xLoc, yLoc);
                 return;
             }
             enroute = false;
@@ -94,8 +101,8 @@ public class Lumberjack extends Human
         {
             targetTree.setTargetStatus(false);
         }
-        WorldManagement.humans.remove(this);
-        WorldManagement.world.removeObject(this);
+        WorldManagement.getHumans().remove(this);
+        WorldManagement.getWorld().removeObject(this);
     }
     
     /**
@@ -110,7 +117,7 @@ public class Lumberjack extends Human
             targetTree.chop();
             isWorking = false;
             enroute = false;
-            WorldManagement.world.removeObject(workBar);
+            WorldManagement.getWorld().removeObject(workBar);
         }
     }
     

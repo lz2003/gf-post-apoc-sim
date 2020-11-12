@@ -38,6 +38,13 @@ public class BuildingSlot extends Actor
     private int hp = DEFAULT_HP;
     private boolean targeted = false, destroyed = true;
     
+    /**
+     * Constructor of BuildingSlot, takes coordinates and a index.
+     * 
+     * @param x         the x location
+     * @param y         the y location
+     * @param index     the index of the BuildingSlot
+     */
     public BuildingSlot(int x, int y, int index) {
         xLoc = x;
         yLoc = y;
@@ -144,9 +151,14 @@ public class BuildingSlot extends Actor
                 destroyed = true;
                 break;
         }
-        getWorld().addObject(building, xLoc, yLoc);
+        WorldManagement.getWorld().addObject(building, xLoc, yLoc);
     }
     
+    /**
+     * Hurt the current building by set amount of damage
+     * 
+     * @param damage    how much damage is dealt
+     */
     public void damage(int damage) {
         if(destroyed) return;
         hp -= damage;

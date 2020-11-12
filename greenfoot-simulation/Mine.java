@@ -8,11 +8,17 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class Mine extends Building
 {
+    /**
+     * Constructor for the Mine class.
+     */
     public Mine() {
         sprite = MINE_SPRITE;
         setImage(sprite);
         this.setRotation((int)Math.round(Math.random()*4.0)*90);
     }
+    /**
+     * Update method for the Mine class.
+     */
     public void _update() {
         
     }

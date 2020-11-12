@@ -21,12 +21,18 @@ public abstract class Building extends Actor
     
     private boolean destroyed = false;
     
+    /**
+     * Essentially the act method for all buildings.
+     */
     public abstract void _update();  
     
+    /**
+     * Destroys the building
+     */
     public void destroy()
     {
         if(!destroyed) {
-            getWorld().removeObject(this);
+            WorldManagement.getWorld().removeObject(this);
             destroyed = true;
         }
     }
@@ -41,11 +47,19 @@ public abstract class Building extends Actor
         return sprite;
     }
     
+    /**
+     * Get the nearest event.
+     * 
+     * @param eventID   the type of event
+     * @param x         the x reference location 
+     * @param y         the y reference location
+     * @return Event    the nearest event
+     */
     public static Event getNearestEvent(int eventID, int x, int y) {
         int lowest = 9999, index = 0;
         boolean found = false;
-        for(int i = 0, n = WorldManagement.events.size(); i < n; i++) {
-            Event event = (Event)(WorldManagement.events.get(i));
+        for(int i = 0, n = WorldManagement.getEvents().size(); i < n; i++) {
+            Event event = (Event)(WorldManagement.getEvents().get(i));
             int xLoc = event.getX(), yLoc = event.getY();
             int distance = Utils.calcDist(x, xLoc, y, yLoc);
             if(distance < lowest && event.getType() == eventID) {
@@ -57,6 +71,6 @@ public abstract class Building extends Actor
         // If no event of indicated type if found and the event arraylist contains other events, return null
         if(!found) return null;
         
-        return WorldManagement.events.size() == 0 ? null : WorldManagement.getEvent(index);
+        return WorldManagement.getEvents().size() == 0 ? null : WorldManagement.getEvent(index);
     }
 }

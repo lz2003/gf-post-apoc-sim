@@ -10,6 +10,13 @@ public class Background extends Actor
 {
     private int xPos, yPos;
     private GreenfootImage sprite;
+    
+    /**
+     * Constructor for Background class.
+     * 
+     * @param x     the x position
+     * @param y     the y position
+     */
     public Background(int x, int y) {
         xPos = x;
         yPos = y;
@@ -18,15 +25,21 @@ public class Background extends Actor
         setImage(sprite);
     }
     
+    /**
+     * Returns the x position
+     * 
+     * @return int  the x position
+     */
     public int getX() {
         return xPos;
     }
     
+    /**
+     * Returns the y position
+     * 
+     * @return int  the y position
+     */
     public int getY() {
         return yPos;
     }
-    /*
-    public BackgroundSprite getSprite() {
-        return sprite;
-    } */ 
 }

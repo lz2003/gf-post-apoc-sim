@@ -9,6 +9,12 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class Builder extends Human
 {
+    /**
+     * The constructor for the Builder class.
+     * 
+     * @param xLoc  the x location
+     * @param yLoc  the y location
+     */
     public Builder(int xLoc, int yLoc) {
         this.xLoc = xLoc;
         this.yLoc = yLoc;
@@ -38,10 +44,10 @@ public class Builder extends Human
     private void checkBuild() { 
         if(atLocation) { 
             if(targetBuilding != null && targetBuilding.getType() == BuildingSlot.EMPTY) {
-                if(WorldManagement.wood >= 15) {
+                if(WorldManagement.getWood() >= 15) {
                     workBar = new StatBar(BUILDER_WORK_TIME, this, Color.GREEN, Color.GRAY);
-                    WorldManagement.world.addObject(workBar, xLoc, yLoc);
-                    WorldManagement.wood -= 15;
+                    WorldManagement.getWorld().addObject(workBar, xLoc, yLoc);
+                    WorldManagement.updateWood(-15);
                     isWorking = true;
                     return;
                 }
@@ -64,7 +70,7 @@ public class Builder extends Human
             isWorking = false;
             targetBuilding.setTargetStatus(false);
             enroute = false;
-            WorldManagement.world.removeObject(workBar);
+            WorldManagement.getWorld().removeObject(workBar);
         }
     }
 }
