@@ -9,8 +9,17 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class Start extends World
 {
-    private LZTextBox start = new LZTextBox(350, 350, Color.WHITE, 30, 
-    "center", 3, 300, 100, Color.BLACK, new Color(150, 210, 210));
+    private LZTextBox 
+    start = new LZTextBox(350, 350, Color.WHITE, 45, 
+    "center", 3, 300, 100, Color.BLACK, new Color(150, 210, 210)),
+    
+    settings = new LZTextBox(350, 350, Color.WHITE, 25, 
+    "center", 3, 200, 40, Color.BLACK, new Color(130,130,190)),
+    
+    info = new LZTextBox(350, 350, Color.WHITE, 25, 
+    "center", 3, 200, 40, Color.BLACK, new Color(130,130,190));
+    
+    
     private ArrowUI right = new ArrowUI(true);
     private ArrowUI left = new ArrowUI(false);
     
@@ -18,7 +27,7 @@ public class Start extends World
     
     private boolean rightClicked;
     
-    private String[] options = {"Normal", "Easy", "Hard"};
+    private String[] options = {"normal.png", "easy.png", "hard.png"};
     YCWidget widget = new YCWidget(options,
     new Color(130,130,190), new Color(150, 210, 210), new Color(130,130,190), Color.WHITE, new Color(20,20,20), 
     360, 75, 1, 0, -120, 
@@ -34,6 +43,8 @@ public class Start extends World
         
         addObject(widget, 350, 350);
         addObject(start, 350, 500);
+        addObject(settings, 350, 600);
+        addObject(info, 350, 650);
         addObject(right, 600, 350);
         addObject(left, 100, 350);
         
@@ -42,8 +53,15 @@ public class Start extends World
         widget.shiftSelect();
         widget.shiftSelect();
         
-        start.update("START");
+        start.update(" START");
         start.updateText();
+        
+        settings.update(" Settings");
+        settings.updateText();
+        
+        info.update(" Controls & Info");
+        info.updateText();
+        
         setBackground("start.jpg");
     }
     
@@ -65,7 +83,7 @@ public class Start extends World
         }
         
         if(fadeIn.isFinished()) {
-            Greenfoot.setWorld(new MyWorld(difficulty));
+            Greenfoot.setWorld(new Simulation(difficulty));
         }
         
         if(Greenfoot.mousePressed(right)) {
@@ -83,6 +101,14 @@ public class Start extends World
             right.unClick();
             left.unClick();
         }
+        
+        if(Greenfoot.mousePressed(settings)) {
+            Greenfoot.setWorld(new Settings());
+        }
+        
+        if(Greenfoot.mousePressed(info)) {
+            Greenfoot.setWorld(new Info());
+        }
     }
     
     /**
@@ -98,13 +124,13 @@ public class Start extends World
         
         switch(widget.getActiveName()) {
             case "Easy":
-                difficulty = MyWorld.EASY;
+                difficulty = Simulation.EASY;
                 break;
             case "Normal":
-                difficulty = MyWorld.NORMAL;
+                difficulty = Simulation.NORMAL;
                 break;
             case "Hard":   
-                difficulty = MyWorld.HARD;
+                difficulty = Simulation.HARD;
                 break;
         }
     }

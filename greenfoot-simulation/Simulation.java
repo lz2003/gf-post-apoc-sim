@@ -6,9 +6,11 @@ import java.util.*;
  * @author Young Chen
  * @version 2020-10-11
  */
-public class MyWorld extends World
+public class Simulation extends World
 {
     public static final int EASY = 0, NORMAL = 1, HARD = 2, END_DELAY = 300;
+    
+    public static int[] startHumans = {2, 2, 2, 1};
     
     private LZTextBox end = new LZTextBox(350, 350, Color.WHITE, 19, 
     "center", 1, 140, 25, Color.BLACK, new Color(240, 40, 40));
@@ -19,7 +21,7 @@ public class MyWorld extends World
     private int endDelay = END_DELAY;
     private int difficulty;
     
-    public MyWorld(int difficulty)
+    public Simulation(int difficulty)
     {    
         super(700, 700, 1, false); 
         

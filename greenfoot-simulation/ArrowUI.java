@@ -8,14 +8,15 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class ArrowUI extends Actor
 {
-    static final GreenfootImage 
-        CLICKED = new GreenfootImage("clicked.png"),
-        UNCLICKED = new GreenfootImage("unclicked.png");
+    private GreenfootImage 
+        clicked = new GreenfootImage("clicked.png"),
+        unclicked = new GreenfootImage("unclicked.png");
     
     private static final int CLICK_DELAY = 10;
-       
+    private int xSize = 100, ySize = 100;
+
     private int clickDelay;
-    private boolean imageSet = false;
+    private boolean imageSet = false, shouldResize = false;
     
     /**
      * Creates a new arrow ui pointing either left or right
@@ -24,12 +25,26 @@ public class ArrowUI extends Actor
      */
     
     public ArrowUI(boolean isRight) {
-        setImage(UNCLICKED);
+        setImage(unclicked);
         // Flips the arrow left
         if (!isRight)
         {
             this.setRotation(180);
         }
+    }
+    
+    public ArrowUI(boolean isRight, int xSize, int ySize) {
+        setImage(unclicked);
+        // Flips the arrow left
+        if (!isRight)
+        {
+            this.setRotation(180);
+        }
+        
+        shouldResize = true;
+        this.xSize = xSize;
+        this.ySize = ySize;
+        getImage().scale(xSize, ySize);
     }
     
     /**
@@ -43,13 +58,17 @@ public class ArrowUI extends Actor
      * Changes arrow to clicked sprite
      */
     public void click() {
-        setImage(CLICKED);
+        setImage(clicked);
+        if(shouldResize)
+        getImage().scale(xSize, ySize);
     }
     
     /**
      * Changes arrow to unclicked sprite
      */
     public void unClick() {
-        setImage(UNCLICKED);
+        setImage(unclicked);
+        if(shouldResize)
+        getImage().scale(xSize, ySize);
     }
 }
