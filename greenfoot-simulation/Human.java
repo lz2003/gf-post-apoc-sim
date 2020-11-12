@@ -21,7 +21,7 @@ public abstract class Human extends Actor {
     
     protected static final int
         DEFAULT_HP = 100,
-        SAFETY_TIME = 25,
+        SAFETY_TIME = 40,
         ZOMBIE_CHANCE = 10000;
             
     public static final int

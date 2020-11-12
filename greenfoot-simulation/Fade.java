@@ -8,7 +8,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class Fade extends Actor
 {
-    private static final int SPEED = 5;
+    private static final int SPEED = 9;
     private int opacity = 255, goal = 0;
     private boolean finished = false, in = false, start = false;
     /**

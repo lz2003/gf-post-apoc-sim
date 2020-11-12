@@ -19,7 +19,9 @@ public class WorldManagement
             TREE_SPAWN_RATE = 50,
             ZOMBIE_SPAWN_RATE = 2000,
             MAX_TREES = 100,
-            START_FREEZE_FRAMES = 50;
+            START_FREEZE_FRAMES = 50,
+            TYPES_OF_HUMANS = 4,
+            HUMAN_GAP = 50;
             
     public static final int 
         EASY = 2,
@@ -43,7 +45,7 @@ public class WorldManagement
             backgrounds = new ArrayList<Background>(),
             events = new ArrayList<Event>();
             
-    public static MyWorld world;
+    public static Simulation world;
     public static ScoreBar scoreboard;
 
     public static float deltaTime = 0.01f, elapsed = 0f;
@@ -109,7 +111,7 @@ public class WorldManagement
     /**
      * Constructor of the WorldManagement Class. Use to set up the world
      */
-    public WorldManagement(int worldWidth, int worldHeight, MyWorld world) {
+    public WorldManagement(int worldWidth, int worldHeight, Simulation world) {
         width = worldWidth;
         height = worldHeight;
         this.world = world;
@@ -123,14 +125,24 @@ public class WorldManagement
         initBuildings();
         initScoreBar();
         
-        addHuman(Human.BUILDER, 350, 350);
-        addHuman(Human.LUMBERJACK, 350, 400);
-        addHuman(Human.LUMBERJACK, 350, 300);
-        addHuman(Human.BUILDER, 300, 350);
-        addHuman(Human.FARMER, 400, 350);
-        addHuman(Human.FARMER, 400, 400);
-        addHuman(Human.FARMER, 300, 300);
-        addHuman(Human.MINER, 300, 400);
+        for(int x = 300, i = 0; x < 300 + HUMAN_GAP * TYPES_OF_HUMANS; x += HUMAN_GAP, i++) {
+            for(int y = 300; y < 300 + HUMAN_GAP * Simulation.startHumans[i]; y += HUMAN_GAP) {
+                switch(i) {
+                    case 0: 
+                        addHuman(Human.BUILDER, x, y);
+                        break;
+                    case 1: 
+                        addHuman(Human.FARMER, x, y);
+                        break;
+                    case 2: 
+                        addHuman(Human.LUMBERJACK, x, y);
+                        break;
+                    case 3: 
+                        addHuman(Human.MINER, x, y);
+                        break;
+                }
+            }
+        }
         addEvent(Event.TORNADO, -1000, -1000);
     }
     
