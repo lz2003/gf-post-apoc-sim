@@ -21,6 +21,7 @@ public class WorldManagement
             MAX_TREES = 100,
             START_FREEZE_FRAMES = 50,
             TYPES_OF_HUMANS = 4,
+            MAX_EVENTS = 200,
             HUMAN_GAP = 50;
             
     public static final int 
@@ -40,7 +41,6 @@ public class WorldManagement
     public static ArrayList
             humans  = new ArrayList<Human>(),
             buildings = new ArrayList<BuildingSlot>(),
-            enemies  = new ArrayList<Enemy>(),
             trees = new ArrayList<Tree>(),
             backgrounds = new ArrayList<Background>(),
             events = new ArrayList<Event>();
@@ -385,7 +385,7 @@ public class WorldManagement
     private void generateZombies() {
         float rand = (float) (Math.random() * 67891);    
         float randInInt = (int) rand % zombieSpawnRate;
-        if(randInInt == 1) {
+        if(randInInt == 1 && events.size() < MAX_EVENTS) {
             int corner = (int) (Math.random() * 981927) % 4;
             int randLoc = ((int) (rand * 129) % (WORLD_SIZE * 3)) - WORLD_SIZE;
             int max = WORLD_SIZE * 2;
@@ -644,6 +644,103 @@ public class WorldManagement
      */
     public static ArrayList<BuildingSlot> getBuildings() {
         return buildings;
+    }
+    
+    /**
+     * Returns an ArrayList of all existing events.
+     * 
+     * @return ArrayList<BuildingSlot>  list of all events
+     */
+    public static ArrayList<Event> getEvents() {
+        return events;
+    }
+    
+    /**
+     * Returns an ArrayList of all existing trees.
+     * 
+     * @return ArrayList<Trees>  list of all trees
+     */
+    public static ArrayList<Tree> getTrees() {
+        return trees;
+    }
+    
+    /**
+     * Updates the food resource.
+     * 
+     * @param val   amount to update by
+     */
+    public static void updateFood(float val)
+    {
+        food += val;
+    }
+    
+    /**
+     * Updates the wood resource.
+     * 
+     * @param val   amount to update by
+     */
+    public static void updateWood(float val)
+    {
+        wood += val;
+    }
+    
+    /**
+     * Updates the iron resource.
+     * 
+     * @param val   amount to update by
+     */
+    public static void updateIron(float val)
+    {
+        iron += val;
+    }
+    
+    /**
+     * Returns the amount of wood resources.
+     * 
+     * @return float   the amount of wood
+     */
+    public static float getWood()
+    {
+       return wood;
+    }
+    
+    /**
+     * Returns the amount of iron resources.
+     * 
+     * @return float   the amount of iron
+     */
+    public static float getIron()
+    {
+       return iron;
+    }
+    
+    /**
+     * Returns the amount of food resources.
+     * 
+     * @return float   the amount of food
+     */
+    public static float getFood()
+    {
+       return food;
+    }
+    
+    /**
+     * Returns the current world.
+     * 
+     * @return Simulation   the current world
+     */
+    public static Simulation getWorld()
+    {
+       return world;
+    }
+    
+    /**
+     * Returns delta time.
+     * 
+     * @return float  the delta time
+     */
+    public static float getDeltaTime() {
+        return deltaTime;
     }
     
     /**

@@ -48,8 +48,8 @@ public abstract class Event extends Actor
     }
     
     public void die() {
-        WorldManagement.events.remove(this);
-        WorldManagement.world.removeObject(this);
+        WorldManagement.getEvents().remove(this);
+        WorldManagement.getWorld().removeObject(this);
     }
     
     public void damage(int damage) {
@@ -71,8 +71,8 @@ public abstract class Event extends Actor
     
     public static ArrayList<BuildingSlot> getBuildingsWithinRange(int x, int y, int range) {
         ArrayList<BuildingSlot> list = new ArrayList<BuildingSlot>();
-        for(int i = 0, n = WorldManagement.buildings.size(); i < n; i++) {
-            BuildingSlot building = (BuildingSlot)(WorldManagement.buildings.get(i));
+        for(int i = 0, n = WorldManagement.getBuildings().size(); i < n; i++) {
+            BuildingSlot building = (BuildingSlot)(WorldManagement.getBuildings().get(i));
             int xLoc = building.getX(), yLoc = building.getY();
             int distance = Utils.calcDist(x, xLoc, y, yLoc);  
             if(distance <= range) {
@@ -93,8 +93,8 @@ public abstract class Event extends Actor
      */
     protected static ArrayList<Human> getHumansWithinRange(int x, int y, int range) {
         ArrayList<Human> list = new ArrayList<Human>();
-        for(int i = 0, n = WorldManagement.humans.size(); i < n; i++) {
-            Human human = (Human)(WorldManagement.humans.get(i));
+        for(int i = 0, n = WorldManagement.getHumans().size(); i < n; i++) {
+            Human human = (Human)(WorldManagement.getHumans().get(i));
             int xLoc = human.getX(), yLoc = human.getY();
             int distance = Utils.calcDist(x, xLoc, y, yLoc);  
             if(distance <= range) {
@@ -116,8 +116,8 @@ public abstract class Event extends Actor
      */
     protected static ArrayList<Tree> getTreesWithinRange(int x, int y, int range) {
         ArrayList<Tree> list = new ArrayList<Tree>();
-        for(int i = 0, n = WorldManagement.trees.size(); i < n; i++) {
-            Tree tree = (Tree)(WorldManagement.trees.get(i));
+        for(int i = 0, n = WorldManagement.getTrees().size(); i < n; i++) {
+            Tree tree = (Tree)(WorldManagement.getTrees().get(i));
             int xLoc = tree.getX(), yLoc = tree.getY();
             int distance = Utils.calcDist(x, xLoc, y, yLoc);  
             if(distance <= range) {

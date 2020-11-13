@@ -151,8 +151,8 @@ public abstract class Human extends Actor {
      */
     protected BuildingSlot getNearestBuilding(int buildngID, int x, int y) {
         int lowest = 9999, index = -1;
-        for(int i = 0, n = WorldManagement.buildings.size(); i < n; i++) {
-            BuildingSlot building = (BuildingSlot)(WorldManagement.buildings.get(i));
+        for(int i = 0, n = WorldManagement.getBuildings().size(); i < n; i++) {
+            BuildingSlot building = (BuildingSlot)(WorldManagement.getBuildings().get(i));
             int xLoc = building.getX(), yLoc = building.getY();
             int distance = Utils.calcDist(x, xLoc, y, yLoc);
             if(distance < lowest && building.getType() == buildngID) {
@@ -176,11 +176,11 @@ public abstract class Human extends Actor {
         if(WorldManagement.food > 0) {
             float foodEaten = Math.min((((FULL_HUNGER - hunger) / 3f) * WorldManagement.deltaTime) * 10f, WorldManagement.food);
             hunger += foodEaten;
-            WorldManagement.food -= foodEaten;
+            WorldManagement.updateFood(-(int)foodEaten);
         }
 
         if(hunger > 0) {
-            hunger -= WorldManagement.deltaTime;
+            hunger -= WorldManagement.getDeltaTime();
         } else {
             die();
         }
@@ -251,7 +251,7 @@ public abstract class Human extends Actor {
             } 
         }
         
-        WorldManagement.humans.remove(this);
+        WorldManagement.getHumans().remove(this);
         WorldManagement.world.removeObject(this);
 
         dead = true;

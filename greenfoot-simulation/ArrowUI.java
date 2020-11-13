@@ -33,6 +33,13 @@ public class ArrowUI extends Actor
         }
     }
     
+    /**
+     * Alternative constructor for the ArrowUI
+     * 
+     * @param isRight   Whether or not this is point right. If not, it will point left.
+     * @param xSize     the custom width 
+     * @param ySize     the custom height
+     */
     public ArrowUI(boolean isRight, int xSize, int ySize) {
         setImage(unclicked);
         // Flips the arrow left

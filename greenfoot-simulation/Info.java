@@ -3,7 +3,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 /**
  * Write a description of class Info here.
  * 
- * @author (your name) 
+ * @author Young Chen
  * @version (a version number or a date)
  */
 public class Info extends World
@@ -26,6 +26,9 @@ public class Info extends World
         back.updateText();
     }
     
+    /** 
+     * Act method for Info Class
+     */
     public void act() {
         if(Greenfoot.mousePressed(back)) {
             Greenfoot.setWorld(new Start());

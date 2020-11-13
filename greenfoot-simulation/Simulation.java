@@ -21,6 +21,13 @@ public class Simulation extends World
     private int endDelay = END_DELAY;
     private int difficulty;
     
+    /**
+     * Contructor of Simulation, creates the world where the simulation
+     * takes place.
+     * 
+     * @param difficulty    the difficulty of the simulation
+     * 
+     */
     public Simulation(int difficulty)
     {    
         super(700, 700, 1, false); 
@@ -35,6 +42,11 @@ public class Simulation extends World
         addObject(end, 627, 17);
     }
     boolean runOnce = false;
+    
+    /**
+     * Intializes the world variables, as well as checks if the simulation
+     * has ended
+     */
     public void act() { 
         if(!runOnce) {
             // BECAUSE GREENFOOT DOES NOT RESET VARIABLE OUTSIDE OF THE VALUES INSIDE THE ACTOR CLASS WHEN RESET IS PRESSED,
@@ -49,7 +61,6 @@ public class Simulation extends World
             wm.zombieSpawnRate = wm.ZOMBIE_SPAWN_RATE;
             wm.camX = 0; wm.camY = 0;
             wm.humans = new ArrayList<Human>();
-            wm.enemies = new ArrayList<Enemy>();
             wm.buildings = new ArrayList<BuildingSlot>();
             wm.trees = new ArrayList<Tree>();
             wm.events = new ArrayList<Event>();
@@ -84,7 +95,7 @@ public class Simulation extends World
         checkEndWorld();
         checkEnd();
     }
-    
+
     private void checkEnd() {
         if(wm.pop == 0 && (wm.food < 25 || wm.housing < 5)) {
             endDelay--;

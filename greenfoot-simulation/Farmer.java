@@ -10,6 +10,12 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 public class Farmer extends Human
 {
     
+    /**
+     * The constructor for the Farmer class.
+     * 
+     * @param xLoc  the x location
+     * @param yLoc  the y location
+     */
     public Farmer(int xLoc, int yLoc) {
         this.xLoc = xLoc;
         this.yLoc = yLoc; 
@@ -45,7 +51,7 @@ public class Farmer extends Human
             if (targetBuilding != null && targetBuilding.getType() == buildingType)
             {
                 workBar = new StatBar(BUILDER_WORK_TIME, this, Color.GREEN, Color.GRAY);
-                WorldManagement.world.addObject(workBar, xLoc, yLoc);
+                WorldManagement.getWorld().addObject(workBar, xLoc, yLoc);
                 isWorking = true;
                 return;
             }
@@ -62,9 +68,9 @@ public class Farmer extends Human
         workBar.update(workBar.getCurrVal()-1);
         if (workBar.getCurrVal() < 0)
         {
-            WorldManagement.food += (int) (Math.random() * 5);
+            WorldManagement.updateFood((float) (Math.random() * 5));
             isWorking = false;
-            WorldManagement.world.removeObject(workBar);
+            WorldManagement.getWorld().removeObject(workBar);
         }
     }
     
