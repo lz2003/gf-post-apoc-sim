@@ -4,7 +4,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  * The background sprite of the game that moves with the camera
  * 
  * @author Young Chen
- * @version 2020-10-10
+ * @version 2020-11-10
  */
 public class Background extends Actor
 {

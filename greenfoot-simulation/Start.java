@@ -19,7 +19,6 @@ public class Start extends World
     info = new LZTextBox(350, 350, Color.WHITE, 25, 
     "center", 3, 200, 40, Color.BLACK, new Color(130,130,190));
     
-    
     private ArrowUI right = new ArrowUI(true);
     private ArrowUI left = new ArrowUI(false);
     
@@ -115,21 +114,22 @@ public class Start extends World
      * Handles the difficulty selection widget
      */
     private void handleWidget() {
-        if (rightClicked) options = shiftOneLeft(options);
-        else options = shiftOneRight(options);
+        if (rightClicked) options = shiftOneRight(options);
+        else options = shiftOneLeft(options);
+        
         widget.update(options);
         widget.resetDelay();
         widget.shiftSelect();
         widget.shiftSelect();
         
         switch(widget.getActiveName()) {
-            case "Easy":
+            case "easy.png":
                 difficulty = Simulation.EASY;
                 break;
-            case "Normal":
+            case "normal.png":
                 difficulty = Simulation.NORMAL;
                 break;
-            case "Hard":   
+            case "hard.png":   
                 difficulty = Simulation.HARD;
                 break;
         }

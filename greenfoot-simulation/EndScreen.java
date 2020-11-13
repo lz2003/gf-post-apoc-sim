@@ -4,7 +4,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  * Screen that fades in at the end of the game
  * 
  * @author Young Chen
- * @version 2020-10-10
+ * @version 2020-11-10
  */
 public class EndScreen extends Actor
 { 

@@ -16,11 +16,4 @@ public class Empty extends Building
         sprite = EMPTY_SPRITE;
         setImage(sprite);
     }
-    /**
-     * Update method for the Empty class.
-     */
-    public void _update() {
-        
-    }
- 
 }

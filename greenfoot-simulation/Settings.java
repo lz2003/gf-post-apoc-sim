@@ -1,14 +1,14 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 /**
- * Write a description of class Settings here.
+ * World for the simulation settings
  * 
  * @author Young Chen 
- * @version (a version number or a date)
+ * @version 2020-11-12
  */
 public class Settings extends World
 {
-    private String[] options = {"0", "1", "2", "3", "4", "5", "6"};
+    private String[] options = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
     private SelectionBar lumberjacks;
     private LZTextBox 
         save = new LZTextBox(350, 350, Color.WHITE, 30, 
@@ -64,7 +64,7 @@ public class Settings extends World
         private String name;
         private YCWidget selection = selection = new YCWidget(options,
             new Color(130,130,190), new Color(150, 210, 210), new Color(20,20,50), Color.WHITE, new Color(20,20,20), 
-            280, 50, 1, 0, -120, "right", true, false, null);;
+            440, 50, 1, 0, -120, "right", true, false, null);;
         private ArrowUI arrow; 
         
         private LZTextBox heading = new LZTextBox(350, 350, Color.WHITE, 30, 
@@ -77,14 +77,14 @@ public class Settings extends World
          * @param x Location in x-axis of selection bar
          * @param y Location in y-axis of selection bar
          */
-        public SelectionBar(String name, int x, int y) {
+        private SelectionBar(String name, int x, int y) {
             this.name = name;
 
             
             arrow = new ArrowUI(true, 25, 50);
             
             addObject(selection, x, y);
-            addObject(arrow, x + 160, y);
+            addObject(arrow, x + 240, y);
             addObject(heading, x, y - 70);
             heading.update(" " + name);
             heading.updateText();

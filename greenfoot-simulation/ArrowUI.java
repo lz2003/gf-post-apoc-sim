@@ -23,7 +23,6 @@ public class ArrowUI extends Actor
      * 
      * @param isRight Whether or not this is point right. If not, it will point left.
      */
-    
     public ArrowUI(boolean isRight) {
         setImage(unclicked);
         // Flips the arrow left

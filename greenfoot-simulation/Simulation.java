@@ -59,7 +59,6 @@ public class Simulation extends World
             wm.storage = wm.START_STORAGE;
             wm.housing = wm.START_HOUSING;
             wm.zombieSpawnRate = wm.ZOMBIE_SPAWN_RATE;
-            wm.camX = 0; wm.camY = 0;
             wm.humans = new ArrayList<Human>();
             wm.buildings = new ArrayList<BuildingSlot>();
             wm.trees = new ArrayList<Tree>();
@@ -89,6 +88,10 @@ public class Simulation extends World
                 removeObject(fadeOut);
                 fadeOut = null;
             }
+        }
+        
+        if(Greenfoot.isKeyDown("escape")) {
+            Greenfoot.setWorld(new Start());
         }
             
         wm._update();

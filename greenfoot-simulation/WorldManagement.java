@@ -11,105 +11,118 @@ import greenfoot.*;
 public class WorldManagement  
 {
     public static final int
-            WORLD_SIZE = 700,
-            CAM_SPEED = 4,
-            GRID_SEPARATION = 30,
-            BUILDING_SIZE = 100,
-            BUILDING_PADDING = -100,
-            TREE_SPAWN_RATE = 50,
-            ZOMBIE_SPAWN_RATE = 2000,
-            MAX_TREES = 100,
-            START_FREEZE_FRAMES = 50,
-            TYPES_OF_HUMANS = 4,
-            MAX_EVENTS = 200,
-            HUMAN_GAP = 50;
+        WORLD_SIZE = 700,
+        CAM_SPEED = 4,
+        GRID_SEPARATION = 30,
+        BUILDING_SIZE = 100,
+        BUILDING_PADDING = -100,
+        TREE_SPAWN_RATE = 50,
+        ZOMBIE_SPAWN_RATE = 2000,
+        MAX_TREES = 100,
+        START_FREEZE_FRAMES = 50,
+        TYPES_OF_HUMANS = 4,
+        MAX_EVENTS = 1000,
+        HUMAN_GAP = 50,
+        LIMITER_TIMER = 10,
+        MAX_EVENTS_THRESHOLD = 900;
             
     public static final int 
         EASY = 2,
-        NORMAL = 5,
-        HARD = 10;
+        NORMAL = 8,
+        HARD = 20;
         
-    public static int difficulty = EASY;
+    public static int 
+        difficulty = EASY;
     
     public static int 
-            zombieSpawnRate = ZOMBIE_SPAWN_RATE;
-    
-    public static int
-            camX = 0, 
-            camY = 0;
+        zombieSpawnRate = ZOMBIE_SPAWN_RATE;
 
     public static ArrayList
-            humans  = new ArrayList<Human>(),
-            buildings = new ArrayList<BuildingSlot>(),
-            trees = new ArrayList<Tree>(),
-            backgrounds = new ArrayList<Background>(),
-            events = new ArrayList<Event>();
+        humans  = new ArrayList<Human>(),
+        buildings = new ArrayList<BuildingSlot>(),
+        trees = new ArrayList<Tree>(),
+        backgrounds = new ArrayList<Background>(),
+        events = new ArrayList<Event>();
             
     public static Simulation world;
+    
     public static ScoreBar scoreboard;
 
-    public static float deltaTime = 0.01f, elapsed = 0f;
-    public static long lastTime = 0;
+    public static float 
+        deltaTime = 0.01f, 
+        elapsed = 0f;
+        
+    public static long 
+        lastTime = 0;
 
     public static float threatLevel;
 
     public static float
-            armouryDemand,
-            farmDemand,
-            mineDemand,
-            houseDemand,
-            sentryDemand,
-            storageDemand;
+        armouryDemand,
+        farmDemand,
+        mineDemand,
+        houseDemand,
+        sentryDemand,
+        storageDemand;
 
     public static int
-            highestDemand;
+        highestDemand;
 
     public static int
-            totalArmoury,
-            totalBarracks,
-            totalWood,
-            totalFarm,
-            totalMine,
-            totalHouse,
-            totalSentry,
-            totalStorage;
+        totalArmoury,
+        totalBarracks,
+        totalWood,
+        totalFarm,
+        totalMine,
+        totalHouse,
+        totalSentry,
+        totalStorage;
             
     public static int 
-            totalFarmers,
-            totalMiners,
-            totalBuilders,
-            totalLumberjacks;
+        totalFarmers,
+        totalMiners,
+        totalBuilders,
+        totalLumberjacks;
             
     public static final float
-            START_POP = 0f,
-            START_FOOD = 100f,
-            START_WOOD = 200f,
-            START_IRON = 0f,
-            START_STORAGE = 100f,
-            START_HOUSING = 0f;
+        START_POP = 0f,
+        START_FOOD = 100f,
+        START_WOOD = 200f,
+        START_IRON = 0f,
+        START_STORAGE = 100f,
+        START_HOUSING = 0f;
             
     public static float
-            pop = 0f,
-            food = 100f,
-            wood = 200f,
-            iron = 0f,
-            storage = 100f,
-            housing = 0f;
+        pop = 0f,
+        food = 100f,
+        wood = 200f,
+        iron = 0f,
+        storage = 100f,
+        housing = 0f;
             
     private static boolean 
-            hasHousingSpace = false;
+        hasHousingSpace = false;
+            
+    private int
+        camX = 0, 
+        camY = 0;
 
     private int
-            maxBuildings = 0,
-            width,
-            height;
+        maxBuildings = 0,
+        width,
+        height;
             
     private int 
-            freezeFrames = START_FREEZE_FRAMES;
+        freezeFrames = START_FREEZE_FRAMES,
+        eventsLimiter = 0;
 
     
     /**
      * Constructor of the WorldManagement Class. Use to set up the world
+     * 
+     * @param worldWidth Width of world
+     * @param worldHeight Height of world
+     * @param world Greenfoot World object
      */
     public WorldManagement(int worldWidth, int worldHeight, Simulation world) {
         width = worldWidth;
@@ -118,7 +131,7 @@ public class WorldManagement
     }
     
     /**
-     * Initializes the assets of the world. This includes
+     * Initializes the assets of the world. This includes the buildings, scorebar, and humans
      */
     public void init() {
         initBackgrounds();
@@ -143,6 +156,7 @@ public class WorldManagement
                 }
             }
         }
+        
         addEvent(Event.TORNADO, -1000, -1000);
     }
     
@@ -179,14 +193,14 @@ public class WorldManagement
     /**
      * Increases difficulty as time goes on
      */
-    private static void increaseDifficulty() {
+    private void increaseDifficulty() {
         zombieSpawnRate = Math.max(ZOMBIE_SPAWN_RATE - (int) (elapsed + 0.5) * difficulty, 5);
     }
     
     /**
      * Methods that updates the sprites based on camera movement.
      */
-    private static void updateSprites() {
+    private void updateSprites() {
             
         for(int i = 0, n = humans.size(); i < n; i++) {
             Human human = ((Human)(humans.get(i)));
@@ -230,7 +244,7 @@ public class WorldManagement
      * _update method instead of the act method allows control over the
      * order which instances act.
      */
-    private static void updateLoop() {
+    private void updateLoop() {
         for(int i = 0; i < humans.size(); i++) {
             ((Human)(humans.get(i)))._update();
         }
@@ -252,7 +266,7 @@ public class WorldManagement
      * Method that updated the numbers/variables of the game. This
      * includes population, buildings, resources and demand,
      */
-    private static void updateCounts() {
+    private void updateCounts() {
         pop = humans.size();
         setBuildingCounts();
         setHumanCounts();
@@ -263,7 +277,7 @@ public class WorldManagement
     /**
      * Method that updates resources produced from structures.
      */
-    private static void updateResources() {
+    private void updateResources() {
         food += totalFarm == 0 ? 0 : ((float) totalFarmers / (float) Math.max(totalFarm, 1f)) * totalFarm * BuildingSlot.FARM_PRODUCTION * deltaTime;
         iron += totalMine == 0 ? 0 : ((float) totalMiners / (float) Math.max(totalMine, 1f)) * totalMine * BuildingSlot.MINE_PRODUCTION * deltaTime / 2.5;    
     }
@@ -271,7 +285,7 @@ public class WorldManagement
     /**
      * Method that updates the scorebar and its stats.
      */
-    private static void updateScoreBar()
+    private void updateScoreBar()
     {
         scoreboard.updateStat("Population", (int) pop);
         scoreboard.updateStat("Wood", (int) wood);
@@ -409,13 +423,28 @@ public class WorldManagement
                     break;
             }
         }
+        
+        // To prevent every zombie from congregating at one spot when the max events value is reached,
+        // Some are removed to allow for new zombies to spawn
+        if(events.size() > MAX_EVENTS_THRESHOLD) {
+            if(eventsLimiter-- < 0) {
+                for(int i = 0; i < MAX_EVENTS_THRESHOLD; i++) {
+                    Event e = (Event)(events.get(i));
+                    if(e instanceof Zombie) {
+                        e.die();
+                        break;
+                    }
+                }
+                eventsLimiter = LIMITER_TIMER;
+            }
+        }
     }
     
     /**
      * Limits the resources if either the resource goes over the
      * max capacity or less than zero.
      */
-    public static void limitResources() {
+    private void limitResources() {
         if(wood > storage) {
             wood = storage;
         }
@@ -440,7 +469,7 @@ public class WorldManagement
     /**
      * Calculates the demand for each building
      */
-    public static void calculateDemand() {
+    private void calculateDemand() {
         limitResources();
         farmDemand = totalFarm * 0.4f;
         houseDemand = totalHouse;

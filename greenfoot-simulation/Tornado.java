@@ -38,6 +38,7 @@ public class Tornado extends Event
         setImage(img);
         this.type = TORNADO;
     }
+    
     /**
      * Tornado update method
      */

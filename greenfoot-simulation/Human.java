@@ -176,7 +176,7 @@ public abstract class Human extends Actor {
         if(WorldManagement.food > 0) {
             float foodEaten = Math.min((((FULL_HUNGER - hunger) / 3f) * WorldManagement.deltaTime) * 10f, WorldManagement.food);
             hunger += foodEaten;
-            WorldManagement.updateFood(-(int)foodEaten);
+            WorldManagement.updateFood(-foodEaten);
         }
 
         if(hunger > 0) {

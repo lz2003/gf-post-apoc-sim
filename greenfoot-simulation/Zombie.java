@@ -45,6 +45,9 @@ public class Zombie extends Enemy
         damageHuman();
     }
     
+    /**
+     * Damages nearest human if its within range
+     */
     private void damageHuman() {
         if(nearestHuman == null) return;
         
@@ -59,9 +62,14 @@ public class Zombie extends Enemy
         if(x >= xLoc - RANGE && x <= xLoc + RANGE && y >= yLoc - RANGE && y <= yLoc + RANGE) {
             nearestHuman.damage(DAMAGE);
             attackDelay = ATTACK_DELAY;
+        } else {
+            setRotation((int)(moveAngle * (180f / Math.PI)));
         }
     }
     
+    /**
+     * Moves to nearest human
+     */
     private void moveToHuman() {
         setNearestHuman();
         moveAngle = Utils.getAngleTo((int) xLoc, targetX,(int) yLoc, targetY);
@@ -69,6 +77,9 @@ public class Zombie extends Enemy
         yLoc += (Math.sin(moveAngle) * SPEED);
     }
     
+    /**
+     * Finds the nearest human
+     */
     private void setNearestHuman() {
         if(WorldManagement.humans.size() <= 0) return;
         
