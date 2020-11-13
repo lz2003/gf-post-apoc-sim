@@ -24,7 +24,9 @@ public abstract class Building extends Actor
     /**
      * Essentially the act method for all buildings.
      */
-    public abstract void _update();  
+    public void _update() {
+        // Default is empty
+    }
     
     /**
      * Destroys the building

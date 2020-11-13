@@ -12,7 +12,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class YCWidget extends Actor
 {
-    private static final int DIV_WIDTH = 2, OUTLINE_WIDTH = 3;
+    private static final int DIV_WIDTH = 2, OUTLINE_WIDTH = 5;
     private int width, height = 0, divs, curSelected, actualSelected = -2, inputTimer = 0, autoHideTime = 0, xOffSet, yOffSet;
     private long lastTime;
     private char loopDir;

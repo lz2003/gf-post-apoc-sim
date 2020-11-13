@@ -1,10 +1,10 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 /**
- * Write a description of class Info here.
+ * World containing the controls and general information about the simulation
  * 
  * @author Young Chen
- * @version (a version number or a date)
+ * @version 2020-11-13
  */
 public class Info extends World
 {
