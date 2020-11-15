@@ -14,6 +14,7 @@ public class Sentry extends Building
     private float angleToNearest;
     private int xLoc, yLoc, coolDown = 0;
     
+    public static final GreenfootSound fireSound = new GreenfootSound("sentry_fire.wav");
     /**
      * Constructor for the Sentry class.
      * 
@@ -55,6 +56,7 @@ public class Sentry extends Building
     private void setAnimationImage() {
         if(coolDown > COOLDOWN - 15) {
             setImage(fireImage);
+            WorldManagement.playSound(fireSound);
         } else {
             setImage(sprite);
         }

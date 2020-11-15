@@ -64,6 +64,7 @@ public class ArrowUI extends Actor
      * Changes arrow to clicked sprite
      */
     public void click() {
+        Start.playClick();
         setImage(clicked);
         if(shouldResize)
         getImage().scale(xSize, ySize);

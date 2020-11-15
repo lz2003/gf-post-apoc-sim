@@ -56,6 +56,7 @@ public class Settings extends World
             for(int i = 0; i < WorldManagement.TYPES_OF_HUMANS; i++) {
                 Simulation.startHumans[i] = selections[i].getSelected();
             }
+            Start.playClick();
             Greenfoot.setWorld(new Start());
         }   
     }

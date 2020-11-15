@@ -12,11 +12,14 @@ public class Simulation extends World
     
     public static int[] startHumans = {2, 2, 2, 1};
     
+    private static GreenfootSound bgMusic = new GreenfootSound("sim_music.wav");
+    private static GreenfootSound endSound = new GreenfootSound("end.wav");
     private LZTextBox end = new LZTextBox(350, 350, Color.WHITE, 19, 
     "center", 1, 140, 25, Color.BLACK, new Color(240, 40, 40));
     
     private EndScreen endScreen = new EndScreen();
     private Fade fadeOut = new Fade(false), fadeIn = new Fade(true);
+    private boolean endWorld = false;
     private WorldManagement wm;
     private int endDelay = END_DELAY;
     private int difficulty;
@@ -33,7 +36,7 @@ public class Simulation extends World
         super(700, 700, 1, false); 
         
         this.difficulty = difficulty;
-        setPaintOrder(Fade.class, EndScreen.class, LZTextBox.class, ScoreBar.class, House.class, Storage.class, StatBar.class, Event.class, Human.class, Tree.class, Sentry.class, Farm.class, Mine.class, BuildingSlot.class);
+        setPaintOrder(Fade.class, EndScreen.class, LZTextBox.class, ScoreBar.class, Tornado.class, House.class, Storage.class, StatBar.class, Sentry.class, Tree.class, Zombie.class, Human.class, Farm.class, Mine.class, BuildingSlot.class);
         
         addObject(fadeOut, getWidth() / 2, getHeight() / 2);
         
@@ -95,6 +98,7 @@ public class Simulation extends World
         }
             
         wm._update();
+        if(!endWorld) WorldManagement.playSound(bgMusic);
         checkEndWorld();
         checkEnd();
     }
@@ -107,6 +111,12 @@ public class Simulation extends World
         }
         
         if(endDelay < 0) {
+            setVolumes();
+            endWorld = true;
+            try {
+                bgMusic.stop();
+            } catch (Exception e){}
+            WorldManagement.playSound(endSound);
             addObject(endScreen, getWidth() / 2, getHeight() / 2);
             endDelay = 200000;
         }
@@ -126,6 +136,15 @@ public class Simulation extends World
             wm.setDifficulty(150);
             end.update(new Color(70, 10, 10), Color.BLACK, Color.WHITE);
         }
+    }
+    
+    /**
+     * Set these volumes to 0, so they cannot be heard when world ends.
+     */
+    private static void setVolumes()
+    {
+        Human.hurtSound.setVolume(0);
+        Zombie.zombieOne.setVolume(0);
     }
 }
 

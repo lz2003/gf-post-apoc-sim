@@ -9,6 +9,9 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class Start extends World
 {
+    private static GreenfootSound bgMusic = new GreenfootSound("start_music.wav");
+    
+    private static GreenfootSound clickSound = new GreenfootSound("button_click.wav");    
     private LZTextBox 
     start = new LZTextBox(350, 350, Color.WHITE, 45, 
     "center", 3, 300, 100, Color.BLACK, new Color(150, 210, 210)),
@@ -62,9 +65,15 @@ public class Start extends World
         info.updateText();
         
         setBackground("start.jpg");
+        
+        clickSound.setVolume(80);
     }
     
     public void act() {
+        if (!bgMusic.isPlaying())
+        {
+            playMusic();
+        }
         if(!runOnce) {
             fadeOut.start();
             runOnce = true;
@@ -75,6 +84,7 @@ public class Start extends World
         }
         
         if(Greenfoot.mousePressed(start) && !started) {
+            playClick();
             addObject(fadeIn, 350, 350);
             fadeIn.start();
             start.update(new Color(130,130,190), Color.BLACK, Color.WHITE);
@@ -82,6 +92,7 @@ public class Start extends World
         }
         
         if(fadeIn.isFinished()) {
+            stopMusic();
             Greenfoot.setWorld(new Simulation(difficulty));
         }
         
@@ -102,10 +113,12 @@ public class Start extends World
         }
         
         if(Greenfoot.mousePressed(settings)) {
+            playClick();
             Greenfoot.setWorld(new Settings());
         }
         
         if(Greenfoot.mousePressed(info)) {
+            playClick();
             Greenfoot.setWorld(new Info());
         }
     }
@@ -159,5 +172,37 @@ public class Start extends World
         }
         newArr[arr.length-1] = first;
         return newArr;
+    }
+    
+    private void playMusic() // Really sus and sketch...
+    {
+        try {
+            bgMusic.play();
+        } catch(Exception e) {
+            // do nothing
+        }
+    }
+    
+    /**
+     * Plays the click noise for buttons
+     */
+    public static void playClick()
+    {
+        try {
+            if (!clickSound.isPlaying())
+            {
+                clickSound.play();
+            }
+        } catch (Exception e) {
+            // do nothing
+        }
+    }
+    
+    private void stopMusic()
+    {
+        try {
+            bgMusic.stop();
+        } catch(Exception e) {
+        }
     }
 }

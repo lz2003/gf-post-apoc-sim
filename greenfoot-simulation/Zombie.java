@@ -9,6 +9,10 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class Zombie extends Enemy
 {
+    public static final GreenfootSound 
+        zombieOne = new GreenfootSound("zombie1.wav"),
+        zombieTwo = new GreenfootSound("zombie2.wav");
+    
     private static float SPEED = 1.1f;
     private static int DAMAGE = 5, RANGE = 5, SPAWN_DELAY = 100, ATTACK_DELAY = 10;
     
@@ -31,8 +35,9 @@ public class Zombie extends Enemy
         spawnDelay = SPAWN_DELAY;
         hp = 120;
         setImage(new GreenfootImage("zombie.png"));
+        WorldManagement.playSound(zombieOne);
     }
-
+    
     /**
      * Zombie update method
      */
@@ -87,5 +92,14 @@ public class Zombie extends Enemy
         
         targetX = nearestHuman.getX();
         targetY = nearestHuman.getY();
+    }
+    
+    /**
+     * Causes the zombie to die.
+     */
+    public void die() {
+        WorldManagement.playSound(zombieTwo);
+        WorldManagement.getEvents().remove(this);
+        WorldManagement.getWorld().removeObject(this);
     }
 }

@@ -31,6 +31,7 @@ public class Info extends World
      */
     public void act() {
         if(Greenfoot.mousePressed(back)) {
+            Start.playClick();
             Greenfoot.setWorld(new Start());
         }   
     }

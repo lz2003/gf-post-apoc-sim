@@ -31,6 +31,7 @@ public class BuildingSlot extends Actor
             HOUSE_CAPACITY = 5,
             DEFAULT_HP = 100;
     
+    public static final GreenfootSound destroySound = new GreenfootSound("building_destroyed.wav");
     private static final GreenfootImage sprite = new GreenfootImage("empty.png");         
             
     private int xLoc, yLoc, index, type;
@@ -174,6 +175,7 @@ public class BuildingSlot extends Actor
         building.destroy();
         setBuilding(EMPTY);
         destroyed = true;
+        WorldManagement.playSound(destroySound);
     }
     
     /**
