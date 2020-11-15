@@ -20,7 +20,7 @@ public class Info extends World
     public Info()
     {    
         super(700, 700, 1); 
-        
+        setBackground("info.png");
         addObject(back, 350, 120 + 150 + 150 + 150 + 80);
         back.update(" Back");
         back.updateText();

@@ -94,6 +94,10 @@ public class Simulation extends World
         }
         
         if(Greenfoot.isKeyDown("escape")) {
+            try {
+                bgMusic.stop();
+            } catch (Exception e){}
+            endWorld = true;
             Greenfoot.setWorld(new Start());
         }
             
