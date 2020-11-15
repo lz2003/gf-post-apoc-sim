@@ -30,13 +30,18 @@ public abstract class Human extends Actor {
         LUMBERJACK_WORK_TIME = 75, 
         MINER_WORK_TIME = 200;
         
-        
     public static final GreenfootImage
         BUILDER_SPRITE = new GreenfootImage("builder.png"),
         FARMER_SPRITE = new GreenfootImage("farmer.png"),
         LUMBERJACK_SPRITE = new GreenfootImage("lumberjack.png"), 
         MINER_SPRITE = new GreenfootImage("miner.png");
-           
+    
+    public static final GreenfootSound
+        buildSound = new GreenfootSound("building.wav"),
+        mineSound = new GreenfootSound("mining.wav"),
+        chopSound = new GreenfootSound("chopping.wav"),
+        hurtSound = new GreenfootSound("human_hurt.wav");
+    
     // Attributes of humans
     protected static final float
             FOOD_BIAS = 1.5f,
@@ -50,6 +55,7 @@ public abstract class Human extends Actor {
     protected int nearestIndex;
     protected int speed = (int) DEFAULT_SPEED;
     protected GreenfootImage sprite;
+    protected int offset = 0;
     
     // Related to human behaviour and working
     protected BuildingSlot targetBuilding;
@@ -65,6 +71,17 @@ public abstract class Human extends Actor {
     protected float starveDeathTime = 10f;
     protected int hp = DEFAULT_HP, type;
     protected StatBar hpBar;
+    
+    /**
+     * Set the volume of human sounds.
+     */
+    public static void setVolumes()
+    {
+        buildSound.setVolume(65);
+        mineSound.setVolume(65);
+        chopSound.setVolume(65);
+        hurtSound.setVolume(75);
+    }
     
     /**
      * Essentially the act method for all human instances. Allows for
@@ -136,7 +153,7 @@ public abstract class Human extends Actor {
         if (!isWorking || !atLocation)
         {
             float angleTo = Utils.getAngleTo(xLoc, x, yLoc, y);
-            this.setRotation((int) (angleTo * (180 / Math.PI)));
+            setRotation((int) (angleTo * (180 / Math.PI)));
         }
     }
     
@@ -222,6 +239,7 @@ public abstract class Human extends Actor {
      */
     public void damage(int val) {
         hp -= val;
+        WorldManagement.playSound(hurtSound);
         if (hpBar != null)
         {
             hpBar.update(hp);
@@ -241,7 +259,6 @@ public abstract class Human extends Actor {
         }
         if (hpBar != null) WorldManagement.world.removeObject(hpBar);
         if (workBar != null) WorldManagement.world.removeObject(workBar);
-        
         if(dead) return;
 
         Zombie nearestZombie = (Zombie) Building.getNearestEvent(Event.ZOMBIE, xLoc, yLoc);
@@ -253,7 +270,6 @@ public abstract class Human extends Actor {
         
         WorldManagement.getHumans().remove(this);
         WorldManagement.world.removeObject(this);
-
         dead = true;
     }
     
@@ -286,6 +302,14 @@ public abstract class Human extends Actor {
     }
     
     /**
+     * Set a random rotation for the human.
+     */
+    protected void setRandomRotation()
+    {
+        setRotation((int)(Math.random()*360));
+    }
+    
+    /**
      * Add the human's health bar to the world
      */
     protected void addHealthBar()
@@ -303,7 +327,7 @@ public abstract class Human extends Actor {
      * @param yDest     the y destination
      */
     protected void checkIsAtLocation(int xDest, int yDest) {
-        atLocation = (Utils.calcDist(xLoc, xDest, yLoc, yDest) < DEFAULT_SPEED);
+        atLocation = (Utils.calcDist(xLoc, xDest, yLoc, yDest) < DEFAULT_SPEED+offset);
     }
 
     /**

@@ -12,7 +12,6 @@ public class Lumberjack extends Human
     private int treeX, treeY;
     private Tree targetTree;
     private boolean enroute = false;
-    
     /**
      * The constructor for the Lumberjack class.
      * 
@@ -22,7 +21,9 @@ public class Lumberjack extends Human
     public Lumberjack(int xLoc, int yLoc) {
         this.xLoc = xLoc;
         this.yLoc = yLoc;
-               
+        
+        this.offset = 35;
+        
         this.type = LUMBERJACK;
         addHealthBar();  
         sprite = LUMBERJACK_SPRITE;
@@ -43,10 +44,8 @@ public class Lumberjack extends Human
             }
             enroute = true;
         }
-        checkIsAtLocation(treeX, treeY);
         if (isWorking) work();
         else checkTree();
-        moveTo(treeX, treeY);
         drainFood();
         randomZombieChance();
     }
@@ -82,14 +81,20 @@ public class Lumberjack extends Human
      * Chops down the tree at specified location
      */
     private void checkTree() {
+        checkIsAtLocation(treeX, treeY);
         if(atLocation) {
             if(targetTree != null) {
                 isWorking = true;
                 workBar = new StatBar(BUILDER_WORK_TIME, this, Color.GREEN, Color.GRAY);
                 WorldManagement.getWorld().addObject(workBar, xLoc, yLoc);
+                WorldManagement.playSound(chopSound);
                 return;
             }
             enroute = false;
+        }
+        else
+        {
+            moveTo(treeX, treeY);
         }
     }
     

@@ -131,7 +131,8 @@ public class WorldManagement
     }
     
     /**
-     * Initializes the assets of the world. This includes the buildings, scorebar, and humans
+     * Initializes the assets of the world. This includes the buildings, 
+     * scorebar, and humans.
      */
     public void init() {
         initBackgrounds();
@@ -158,6 +159,9 @@ public class WorldManagement
         }
         
         addEvent(Event.TORNADO, -1000, -1000);
+        
+        Human.setVolumes();
+        setVolumes();
     }
     
     /**
@@ -336,6 +340,17 @@ public class WorldManagement
         scoreboard.addStat("Wood", (int) wood);
         scoreboard.addStat("Iron", (int) iron);
         scoreboard.addStat("Food", (int) food);
+    }
+    
+    /**
+     * Sets the volumes for audio
+     */
+    private static void setVolumes()
+    {
+        Zombie.zombieOne.setVolume(65);
+        Zombie.zombieTwo.setVolume(65);
+        BuildingSlot.destroySound.setVolume(70);
+        Sentry.fireSound.setVolume(70);
     }
     
     /**
@@ -788,4 +803,24 @@ public class WorldManagement
         elapsed += deltaTime;
     }
     
+    /**
+     * Plays sound effects for the world. Greenfoot sounds can have
+     * problems playing, so using try catch prevents any errors from
+     * stopping the simulation.
+     * 
+     * @param sound     the sound to be played
+     */
+    public static void playSound(GreenfootSound sound)
+    {
+        try 
+        {
+            if (!sound.isPlaying()) // Prevents same sound from overlapping
+            {
+                sound.play();
+            }
+        } catch (Exception e)
+        {
+            // Do nothing
+        }
+    }
 }

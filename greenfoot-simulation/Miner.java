@@ -31,10 +31,8 @@ public class Miner extends Human {
      */
     public void _update() {
         checkRoute(buildingType, xLoc, yLoc);
-        checkIsAtLocation(targetX, targetY);
         if (isWorking) work();
         else checkMine();
-        moveTo(targetX, targetY);
         drainFood();
         randomZombieChance();
     }
@@ -45,22 +43,33 @@ public class Miner extends Human {
      */
     private void checkMine()
     {
+        checkIsAtLocation(targetX, targetY);
         if (atLocation)
         {
             if (targetBuilding != null && targetBuilding.getType() == buildingType)
             {
-                workBar = new StatBar(BUILDER_WORK_TIME, this, Color.GREEN, Color.GRAY);
+                workBar = new StatBar(MINER_WORK_TIME, this, Color.GREEN, Color.GRAY);
                 WorldManagement.getWorld().addObject(workBar, xLoc, yLoc);
                 isWorking = true;
+                // Prevents spamming of sound
+                if ((int) (Math.random() * 10) == 1)
+                {
+                    WorldManagement.playSound(mineSound);
+                }
+                setRandomRotation();
                 return;
             } 
             enroute = false;
+        }
+        else
+        {
+            moveTo(targetX, targetY);
         }
     }
     
     /**
      * The work method where the miner gains resources for the human
-     * population.
+     * population
      */
     protected void work()
     {

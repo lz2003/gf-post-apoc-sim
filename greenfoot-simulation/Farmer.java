@@ -32,10 +32,8 @@ public class Farmer extends Human
      */
     public void _update() {
         checkRoute(buildingType, xLoc, yLoc);
-        checkIsAtLocation(targetX, targetY);
         if (isWorking) work();
         else checkFarm();
-        moveTo(targetX, targetY);
         drainFood();
         randomZombieChance();
     }
@@ -46,6 +44,7 @@ public class Farmer extends Human
      */
     private void checkFarm()
     {
+        checkIsAtLocation(targetX, targetY);
         if (atLocation)
         {
             if (targetBuilding != null && targetBuilding.getType() == buildingType)
@@ -53,9 +52,14 @@ public class Farmer extends Human
                 workBar = new StatBar(BUILDER_WORK_TIME, this, Color.GREEN, Color.GRAY);
                 WorldManagement.getWorld().addObject(workBar, xLoc, yLoc);
                 isWorking = true;
+                setRandomRotation();
                 return;
             }
             enroute = false;
+        }
+        else
+        {
+            moveTo(targetX, targetY);
         }
     }
     

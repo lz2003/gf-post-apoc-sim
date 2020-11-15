@@ -18,9 +18,8 @@ public class Builder extends Human
     public Builder(int xLoc, int yLoc) {
         this.xLoc = xLoc;
         this.yLoc = yLoc;
-        
         this.type = BUILDER;
-        addHealthBar();        
+        addHealthBar();   
         sprite = BUILDER_SPRITE;
         setImage(sprite);
     }
@@ -30,10 +29,8 @@ public class Builder extends Human
      */
     public void _update() {
         checkRoute(BuildingSlot.EMPTY, 350, 350);
-        checkIsAtLocation(targetX, targetY);
         if (!isWorking) checkBuild();
         else work();
-        moveTo(targetX, targetY);
         drainFood();
         randomZombieChance();
     }    
@@ -42,6 +39,7 @@ public class Builder extends Human
      * Build a new building of the highest demand.
      */
     private void checkBuild() { 
+        checkIsAtLocation(targetX, targetY);
         if(atLocation) { 
             if(targetBuilding != null && targetBuilding.getType() == BuildingSlot.EMPTY) {
                 if(WorldManagement.getWood() >= 15) {
@@ -49,11 +47,16 @@ public class Builder extends Human
                     WorldManagement.getWorld().addObject(workBar, xLoc, yLoc);
                     WorldManagement.updateWood(-15);
                     isWorking = true;
+                    WorldManagement.playSound(buildSound);
                     return;
                 }
                 targetBuilding.setTargetStatus(false);
             }
             enroute = false;
+        }
+        else
+        {
+            moveTo(targetX, targetY);
         }
     }
     
