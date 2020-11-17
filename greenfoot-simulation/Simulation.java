@@ -37,9 +37,10 @@ import java.util.*;
  * superclass containing to subclasses that can harm the humans. The first one is the zombie, which will seek
  * the nearest human and head towards it. If it manages to reach the human, it will deal 50 damage per second to
  * the human, and if it manages to drain the human's entire hit point count of 100, the human will then become a
- * zombie and start to attack other humans. The second event subclass is the tornado, which is spawned at world
- * creation in the top left corner of the world. The tornado moves in a random direction every few seconds, and
- * if it manages to touch a building, tree, or human, the corresponding entity will be immediately destroyed.
+ * zombie and start to attack other humans. Humans will also sometimes randomly become zombies after a certain
+ * period has passed. The second event subclass is the tornado, which is spawned at world creation in the top left 
+ * corner of the world. The tornado moves in a random direction every few seconds, and if it manages to touch a 
+ * building, tree, or human, the corresponding entity will be immediately destroyed.
  *
  * Credits for artworks used in the simulation:
  *
