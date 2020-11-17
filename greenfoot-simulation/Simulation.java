@@ -33,7 +33,7 @@ import java.util.*;
  * the survival of the humans early on. Lumberjacks search for the nearest tree, and chop it down once they
  * get to the tree, which once chopped down generates the aforementioned amount of wood.
  *
- * Since a post-apocalyptic simulation would not be complete without some threats, this simulation has a events
+ * Since a post-apocalyptic simulation would not be complete without some threats, this simulation has an events
  * superclass containing to subclasses that can harm the humans. The first one is the zombie, which will seek
  * the nearest human and head towards it. If it manages to reach the human, it will deal 50 damage per second to
  * the human, and if it manages to drain the human's entire hit point count of 100, the human will then become a
