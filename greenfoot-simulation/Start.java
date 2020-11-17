@@ -1,10 +1,11 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
-
+ 
 /**
  * Start class controls the starting screen of the simulation.
  * 
  * @author Young Chen
  * @author Lucy Zhao
+ * @author Leo Foo
  * @version 2020-11-09
  */
 public class Start extends World
@@ -51,7 +52,7 @@ public class Start extends World
         addObject(left, 100, 350);
         
         addObject(fadeOut, 350, 350);
-
+ 
         widget.shiftSelect();
         widget.shiftSelect();
         
@@ -69,7 +70,29 @@ public class Start extends World
         clickSound.setVolume(80);
     }
     
+    /**
+     * pauses music if Greenfoot is paused. 
+     */
+    public void stopped()
+    {
+        bgMusic.pause();
+    }
+    
+    /**
+     * music becomes disoriented if you press start and reset and press start again. somehow music player isnt connected to greenfoot start stop. so when
+     * when scenario starts bgMusic should be null since if its not, the jplayer or javazoom whatever will 
+     */
+    public void started()
+    {
+        bgMusic = null;
+    }
+    
+    // somehow greenfoot is calling act method despite being paused?
     public void act() {
+        if(bgMusic == null)
+        {
+            bgMusic = new GreenfootSound("start_music.wav");
+        }
         if (!bgMusic.isPlaying())
         {
             playMusic();
@@ -77,6 +100,7 @@ public class Start extends World
         if(!runOnce) {
             fadeOut.start();
             runOnce = true;
+            // bgMusic = new GreenfootSound("start_music.mp3");
         }
         
         if(fadeOut.isFinished()) {
