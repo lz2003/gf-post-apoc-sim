@@ -24,6 +24,9 @@ public class Tree extends Actor
         yLoc = y;
     }
     
+    /**
+     * Updates the tree
+     */
     public void _update() {
         if(showDelay > 0) {
             showDelay--;
@@ -67,11 +70,21 @@ public class Tree extends Actor
         WorldManagement.world.removeObject(this);
     }
     
+    /**
+     * Set the targeted status of a tree
+     * 
+     * @param status    true if its targeted by a lumberjack, otherwise false
+     */
     public void setTargetStatus(boolean status)
     {
         targeted = status;
     }
     
+    /**
+     * Returns the targeted status of the tree
+     * 
+     * @return boolean  true if being targeted, otherwise false
+     */
     public boolean getTargetStatus()
     {
         return targeted;

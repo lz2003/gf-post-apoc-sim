@@ -47,11 +47,19 @@ public abstract class Event extends Actor
         return type;
     }
     
+    /**
+     * Removes the event from the world
+     */
     public void die() {
         WorldManagement.getEvents().remove(this);
         WorldManagement.getWorld().removeObject(this);
     }
     
+    /**
+     * Hurts the event by a specified damage value
+     * 
+     * @param damage    the value of damage inflicted
+     */
     public void damage(int damage) {
         hp -= damage;
         if(hp <= 0) {
@@ -161,5 +169,8 @@ public abstract class Event extends Actor
         return count;
     }
     
+    /**
+     * Update method that all events have
+     */
     public abstract void _update();
 }
