@@ -8,8 +8,10 @@ This project simulates the survival of a group of humans in a post-apocalyptic w
 
 The project also features a moveable camera, as well as the ability to set the number of starting humans.
 
+More details about our simulation can be found in the poster.pdf file.
+
 # How to Run
-First, download [Greenfoot](https://www.greenfoot.org/download). Then, download the repository and either open the project.greenfoot file in HumanSurvivalSim/ or open the scenario with Greenfoot. Alternatetively, just download and run the .gfar file.
+First, download [Greenfoot](https://www.greenfoot.org/download). Then, download/clone the repository and either open the project.greenfoot file in HumanSurvivalSim/ or open the scenario with Greenfoot. Alternatetively, just download and run the .gfar file.
 
 # Credits
 * Programmers: Young Chen, Lucy Zhao, Leo Foo
