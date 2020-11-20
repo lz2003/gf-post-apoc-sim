@@ -11,7 +11,7 @@ The project also features a moveable camera, as well as the ability to set the n
 More details about our simulation can be found in the poster.pdf file.
 
 # How to Run
-First, download [Greenfoot](https://www.greenfoot.org/download). Then, download/clone the repository and either open the project.greenfoot file in HumanSurvivalSim/ or open the scenario with Greenfoot. Alternatetively, just download and run the .gfar file.
+First, download [Greenfoot](https://www.greenfoot.org/download). Then, download/clone the repository and either open the project.greenfoot file in HumanSurvivalSim/ or open the scenario with Greenfoot. Alternatively, just download and run the .gfar file.
 
 # Credits
 * Programmers: Young Chen, Lucy Zhao, Leo Foo
